@@ -28,5 +28,5 @@ namespace GroceryAppMvcCore.Models
 		[Required]
 		public int TotalValue { get; set; }		
 
-	}
+	}//
 }
