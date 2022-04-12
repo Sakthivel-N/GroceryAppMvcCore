@@ -9,11 +9,11 @@ namespace GroceryAppMvcCore.Models
 
 		[Required]
 		public int ProductId { get; set; }
-		public virtual Product Products { get; set; }
+		public virtual Product Product { get; set; }
 
 		[Required]
 		public int UserId { get; set; }
-		public virtual User Users { get; set; }
+		public virtual User User { get; set; }
 
 		[Required]
 		public int PurchasedQty { get; set; }
