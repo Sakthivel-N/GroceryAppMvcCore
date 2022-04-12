@@ -15,6 +15,8 @@ namespace GroceryAppMvcCore.Controllers
 
         public IActionResult Index()
         {
+            
+            
             return View();
         }
 

@@ -18,7 +18,7 @@ namespace GroceryAppMvcCore.Models
         [Required,MaxLength(50)]
         public string ImageUrl { get; set; }
         [Required]
-        public int CategoryId { get; set; }
+        
         public virtual Category Category { get; set; }
         public List<Cart> Carts { get; set; }
         public List<Order> Orders { get; set; }
