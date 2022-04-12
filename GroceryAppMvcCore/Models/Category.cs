@@ -9,7 +9,7 @@ namespace GroceryAppMvcCore.Models
 
         [Required,MaxLength(15)]
 		public string CategoryName { get; set; }
-        public List<Product> Products { get; set; } 
+         
 
     }
 }
