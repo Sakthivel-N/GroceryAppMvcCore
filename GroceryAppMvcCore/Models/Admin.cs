@@ -6,11 +6,13 @@ namespace GroceryAppMvcCore.Models
     {
         [Key]
         public int AdminId { get; set; }
-        [Required,MinLength(5),MaxLength(20)]
+        [Required,MaxLength(20)]
         public string AdminName { get; set; }
-        [Required, MinLength(5), MaxLength(20)]
+
+        [DataType(DataType.EmailAddress)]
+        [Required, MaxLength(20)]
         public string EmailId { get; set; }
-        [Required, MinLength(5), MaxLength(20)]
+        [Required, MaxLength(20)]
         public string Password { get; set; }
         
 
