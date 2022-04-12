@@ -1,0 +1,91 @@
+﻿
+
+User DashBoard - > 
+	Home 
+	View Products
+	View Cart
+	View Orders
+	Wallet
+	Logout
+
+
+
+Admin DashBoard -> 
+	Home
+	View Customers
+	Add Products
+	View Products
+	ReorderNow
+	UserFeedbacks
+	Logout
+
+
+Models
+	User
+	Product
+	Category
+	Cart
+	Order
+	Admin
+	Feedback
+
+
+1.User
+		UserId(Pk)
+		UserName
+		EmailId
+		PhoneNumber
+		Address
+		Wallet
+		Password
+   
+
+
+
+ 2.Product
+		ProductId(Pk)
+		ProductName
+		Description
+		Price
+		Qty
+		ImageUrl
+		CategoryId(Fk ref Category)
+
+3.Category
+		CategoryId(Pk)
+		CategoryName
+
+4.Cart
+		CartId(Pk)
+		UserId(Fk ref Users)
+		ProductsID(Fk ref Products)
+
+
+5.Order
+		OrderId(Pk)
+		ProductId(Fk)
+		UserId(Fk)
+		PurchasedQty
+		PaymentMode
+		DeliveryDate
+		TotalValue
+6.Admin
+		AdminId
+		AdminName
+		EmailId
+		Password
+
+7.Feedback
+		FeedbackId
+		UserId(Fk)
+		FeedbackMsg
+
+		
+		
+		
+		
+
+		
+
+
+	
