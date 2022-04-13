@@ -1,5 +1,7 @@
 ﻿using GroceryAppMvcCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace GroceryAppMvcCore.Controllers
 {
@@ -16,6 +18,7 @@ namespace GroceryAppMvcCore.Controllers
         //API URL ADDED
         public static string baseURL;
         private readonly IConfiguration _configuration;
+        
         public UsersController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -24,27 +27,125 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         //---------------
-        public List<Product> Get
+        public async Task<List<Product>> GetProducts()
+        {
 
+            List<Product> received = new List<Product>();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/"))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+            return received;
+
+        }
+        public async Task<Product> GetProducts(int id)
+        {
+
+            Product received = new Product();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/"+id))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<Product>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+            return received;
+
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            //if(HttpContext.Session.GetString("Email") != null)
+            //if (HttpContext.Session.GetString("Email") != null)
             //{
             //    return View();
             //}
-            //return RedirectToAction("Index","Home");
+            //return RedirectToAction("Index", "Home");
             return View();
+            
            
         }
-        [HttpGet]
-        public IActionResult ViewProducts(int id)
-        {
-            ViewBag.CategoryId = id;
 
-            return View();
+        [HttpGet]
+        public async Task<IActionResult> ViewProducts(int id, int msg)
+        {
+            
+            List<Product> products = await GetProducts();
+            ViewBag.CategoryId = id;
+            ViewBag.Msg = null;
+            if (msg == 1)
+            {
+                ViewBag.Msg = "Product Added to Cart !!";
+            }
+            else if (msg == 0)
+            {
+                ViewBag.Msg = "Failed to Add Cart";
+            }
+            return View(products);
+        }
+        
+        public async Task<IActionResult> AddToCart(int ProdId, int CatId)
+        {
+            Product product = await GetProducts(ProdId);
+            Cart cart = new Cart();
+            //cart.UserId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            cart.UserId = 1;
+            cart.PurchasedQty = 1;
+            cart.ProductId = product.ProductId;
+            cart.SubTotalPrice = product.Price;
+            cart.IsOrdered = false;
+
+            int Msg = 0;
+            Cart received = new Cart();
+            using (var httpClient = new HttpClient())
+            {
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync(baseURL + "/api/Carts", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    received = JsonConvert.DeserializeObject<Cart>(apiResponse);
+                    if (received != null)
+                        Msg = 1;
+                }
+
+            }
+
+
+            return RedirectToAction("ViewProducts",new { id=CatId,msg=Msg});
+
         }
 
-
-
+        
+        public IActionResult dfsd()
+        {
+            return View();
+        }
     }
 }

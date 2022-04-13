@@ -1,5 +1,91 @@
-﻿@{
-    int CategoryId = ViewBag.CategoryId;
-}
-<h3>@CategoryId</h3>
+﻿@model IEnumerable<GroceryAppMvcCore.Models.Product>
 
+@{
+    ViewData["Title"] = "ViewProducts";
+    Layout = "~/Views/Shared/_UsersLayout.cshtml";
+    int CategoryID = Convert.ToInt32(ViewBag.CategoryId);
+    
+}
+@if (ViewBag.Msg != null)
+{
+    <h2>@ViewBag.Msg</h2>
+
+}
+}
+<h1>ViewProducts</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+    </p>*@
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.CategoryId == ViewBag.CategoryId)
+            {
+                string msgg = $"https://localhost:7284/Users/AddToCart?ProdId={@item.ProductId}&CatId={@CategoryID}";
+                
+                
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Qty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ImageUrl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryId)
+                    </td>
+
+                    <td>
+                        <a href="@msgg">Add To Cart</a>
+                        @*@Html.ActionLink("Add To Cart", "AddToCart", new { id = item.ProductId}) *@
+
+                    </td>
+                </tr>
+
+            }
+
+        }
+    </tbody>
+</table>
