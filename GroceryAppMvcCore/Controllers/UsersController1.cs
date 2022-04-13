@@ -13,7 +13,15 @@ namespace GroceryAppMvcCore.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if(HttpContext.Session.GetString("Email") != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index","Home");
+           
         }
+
+
+
     }
 }
