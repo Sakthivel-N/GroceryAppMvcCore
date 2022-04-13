@@ -5,13 +5,25 @@ namespace GroceryAppMvcCore.Controllers
 {
     public class UsersController : Controller
     {
-        //navbar items
-            //1.Index
-            //2.ViewProducts
-            //3.ViewCart
-            //4.ViewOrders
-            //5.Logout
+            //navbar items
+                //1.Index
+                //2.ViewProducts
+                //3.ViewCart
+                //4.ViewOrders
+                //5.Logout
 
+
+        //API URL ADDED
+        public static string baseURL;
+        private readonly IConfiguration _configuration;
+        public UsersController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            baseURL = _configuration.GetValue<string>("BaseURL");
+
+        }
+
+        //---------------
         public List<Product> Get
 
         public IActionResult Index()

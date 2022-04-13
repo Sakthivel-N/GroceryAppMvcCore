@@ -12,6 +12,20 @@ namespace GroceryAppMvcCore.Controllers
 
     public class HomeController : Controller
     {
+        //API URL ADDED
+        public static string baseURL;
+        private readonly IConfiguration _configuration;
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            baseURL = _configuration.GetValue<string>("BaseURL");
+
+        }
+
+        //---------------
+
+
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
