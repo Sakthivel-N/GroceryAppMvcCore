@@ -19,6 +19,8 @@ namespace GroceryAppMvcCore.Models
         [Required]
         public int Qty { get; set; }
 
+        
+
         [Required,MaxLength(50)]
         public string ImageUrl { get; set; }
 

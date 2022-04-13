@@ -8,14 +8,17 @@ namespace GroceryAppMvcCore.Models
 		public int OrderId { get; set; }
 
 		[Required]
-		public int CartId { get; set; }
-		public virtual Cart Cart { get; set; }
+		public int UserId { get; set; }
+		public virtual User User { get; set; }
+
+		[Required]
+		public string CartIdvalues { get; set; }
+		
 
 		[Required, MaxLength(20)]
 		public string PaymentMode { get; set; }
 
 		[Required, MaxLength(20)]
-		[DataType(DataType.Date)]
 		public String DeliveryDate { get; set; }
 
 		[Required]
