@@ -9,14 +9,19 @@ namespace GroceryAppMvcCore.Models
 
         [Required]
         public string ProductName { get; set; }
+
         [Required]
         public string Description { get; set; }
+
         [Required]
         public int Price { get; set; }
+
         [Required]
         public int Qty { get; set; }
+
         [Required,MaxLength(50)]
         public string ImageUrl { get; set; }
+
         [Required]
         public int CategoryId { get; set; }
         public List<Cart> Carts { get; set; }

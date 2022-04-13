@@ -12,6 +12,8 @@ namespace GroceryAppMvcCore.Models
         [DataType(DataType.EmailAddress)]
         [Required, MaxLength(20)]
         public string EmailId { get; set; }
+
+        [DataType(DataType.Password)]
         [Required, MaxLength(20)]
         public string Password { get; set; }
         
