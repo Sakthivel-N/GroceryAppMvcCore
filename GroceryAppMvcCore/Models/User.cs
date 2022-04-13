@@ -25,8 +25,5 @@ namespace GroceryAppMvcCore.Models
         [Required,MaxLength(20)]
         public string Password { get; set; }
 
-        public List<Cart> Carts { get; set; }
-        public List<Order> Orders { get; set; }
-        public List<Feedback> Feedbacks { get; set; }
     }
 }
