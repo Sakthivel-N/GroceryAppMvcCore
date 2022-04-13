@@ -18,7 +18,6 @@ namespace GroceryAppMvcCore.Models
 
         public int ProductPrice { get; set; }
 
-        
 
         [Required]
         public int PurchasedQty { get; set; }
