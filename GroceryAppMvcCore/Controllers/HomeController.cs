@@ -4,6 +4,12 @@ using System.Diagnostics;
 
 namespace GroceryAppMvcCore.Controllers
 {
+    //nav=items
+        //1.UserLogin
+        //2.UserRegistration
+        //3.AdminLogin
+
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
