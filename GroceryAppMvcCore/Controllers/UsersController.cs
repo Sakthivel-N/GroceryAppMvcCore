@@ -12,7 +12,7 @@ namespace GroceryAppMvcCore.Controllers
             //4.ViewOrders
             //5.Logout
 
-        //public List<Product> Get
+        public List<Product> Get
 
         public IActionResult Index()
         {
@@ -32,17 +32,6 @@ namespace GroceryAppMvcCore.Controllers
             return View();
         }
 
-
-        [HttpGet]
-        public IActionResult ViewCart(int id)
-        {
-            //if(HttpContext.Session.GetString("UserId") == id && IsOrdered==false)
-            //{
-            //    return View();
-            //}
-
-            return View();
-        }
 
 
     }
