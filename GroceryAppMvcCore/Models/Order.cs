@@ -14,15 +14,14 @@ namespace GroceryAppMvcCore.Models
 
 
 		[Required]
-		public string CartIdList { get; set; }
+		public string CartIdList { get; set; } 
 
 
 		[Required, MaxLength(20)]
 		public string PaymentMode { get; set; }
 
 		[Required, MaxLength(20)]
-		public string DeliveryDate { get; set; }
-
+		public string DeliveryDate { get; set; }  
 		[Required]
 		public int TotalValue { get; set; }
 

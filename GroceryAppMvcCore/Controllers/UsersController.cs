@@ -143,9 +143,6 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         
-        public IActionResult dfsd()
-        {
-            return View();
-        }
+        
     }
 }
