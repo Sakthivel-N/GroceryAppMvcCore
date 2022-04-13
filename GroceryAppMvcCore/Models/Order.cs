@@ -12,7 +12,7 @@ namespace GroceryAppMvcCore.Models
 		public virtual User User { get; set; }
 
 		[Required]
-		public string CartIdvalues { get; set; }
+		public string CartIdList { get; set; }
 		
 
 		[Required, MaxLength(20)]
