@@ -35,5 +35,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Users}/{action=Index}/{id?}");
-
+app.UseStaticFiles();
 app.Run();
