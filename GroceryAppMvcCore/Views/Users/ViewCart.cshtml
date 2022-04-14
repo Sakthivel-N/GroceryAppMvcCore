@@ -1,0 +1,72 @@
+﻿@model IEnumerable<GroceryAppMvcCore.Models.Cart>
+
+@{
+    ViewData["Title"] = "ViewCart";
+    Layout = "~/Views/Shared/_UsersLayout.cshtml";
+    string CartList = "";
+    int TotalPrice = 0;
+}
+
+<h1>ViewCart</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CartId)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchasedQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubTotalPrice)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            if (item.UserId != 0 && item.IsOrdered == false)
+            {
+                CartList += item.CartId.ToString()+",";
+                TotalPrice += item.SubTotalPrice;
+                <tr>
+                    <td>
+                @Html.DisplayFor(modelItem => item.CartId)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+             <td>
+                <input type="number" asp-for="@item.PurchasedQty" min="1" max="1000"  />
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubTotalPrice)
+            </td>
+            
+            <td>
+                
+                @Html.ActionLink("Confirm", "ConfirmCart", new {  Id=item.CartId,ProId=item.ProductId,Qty=item.PurchasedQty}) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.CartId  })
+            </td>
+        </tr>
+        }
+
+}
+       
+    </tbody>
+</table>
+<h4>@TotalPrice</h4>
+       
+
+<a asp-area="User" asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+
