@@ -68,7 +68,11 @@
         @if(obj.Products!=null & obj.Count<3 & obj.Count>0){
 
             @await Html.PartialAsync("ProductCard", obj)
-            
+
+        }
+        else if (obj.Products == null)
+        {
+            @await Html.PartialAsync("ProductCard", obj)
         }
 
 
