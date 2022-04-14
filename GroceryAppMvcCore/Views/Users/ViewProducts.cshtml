@@ -5,9 +5,8 @@
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
     int CategoryID = Convert.ToInt32(ViewBag.CategoryId);
     ProductView obj = new ProductView();
-    obj.Products = new List<Product>();
-    obj.Count = 0;
-
+    List<Product> products = new List<Product>();
+    int Count = 0;
 }
 @if (ViewBag.Msg != null)
 {
@@ -15,16 +14,14 @@
 
 }
 
-<h1>ViewProducts</h1>
+<h1>View Products</h1>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-    </p>*@
+
 
 <environment names="Development">
     <link rel="stylesheet" href="~/css/StyleSheet.css" />
 </environment>
-<br>
+<br />
 
 <div class="uk-container">
     <hr class="uk-divider-icon">
@@ -32,40 +29,39 @@
 
         @foreach (var product in Model)
         {
-            if (CategoryID < 4)
+            @if (CategoryID < 4)
             {
-                if (obj.Count == 3)
+                @if (Count == 3 & obj.Products == null)
                 {
-                    obj.Count = 0;
+                    obj.Products = products;
+                    obj.Count = Count;
                     @await Html.PartialAsync("ProductCard", obj)
-                    obj.Products = null;
-                }
-                else if (product.CategoryId == CategoryID & obj.Count < 3)
-                {
-                    obj.Products.Add(product);
-                    obj.Count += 1;
+
                 }
 
-
-            }
-
-            else
-            {
-                if (obj.Count == 3)
+                else if (product.CategoryId == CategoryID & Count < 3)
                 {
-                    obj.Count = 0;
-                    @await Html.PartialAsync("ProductCard", obj)
-                    obj.Products = null;
-                }   
-                else if (obj.Count < 3)
+                    products.Add(product);
+                    Count += 1;
+                }
+                if (Count == 3 & obj.Products != null)
                 {
-                    obj.Products.Add(product);
-                    obj.Count += 1;
+                    obj.Products =products= null;
+                    obj.Count = Count = 0;
+                    if (product.CategoryId == CategoryID & Count < 3)
+                    {
+                        products.Add(product);
+                        Count += 1;
+                    }
+
                 }
             }
 
         }
-        @if(obj.Products!=null & obj.Count<3 & obj.Count>0){
+
+
+        if (obj.Products != null & obj.Count < 3 & obj.Count > 0)
+        {
 
             @await Html.PartialAsync("ProductCard", obj)
 

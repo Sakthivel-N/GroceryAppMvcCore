@@ -52,6 +52,10 @@ namespace GroceryAppMvcCore.Controllers
             return received;
 
         }
+        public string kkk()
+        {
+            return "hii";
+        }
         public async Task<Product> GetProducts(int id)
         {
 

@@ -2,7 +2,7 @@
 {
     public class ProductView
     {
-        public List<Product> Products { get; set; }
+        public List<Product> Products;
         public int Count;
     }
 }
