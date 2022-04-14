@@ -5,9 +5,9 @@ using System.Diagnostics;
 namespace GroceryAppMvcCore.Controllers
 {
     //nav=items
-        //1.UserLogin
-        //2.UserRegistration
-        //3.AdminLogin
+    //1.UserLogin
+    //2.UserRegistration
+    //3.AdminLogin
 
 
     public class HomeController : Controller
@@ -29,8 +29,8 @@ namespace GroceryAppMvcCore.Controllers
 
         public IActionResult Index()
         {
-            
-            
+
+
             return View();
         }
 
@@ -39,10 +39,10 @@ namespace GroceryAppMvcCore.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+       // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        /*public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+        }*/
+    } 
 }
