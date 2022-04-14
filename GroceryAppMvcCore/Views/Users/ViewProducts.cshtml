@@ -4,88 +4,77 @@
     ViewData["Title"] = "ViewProducts";
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
     int CategoryID = Convert.ToInt32(ViewBag.CategoryId);
-    
+    ProductView obj = new ProductView();
+    List<Product> products = new List<Product>();
+    int Count = 0;
 }
 @if (ViewBag.Msg != null)
 {
     <h2>@ViewBag.Msg</h2>
 
 }
-}
-<h1>ViewProducts</h1>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-    </p>*@
+<h1>View Products</h1>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Qty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+
+<environment names="Development">
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+</environment>
+<br />
+
+<div class="uk-container">
+    <hr class="uk-divider-icon">
+    <div class="uk-child-width-1-3@m uk-grid-match uk-child-width-1-2@s" uk-grid>
+
+        @foreach (var product in Model)
         {
-            @if (item.CategoryId == ViewBag.CategoryId)
+            @if (CategoryID < 4)
             {
-                string msgg = $"https://localhost:7284/Users/AddToCart?ProdId={@item.ProductId}&CatId={@CategoryID}";
-                
-                
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Qty)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImageUrl)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CategoryId)
-                    </td>
+                @if (Count == 3 & obj.Products == null)
+                {
+                    obj.Products = products;
+                    obj.Count = Count;
+                    @await Html.PartialAsync("ProductCard", obj)
 
-                    <td>
-                        <a href="@msgg">Add To Cart</a>
-                        @*@Html.ActionLink("Add To Cart", "AddToCart", new { id = item.ProductId}) *@
+                }
 
-                    </td>
-                </tr>
+                else if (product.CategoryId == CategoryID & Count < 3)
+                {
+                    products.Add(product);
+                    Count += 1;
+                }
+                if (Count == 3 & obj.Products != null)
+                {
+                    obj.Products =products= null;
+                    obj.Count = Count = 0;
+                    if (product.CategoryId == CategoryID & Count < 3)
+                    {
+                        products.Add(product);
+                        Count += 1;
+                    }
 
+                }
             }
 
         }
-    </tbody>
-</table>
+
+
+        if (obj.Products != null & obj.Count < 3 & obj.Count > 0)
+        {
+
+            @await Html.PartialAsync("ProductCard", obj)
+
+        }
+        else if (obj.Products == null)
+        {
+            @await Html.PartialAsync("ProductCard", obj)
+        }
+
+
+    </div>
+    <br />
+    <br />
+
+
+</div>

@@ -143,6 +143,17 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         
-        
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetString("UserId") != null)
+            {
+                if (HttpContext.Session.GetString("UserName") != null)
+                {
+                    HttpContext.Session.Remove("UserName");
+                }
+                HttpContext.Session.Remove("UserId");
+            }
+            return RedirectToAction("Index","Home");
+        }
     }
 }

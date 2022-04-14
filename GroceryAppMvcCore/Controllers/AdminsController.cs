@@ -28,7 +28,21 @@ namespace GroceryAppMvcCore.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("AdminName") != null)
+            {
+                ViewBag.Message = HttpContext.Session.GetString("AdminName");
+            }
+
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetString("AdminName") != null)
+            {
+                HttpContext.Session.Remove("AdminName");
+            }
+            return RedirectToAction("Index","Home");
         }
     }
 }
