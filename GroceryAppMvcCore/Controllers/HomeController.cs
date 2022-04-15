@@ -61,8 +61,35 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         //Admin Login
+        [HttpPost]
+        public async Task<string> UpdateUser()
+        {
+            User user = new User();
+            user.UserId = 1;
+            user.UserName = "Sakthi";
+            user.EmailId = "sakthi@gmail.com";
+            user.PhoneNumber = "999999990";
+            user.Address = "Chennai";
+            user.Wallet = 100;
+            user.Password = "1234567890";
+            using (var httpClient = new HttpClient())
+            {
+                StringContent contents = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-        
+                using (var response = await httpClient.PutAsync(baseURL + "/api/Users/1", contents))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+
+
+                    if (apiResponse != null)
+                        return "Success";
+                    else
+                        return "Failed";
+                }
+
+            }
+             
+        }       
 
 
 
