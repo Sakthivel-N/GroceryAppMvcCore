@@ -25,4 +25,13 @@
                  <td>@order.TotalValue</td>
         </tr>
     }
+    @foreach (Cart cart in Model.Carts)
+    {
+    <tr>
+        <td>@cart.Product</td>
+        <td>@cart.PurchasedQty</td>
+        <td>@cart.SubTotalPrice</td>
+    </tr>
+    }
 </table>
+
