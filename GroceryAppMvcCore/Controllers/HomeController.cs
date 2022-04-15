@@ -28,14 +28,13 @@ namespace GroceryAppMvcCore.Controllers
 
         //---------------
 
+        
         public IActionResult Index()
         {
             return View();
         }
 
-
-        //Admin Login
-
+        [HttpGet]
         public IActionResult AdminLogin()
         {
             return View();
@@ -44,11 +43,10 @@ namespace GroceryAppMvcCore.Controllers
         [HttpPost]
         public async Task<IActionResult> AdminLogin(Admin admin)
         {
-            if (admin.AdminName != null && admin.Password != null)
+            if(admin.AdminName != null && admin.Password != null)
             {
                 Admin admins = await GetValidAdmin(admin.AdminName, admin.Password);
-
-                if (admins != null)
+                if(admins != null)
                 {
                     HttpContext.Session.SetString("AdminName", admins.AdminName);
                     return RedirectToAction("Index", "Admins");
@@ -61,6 +59,10 @@ namespace GroceryAppMvcCore.Controllers
             }
             return View();
         }
+
+        //Admin Login
+
+        
 
 
 
@@ -100,8 +102,8 @@ namespace GroceryAppMvcCore.Controllers
                 if (user != null)
                 {
 
-                    //HttpContext.Session.SetInt32("UserId", User.UserId);
-                    //HttpContext.Session.SetString("UserName", User.UserName);
+                    HttpContext.Session.SetInt32("UserId", user.UserId);
+                    HttpContext.Session.SetString("UserName", user.UserName);
 
                     return RedirectToAction("Index", "Users");
                 }

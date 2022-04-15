@@ -88,6 +88,12 @@ namespace GroceryAppMvcCore.Controllers
             //    return View();
             //}
             //return RedirectToAction("Index", "Home");
+
+            
+                ViewBag.Message = HttpContext.Session.GetInt32("UserId");
+                ViewBag.Msg = HttpContext.Session.GetString("UserName");
+
+
             return View();
             
            
@@ -157,5 +163,34 @@ namespace GroceryAppMvcCore.Controllers
             }
             return RedirectToAction("Index","Home");
         }
+        public async Task<List<Order>> GetOrderView()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
+
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Orders");
+            List<Order> result = JsonConvert.DeserializeObject<List<Order>>(JsonStr);
+            return result;
+        }
+
+        public async Task<List<Cart>> GetCartView()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
+
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Carts");
+            List<Cart> result = JsonConvert.DeserializeObject<List<Cart>>(JsonStr);
+            return result;
+        }
+
+        public async Task<IActionResult> ViewOrders()
+        {
+            OrderView orderView = new OrderView();
+            orderView.Orders = await GetOrderView();
+            orderView.Carts = await GetCartView();
+            return View(orderView);
+
+        }
+
     }
 }
