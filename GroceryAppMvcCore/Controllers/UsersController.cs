@@ -203,14 +203,14 @@ namespace GroceryAppMvcCore.Controllers
 
         }
         [HttpGet]
-        public async Task<List<Cart>> ViewCart()
+        public async Task<IActionResult> ViewCart()
         {
 
             List<Cart> carts = await GetCarts();
 
             //ViewBag.TotalPrice = TV;
 
-            return carts;
+            return View(carts);
         }
 
         public async Task<ActionResult> Delete(int id)
