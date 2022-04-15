@@ -1,28 +1,69 @@
 ﻿@using GroceryAppMvcCore;
+@using System;
+@using System.Linq;
+@using System.Collections.Generic;
+
+
+
 @model OrderView
 @{
-    ViewBag.Title="View_Orders";
+    ViewBag.Title = "View_Orders";
     List<Order> orderlist = new List<Order>();
     List<Cart> cartlist = new List<Cart>();
+    int UserID = Convert.ToInt32(ViewBag.UserId);
+    string CartIdList = "";
+    List<int> list = new List<int>();
+    
 }
+
 <table>
     <tr>
         <th>OrderID</th>
-        <th>User</th>
         <th>CartIDList</th>
         <th>PaymentMode</th>
         <th>DeliveryDate</th>
         <th>TotalVlaue</</th>
+        <th>CartId</th>
+        <th>ProductId</th>
+        <th>PurchasedQty</th>
+        <th>Sub TotalPrice</th>
     </tr>
+
+
     @foreach (Order order in Model.Orders)
     {
-        <tr>
-            <td>@order.OrderId</td>
-             <td>@order.User</td>
-              <td>@order.CartIdList</td>
-               <td>@order.PaymentMode</td>
+        if (order.UserId == UserID)
+        {
+           
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.PaymentMode</td>
                 <td>@order.DeliveryDate</td>
-                 <td>@order.TotalValue</td>
-        </tr>
+                <td>@order.TotalValue</td>
+            </tr>
+        }
     }
+
+    @foreach (Cart cart in Model.Carts)
+    {
+        if (cart.UserId == UserID)
+        {
+
+            string[] subs = CartIdList.Split(',');
+
+            subs = subs.Take(subs.Count() - 1).ToArray();
+
+            foreach (var sub in subs)
+            {
+                list.Add(Convert.ToInt32 (sub));
+            }
+
+            <tr>
+                <td>@cart.Product</td>
+                <td>@cart.PurchasedQty</td>
+                <td>@cart.SubTotalPrice</td>
+            </tr>
+        }
+    }
+
 </table>
