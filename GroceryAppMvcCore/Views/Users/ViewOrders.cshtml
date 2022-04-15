@@ -1,0 +1,37 @@
+﻿@using GroceryAppMvcCore;
+@model OrderView
+@{
+    ViewBag.Title="View_Orders";
+    List<Order> orderlist = new List<Order>();
+    List<Cart> cartlist = new List<Cart>();
+}
+<table>
+    <tr>
+        <th>OrderID</th>
+        <th>User</th>
+        <th>CartIDList</th>
+        <th>PaymentMode</th>
+        <th>DeliveryDate</th>
+        <th>TotalVlaue</</th>
+    </tr>
+    @foreach (Order order in Model.Orders)
+    {
+        <tr>
+            <td>@order.OrderId</td>
+             <td>@order.User</td>
+              <td>@order.CartIdList</td>
+               <td>@order.PaymentMode</td>
+                <td>@order.DeliveryDate</td>
+                 <td>@order.TotalValue</td>
+        </tr>
+    }
+    @foreach (Cart cart in Model.Carts)
+    {
+    <tr>
+        <td>@cart.Product</td>
+        <td>@cart.PurchasedQty</td>
+        <td>@cart.SubTotalPrice</td>
+
+    </tr>
+    }
+</table>
