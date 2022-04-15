@@ -18,6 +18,7 @@ namespace GroceryAppMvcCore.Controllers
         //API URL ADDED
         public static string baseURL;
         private readonly IConfiguration _configuration;
+        public List<Product> productsss;
         
         public UsersController(IConfiguration configuration)
         {
@@ -49,6 +50,7 @@ namespace GroceryAppMvcCore.Controllers
                 }
 
             }
+
             return received;
 
         }
