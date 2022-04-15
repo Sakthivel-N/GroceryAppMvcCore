@@ -4,7 +4,7 @@
     ViewData["Title"] = "ViewProducts";
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
     int CategoryID = Convert.ToInt32(ViewBag.CategoryId);
-    
+
     List<Product> ProdList = new List<Product>();
 
     ProductView obj = new ProductView();
@@ -113,7 +113,28 @@ else
 
                 @for (int i = 0; i < ProdList.Count; i++)
                 {
-                    <td><h1>@ProdList[i].ProductName</h1></td>
+                    <td>
+                        <div class="col-sm-3 card">
+                            <div class="card p-2 ">
+                                <div class="p-info ">
+                                    <div>
+                                        <h5 class="mb-0">@ProdList[i].ProductName</h5> <span>@ProdList[i].Description</span>
+                                    </div>
+                                    <div class="p-price d-flex flex-row">
+                                        <span>₹</span>
+                                        <h1>@ProdList[i].Price</h1>
+                                    </div>
+                                    <div class="heart"> <i class="bx bx-heart"></i> </div>
+                                </div>
+                                <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
+                                <div class="p-about">
+                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
+                                </div>
+
+                                <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='msgg1';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
+                            </div>
+                        </div>
+                    </td>
 
                 }
 
@@ -124,7 +145,7 @@ else
 
 }
 <hr />
-@if (CategoryID < 4 && CategoryID > 0)
+if (CategoryID < 4 && CategoryID > 0)
 {
 
 
@@ -137,12 +158,12 @@ else
                 ProdList.Add(item);
                 if (ProdList.Count == 3 & obj.Products == null)
                 {
-                        obj.Products = ProdList;
+                    obj.Products = ProdList;
 
-                        @await Html.PartialAsync("ProductCard", obj)
-                        ProdList.Clear();
-                        obj.Products.Clear();
-                    
+                    @await Html.PartialAsync("ProductCard", obj)
+                    ProdList.Clear();
+                    obj.Products.Clear();
+
                 }
             }
 
@@ -152,11 +173,11 @@ else
     }
     if (ProdList.Count > 0)
     {
-        
-        @* obj.Products = ProdList;
-        @await Html.PartialAsync("ProductCard", obj)
+
+         obj.Products = ProdList;
+    @await Html.PartialAsync("ProductCard", obj)
         ProdList.Clear();
-        obj.Products.Clear();*@
+        obj.Products.Clear();
 
     }
 
