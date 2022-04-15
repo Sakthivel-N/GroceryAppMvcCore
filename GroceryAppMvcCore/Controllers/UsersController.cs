@@ -116,7 +116,7 @@ namespace GroceryAppMvcCore.Controllers
             }
             return View(products);
         }
-        
+        [HttpPost]
         public async Task<IActionResult> AddToCart(int ProdId, int CatId)
         {
             Product product = await GetProducts(ProdId);
@@ -151,7 +151,37 @@ namespace GroceryAppMvcCore.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Quantity(int CartId,int Qty)
+        {
+            Cart cart = await GetCarts(CartId);
+            Product product = await GetProducts(cart.ProductId);
+            
+            cart.UserId = 1;
+            cart.PurchasedQty = Qty;
+            cart.SubTotalPrice = cart.PurchasedQty * product.Price ;
+            cart.IsOrdered=false;
+            
 
+            using(var httpClient = new HttpClient())
+            {
+                StringContent contents = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PutAsync(baseURL + "/api/Carts/" + CartId, contents))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+
+
+                    if (apiResponse != null)
+                        ViewBag.Message = " Updated Successfully";
+                    else
+                        ViewBag.Message = " updation Failed";
+                }
+
+            }
+            return View(cart);
+        }
+        
         public async Task<List<Cart>> GetCarts()
         {
 
@@ -231,47 +261,7 @@ namespace GroceryAppMvcCore.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ConfirmCart(int Id, int ProId, int Qty)
-        {
-           
-            Cart carts = await GetCarts(Id);
-            Product product = await GetProducts(ProId);
-            Cart cart = new Cart();
-            cart.CartId = carts.CartId;
-            cart.UserId = 1;
-            cart.ProductId = product.ProductId;
-            cart.PurchasedQty = Qty;
-            cart.SubTotalPrice = product.Price * Qty;
-            cart.IsOrdered = false;
-
-            
-
-            Cart received = new Cart();
-            using (var httpClient = new HttpClient())
-            
-            {
-
-                StringContent content = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
-
-                using (var response = await httpClient.PostAsync(baseURL + "/api/Carts", content))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    received = JsonConvert.DeserializeObject<Cart>(apiResponse);
-
-
-                    return RedirectToAction("ViewCart");
-                    
-                }
-
-            }
-            
-            
-
-
-
-        }
-
+        
 
         public async Task<IActionResult> AddToOrder(string Cartlist, int TV)
         {
