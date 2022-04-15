@@ -8,7 +8,8 @@
     List<Product> ProdList = new List<Product>();
 
     ProductView obj = new ProductView();
-    obj.Products = null;
+    
+
 
 
 }
@@ -24,9 +25,7 @@
 
 @if (CategoryID < 4 && CategoryID > 0)
 {
-
-
-    @foreach (var item in Model)
+    foreach (var item in Model)
     {
         if (item.CategoryId == CategoryID)
         {
@@ -35,186 +34,127 @@
                 ProdList.Add(item);
                 if (ProdList.Count == 3)
                 {
-                    <table>
-                        <tr>
-                            <td>
-                                <h1>@ProdList[0].ProductName</h1>
-                            </td>
-                            <td>
-                                <h1>@ProdList[1].ProductName</h1>
-                            </td>
-                            <td>
-                                <h1>@ProdList[2].ProductName</h1>
-                            </td>
+                    <div class="bg-dark d-flex align-items-stretch">
+                        <div class="container d-flex">
+                            <div class="row p-4">
+                                &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 
-                        </tr>
-                    </table>
+                                @await Html.PartialAsync("ProductCard",  new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                                @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                                @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[2],CatgId=CategoryID})
+
+                            </div>
+                        </div>
+                    </div>
                     ProdList.Clear();
                 }
             }
 
-
         }
 
+
+
+
     }
-    if (ProdList != null)
+    if (ProdList != null & ProdList.Count == 2)
     {
-        <table>
-            <tr>
+        <div class="bg-dark d-flex align-items-stretch">
+            <div class="container d-flex">
+                <div class="row p-4">
+                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 
-                @for (int i = 0; i < ProdList.Count; i++)
-                {
-                    <td><h1>@ProdList[i].ProductName</h1></td>
+                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 
+                </div>
+            </div>
+        </div>
 
-                }
-
-            </tr>
-        </table>
 
     }
+    else if (ProdList != null & ProdList.Count == 1)
+    {
+        <div class="bg-dark d-flex align-items-stretch">
+            <div class="container d-flex">
+                <div class="row p-4">
+                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 
 
+                </div>
+            </div>
+        </div>
 
-
+    }
 }
 else
 {
+
     foreach (var item in Model)
     {
+
         if (ProdList.Count < 3)
         {
             ProdList.Add(item);
             if (ProdList.Count == 3)
             {
-                <table>
-                    <tr>
-                        <td>
-                            <h1>@ProdList[0].ProductName</h1>
-                        </td>
-                        <td>
-                            <h1>@ProdList[1].ProductName</h1>
-                        </td>
-                        <td>
-                            <h1>@ProdList[2].ProductName</h1>
-                        </td>
+                <div class="bg-dark d-flex align-items-stretch">
+                    <div class="container d-flex">
+                        <div class="row p-4">
+                            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 
-                    </tr>
-                </table>
+                            @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                            @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                            @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[2],CatgId=CategoryID})
+
+                        </div>
+                    </div>
+                </div>
                 ProdList.Clear();
             }
         }
 
+
+
     }
-    if (ProdList != null)
+    if (ProdList != null & ProdList.Count == 2)
     {
-        <table>
-            <tr>
+        <div class="bg-dark d-flex align-items-stretch">
+            <div class="container d-flex">
+                <div class="row p-4">
+                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 
-                @for (int i = 0; i < ProdList.Count; i++)
-                {
-                    <td>
-                        <div class="col-sm-3 card">
-                            <div class="card p-2 ">
-                                <div class="p-info ">
-                                    <div>
-                                        <h5 class="mb-0">@ProdList[i].ProductName</h5> <span>@ProdList[i].Description</span>
-                                    </div>
-                                    <div class="p-price d-flex flex-row">
-                                        <span>₹</span>
-                                        <h1>@ProdList[i].Price</h1>
-                                    </div>
-                                    <div class="heart"> <i class="bx bx-heart"></i> </div>
-                                </div>
-                                <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
-                                <div class="p-about">
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
-                                </div>
+                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 
-                                <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='msgg1';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
-                            </div>
-                        </div>
-                    </td>
+                </div>
+            </div>
+        </div>
 
-                }
 
-            </tr>
-        </table>
+    }
+    else if (ProdList != null & ProdList.Count == 1)
+    {
+        <div class="bg-dark d-flex align-items-stretch">
+            <div class="container d-flex">
+                <div class="row p-4">
+                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+
+
+                </div>
+            </div>
+        </div>
 
     }
 
 }
 <hr />
-if (CategoryID < 4 && CategoryID > 0)
-{
-
-
-    @foreach (var item in Model)
-    {
-        if (item.CategoryId == CategoryID)
-        {
-            if (ProdList.Count < 3)
-            {
-                ProdList.Add(item);
-                if (ProdList.Count == 3 & obj.Products == null)
-                {
-                    obj.Products = ProdList;
-
-                    @await Html.PartialAsync("ProductCard", obj)
-                    ProdList.Clear();
-                    obj.Products.Clear();
-
-                }
-            }
-
-
-        }
-
-    }
-    if (ProdList.Count > 0)
-    {
-
-         obj.Products = ProdList;
-    @await Html.PartialAsync("ProductCard", obj)
-        ProdList.Clear();
-        obj.Products.Clear();
-
-    }
-
-}
-else
-{
-    foreach (var item in Model)
-    {
-        if (ProdList.Count < 3)
-        {
-            ProdList.Add(item);
-            if (ProdList.Count == 3)
-            {
-                obj.Products = ProdList;
-
-                @await Html.PartialAsync("ProductCard", obj)
-                ProdList.Clear();
-                obj.Products.Clear();
-
-            }
-        }
-
-    }
-    if (ProdList.Count > 0)
-    {
-        obj.Products = ProdList;
-        @await Html.PartialAsync("ProductCard", obj)
-        ProdList.Clear();
-        obj.Products.Clear();
-
-    }
-
-}
 <br />
 <br />
 <br />
-
 
 
 
