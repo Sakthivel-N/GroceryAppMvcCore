@@ -86,6 +86,12 @@ namespace GroceryAppMvcCore.Controllers
             //    return View();
             //}
             //return RedirectToAction("Index", "Home");
+
+            
+                ViewBag.Message = HttpContext.Session.GetInt32("UserId");
+                ViewBag.Msg = HttpContext.Session.GetString("UserName");
+
+
             return View();
             
            
