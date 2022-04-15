@@ -209,6 +209,7 @@ namespace GroceryAppMvcCore.Controllers
             List<Cart> carts = await GetCarts();
 
             //ViewBag.TotalPrice = TV;
+            ViewBag.listCart = carts;
 
             return View(carts);
         }
@@ -229,37 +230,43 @@ namespace GroceryAppMvcCore.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
         public async Task<IActionResult> ConfirmCart(int Id, int ProId, int Qty)
         {
-            //int TotalPrice = 0;
+           
             Cart carts = await GetCarts(Id);
-            Product product = await GetProducts(1);
+            Product product = await GetProducts(ProId);
             Cart cart = new Cart();
-            cart.CartId = Id;
+            cart.CartId = carts.CartId;
             cart.UserId = 1;
-            cart.ProductId = ProId;
+            cart.ProductId = product.ProductId;
             cart.PurchasedQty = Qty;
             cart.SubTotalPrice = product.Price * Qty;
             cart.IsOrdered = false;
 
-            //TotalPrice += cart.SubTotalPrice;
+            
 
-            //var accessToken = HttpContext.Session.GetString("Email");
-
-
-            HttpClientHandler clientHandler = new HttpClientHandler();
             Cart received = new Cart();
-            var httpClient = new HttpClient(clientHandler);
-            StringContent contents = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
-
-            using (var response = await httpClient.PutAsync(baseURL + "/api/Carts/" + Id, contents))
+            using (var httpClient = new HttpClient())
+            
             {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                received = await GetCarts(Id);
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync(baseURL + "/api/Carts", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    received = JsonConvert.DeserializeObject<Cart>(apiResponse);
+
+
+                    return RedirectToAction("ViewCart");
+                    
+                }
 
             }
-            //return RedirectToAction("ViewCart");
-            return View(received);
+            
+            
 
 
 
