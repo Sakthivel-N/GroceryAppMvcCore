@@ -65,7 +65,8 @@
             <td>
                 
                 @*@Html.ActionLink("Confirm", "ConfirmCart", new {  Id=item.CartId,ProId=item.ProductId,Qty=item.PurchasedQty}) |*@
-                @Html.ActionLink("Delete", "Delete", new { id=item.CartId  })
+                @*@Html.ActionLink("Delete", "Delete", new { id=item.CartId  })*@
+                <a  asp-action="Delete" asp-controller="User" asp-route-id="@item.CartId" class="btn btn-danger"><i class="fas fa-trash"></i></a>
             </td>
         </tr>
         }
@@ -78,5 +79,5 @@
 <h4>@TotalPrice</h4>
        
 
-<a asp-area="User" asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+<a  asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-success"></a>
 

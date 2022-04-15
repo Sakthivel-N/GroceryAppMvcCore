@@ -320,6 +320,7 @@ namespace GroceryAppMvcCore.Controllers
                 }
                 return RedirectToAction("ViewCart");
 
+
             }
             return RedirectToAction("ViewCart");
             /* Product product = await context.Products.FindAsync(id);  //add this
@@ -391,11 +392,12 @@ namespace GroceryAppMvcCore.Controllers
             orders.UserId = 1;
             orders.CartIdList = Cartlist;
             orders.PaymentMode = "Online";
-            orders.DeliveryDate = "22/4/2022";
+            orders.DeliveryDate = DateTime.Now.AddDays(3).ToString("dd/mm/yyyy");
             orders.TotalValue = TV;
 
 
             Order received = new Order();
+            
             using (var httpClient = new HttpClient())
             {
 
@@ -407,6 +409,31 @@ namespace GroceryAppMvcCore.Controllers
                     received = JsonConvert.DeserializeObject<Order>(apiResponse);
                     if (received != null)
                         ViewBag.Msg = "success";
+                }
+                string[] cartList = Cartlist.Split(",");
+                foreach (string cart in cartList)
+                {
+                    Cart cart1 = await GetCarts(Convert.ToInt32(cart));
+
+
+                    //Cart cart1 = new Cart();
+                    cart1.IsOrdered = true;
+                    StringContent content1 = new StringContent(JsonConvert.SerializeObject(cart1), Encoding.UTF8, "application/json");
+                    using (var response1 = await httpClient.PostAsync(baseURL + "/api/Carts"+cart1.CartId, content1))
+                    {
+                        Product product = await GetProducts(cart1.ProductId);
+                        product.Qty -= cart1.PurchasedQty;
+                        StringContent content2 = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+
+                        using (var res = await httpClient.PostAsync(baseURL + "/api/Products"+product.ProductId, content2))
+                        {
+                            string apiResponse1 = await res.Content.ReadAsStringAsync();
+        
+                        }
+
+                        string apiResponse = await response1.Content.ReadAsStringAsync();
+                       
+                    }
                 }
 
             }
