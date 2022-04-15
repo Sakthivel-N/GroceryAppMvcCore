@@ -2,7 +2,8 @@
 {
     public class ProductView
     {
-        public List<Product> Products;
+        public Product Products;
+        public int CatgId;
         
     }
 }

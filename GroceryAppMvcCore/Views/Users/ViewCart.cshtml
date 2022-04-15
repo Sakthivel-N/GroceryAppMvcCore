@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
     string CartList = "";
     int TotalPrice = 0;
-    
-    
 }
 
 <h1>ViewCart</h1>
@@ -14,13 +12,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.CartId)
             </th>
-
+            
             <th>
                 @Html.DisplayNameFor(model => model.ProductId)
             </th>
@@ -30,53 +29,55 @@
             <th>
                 @Html.DisplayNameFor(model => model.SubTotalPrice)
             </th>
-
+            
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
+@foreach (var item in Model) {
             if (item.UserId != 0 && item.IsOrdered == false)
             {
-                string DecVal = $"https://localhost:7284/Users/Quantity?CartId={item.CartId}&Qty={item.PurchasedQty - 1}";
-                string IncVal = $"https://localhost:7284/Users/Quantity?CartId={item.CartId}&Qty={item.PurchasedQty + 1}";
-                CartList += item.CartId.ToString() + ",";
+                CartList += item.CartId.ToString()+",";
                 TotalPrice += item.SubTotalPrice;
-
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CartId)
-                    </td>
+                @Html.DisplayFor(modelItem => item.CartId)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+             <td>
+                 <a asp-action="Add" asp-controller="Users" asp-route-id="@item.CartId,@item.ProductId" class="btn btn-sm btn-primary">+</a>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductId)
-                    </td>
-                    <td>
-                     
-                     <button onclick="window.location.href='@DecVal';" class="btn btn-danger ">-</button>
-                     @Html.DisplayFor(modelItem => item.PurchasedQty)
-                     <button onclick="window.location.href='@IncVal';" class="btn btn-success ">+</button>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SubTotalPrice)
-                    </td>
+                @Html.DisplayFor(modelItem => item.PurchasedQty)
 
-                    <td>
+                 <a asp-action="Decrease" asp-controller="Users" asp-route-id="@item.CartId,@item.ProductId" class="btn btn-sm btn-success">-</a>
+             </td>
+            <td>
+                
+                        
+                @Html.DisplayFor(modelItem => item.SubTotalPrice)
 
-                        @Html.ActionLink("Confirm", "ConfirmCart", new {  Id=item.CartId,ProId=item.ProductId,Qty=item.PurchasedQty}) |
-                        @Html.ActionLink("Delete", "Delete", new { id=item.CartId  })
-                    </td>
-                </tr>
-            }
-
+               
+            </td>
+            
+            <td>
+                
+                @*@Html.ActionLink("Confirm", "ConfirmCart", new {  Id=item.CartId,ProId=item.ProductId,Qty=item.PurchasedQty}) |*@
+                @*@Html.ActionLink("Delete", "Delete", new { id=item.CartId  })*@
+                <a  asp-action="Delete" asp-controller="User" asp-route-id="@item.CartId" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
         }
 
+}
+       
     </tbody>
 </table>
+
 <h4>@TotalPrice</h4>
-<h4>@CartList</h4>
+       
 
-
-<a asp-area="User" asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+<a  asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-success"></a>
 
