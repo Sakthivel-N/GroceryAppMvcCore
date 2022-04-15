@@ -4,9 +4,9 @@
     string msgg1 = "";
     string msgg2 = "";
     string msgg3 = "";
-    <h1>cards</h1>
     
-    if (Model.Count == 1)
+    
+    if (productList.Count ==1)
     {
         msgg1 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[0].ProductId}&CatId={@productList[0].CategoryId}";
 
@@ -32,7 +32,7 @@
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
                             </div>
 
-                            <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg1';" class="btn btn-outline-danger w-100">Add T0 Cart</button> </div>
+                            <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg1';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
                         </div>
                     </div>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 
@@ -50,7 +50,7 @@
 
     }
 
-    else if (Model.Count == 2)
+    else if (productList.Count ==2)
     {
         msgg1 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[0].ProductId}&CatId={@productList[0].CategoryId}";
         msgg2 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[1].ProductId}&CatId={@productList[1].CategoryId}";
@@ -113,7 +113,7 @@
 
 
     }
-    else if(Model.Count==3)
+    else if(productList.Count ==3)
     {
         msgg1 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[0].ProductId}&CatId={@productList[0].CategoryId}";
         msgg2 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[1].ProductId}&CatId={@productList[1].CategoryId}";

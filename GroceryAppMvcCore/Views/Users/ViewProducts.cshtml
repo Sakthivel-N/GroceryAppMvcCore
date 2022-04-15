@@ -4,11 +4,17 @@
     ViewData["Title"] = "ViewProducts";
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
     int CategoryID = Convert.ToInt32(ViewBag.CategoryId);
-    
+
     List<Product> ProdList = new List<Product>();
 
-}
+    ProductView obj = new ProductView();
+    obj.Products = null;
 
+
+}
+<environment names="Development">
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+</environment>
 <h1>ViewProducts</h1>
 
 <p>
@@ -30,6 +36,58 @@
                 if (ProdList.Count == 3)
                 {
                     <table>
+                        <tr>
+                            <td>
+                                <h1>@ProdList[0].ProductName</h1>
+                            </td>
+                            <td>
+                                <h1>@ProdList[1].ProductName</h1>
+                            </td>
+                            <td>
+                                <h1>@ProdList[2].ProductName</h1>
+                            </td>
+
+                        </tr>
+                    </table>
+                    ProdList.Clear();
+                }
+            }
+
+
+        }
+
+    }
+    if (ProdList != null)
+    {
+        <table>
+            <tr>
+
+                @for (int i = 0; i < ProdList.Count; i++)
+                {
+                    <td><h1>@ProdList[i].ProductName</h1></td>
+
+
+                }
+
+            </tr>
+        </table>
+
+    }
+
+
+
+
+}
+else
+{
+    foreach (var item in Model)
+    {
+        if (ProdList.Count < 3)
+        {
+            ProdList.Add(item);
+            if (ProdList.Count == 3)
+            {
+                <table>
                     <tr>
                         <td>
                             <h1>@ProdList[0].ProductName</h1>
@@ -43,41 +101,97 @@
 
                     </tr>
                 </table>
-                ProdList .Clear();
-                }
+                ProdList.Clear();
             }
-            
-
         }
-        
+
     }
     if (ProdList != null)
-            {
-                <table>
-                    <tr>
-                        <td>
-                            @for (int i = 0; i < ProdList.Count; i++)
-                            {
-                                <h1>@ProdList[i].ProductName</h1>
-                            }
-                        </td>
-                    </tr>
-                </table>
+    {
+        <table>
+            <tr>
 
+                @for (int i = 0; i < ProdList.Count; i++)
+                {
+                    <td><h1>@ProdList[i].ProductName</h1></td>
+
+                }
+
+            </tr>
+        </table>
+
+    }
+
+}
+<hr />
+@if (CategoryID < 4 && CategoryID > 0)
+{
+
+
+    @foreach (var item in Model)
+    {
+        if (item.CategoryId == CategoryID)
+        {
+            if (ProdList.Count < 3)
+            {
+                ProdList.Add(item);
+                if (ProdList.Count == 3)
+                {
+                    obj.Products = ProdList;
+                    
+                    @await Html.PartialAsync("ProductCard", obj)
+                    ProdList.Clear();
+                    obj.Products.Clear();
+
+                }
             }
 
 
+        }
 
+    }
+    if (ProdList.Count > 0)
+    {
+        obj.Products = ProdList;
+        @await Html.PartialAsync("ProductCard", obj)
+        ProdList.Clear();
+        obj.Products.Clear();
+
+    }
 
 }
 else
 {
     foreach (var item in Model)
     {
-        <h1>@item.ProductName @item.CategoryId</h1>
+        if (ProdList.Count < 3)
+            {
+                ProdList.Add(item);
+                if (ProdList.Count == 3)
+                {
+                    obj.Products = ProdList;
+                    
+                    @await Html.PartialAsync("ProductCard", obj)
+                    ProdList.Clear();
+                    obj.Products.Clear();
+
+                }
+            }
+
+    }
+    if (ProdList.Count > 0)
+    {
+        obj.Products = ProdList;
+        @await Html.PartialAsync("ProductCard", obj)
+        ProdList.Clear();
+        obj.Products.Clear();
+
     }
 
 }
+<br />
+<br />
+<br />
 
 
 

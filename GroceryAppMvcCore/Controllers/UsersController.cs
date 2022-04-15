@@ -298,7 +298,6 @@ namespace GroceryAppMvcCore.Controllers
                     if (received != null)
                         ViewBag.Msg = "success";
                 }
-
             }
 
 
