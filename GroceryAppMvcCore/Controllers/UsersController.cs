@@ -364,12 +364,30 @@ namespace GroceryAppMvcCore.Controllers
         public async Task<IActionResult> ViewOrders()
         {
             OrderView orderView = new OrderView();
+            ViewBag.UserId = id;
+            ViewBag.CartId = id;
             orderView.Orders = await GetOrderView();
             orderView.Carts = await GetCartView();
             ViewBag.User
             return View(orderView);
 
         }
+        public async Task<ActionResult> DeleteOrder(int id)
+        {
+            try
+            {
+                //var accessEmail = HttpContext.Session.GetString("Email");
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                var httpClient = new HttpClient(clientHandler);
+                var response = await httpClient.DeleteAsync(baseURL + "/api/Orders/" + id);
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                return RedirectToAction(nameof(ViewCart));
+            }
+            catch
+            {
+                return View();
+            }
+
 
     }
 }
