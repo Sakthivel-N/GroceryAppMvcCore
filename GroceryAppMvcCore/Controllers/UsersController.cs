@@ -7,19 +7,19 @@ namespace GroceryAppMvcCore.Controllers
 {
     public class UsersController : Controller
     {
-            //navbar items
-                //1.Index
-                //2.ViewProducts
-                //3.ViewCart
-                //4.ViewOrders
-                //5.Logout
+        //navbar items
+        //1.Index
+        //2.ViewProducts
+        //3.ViewCart
+        //4.ViewOrders
+        //5.Logout
 
 
         //API URL ADDED
         public static string baseURL;
         private readonly IConfiguration _configuration;
         public List<Product> productsss;
-        
+
         public UsersController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -64,7 +64,7 @@ namespace GroceryAppMvcCore.Controllers
             {
 
 
-                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/"+id))
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/" + id))
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
@@ -89,20 +89,20 @@ namespace GroceryAppMvcCore.Controllers
             //}
             //return RedirectToAction("Index", "Home");
 
-            
-                ViewBag.Message = HttpContext.Session.GetInt32("UserId");
-                ViewBag.Msg = HttpContext.Session.GetString("UserName");
+
+            ViewBag.Message = HttpContext.Session.GetInt32("UserId");
+            ViewBag.Msg = HttpContext.Session.GetString("UserName");
 
 
             return View();
-            
-           
+
+
         }
 
         [HttpGet]
         public async Task<IActionResult> ViewProducts(int id, int msg)
         {
-            
+
             List<Product> products = await GetProducts();
             ViewBag.CategoryId = id;
             ViewBag.Msg = null;
@@ -116,7 +116,7 @@ namespace GroceryAppMvcCore.Controllers
             }
             return View(products);
         }
-        
+
         public async Task<IActionResult> AddToCart(int ProdId, int CatId)
         {
             Product product = await GetProducts(ProdId);
@@ -146,7 +146,7 @@ namespace GroceryAppMvcCore.Controllers
             }
 
 
-            return RedirectToAction("ViewProducts",new { id=CatId,msg=Msg});
+            return RedirectToAction("ViewProducts", new { id = CatId, msg = Msg });
 
 
         }
@@ -262,7 +262,7 @@ namespace GroceryAppMvcCore.Controllers
         }
 
 
-        public string kkk(string Cartlist,int TV)
+        public string kkk(string Cartlist, int TV)
         {
             return (Cartlist + TV.ToString());
         }
@@ -281,7 +281,7 @@ namespace GroceryAppMvcCore.Controllers
 
 
             Order received = new Order();
-            
+
             using (var httpClient = new HttpClient())
             {
 
@@ -304,20 +304,20 @@ namespace GroceryAppMvcCore.Controllers
                     //Cart cart1 = new Cart();
                     cart1.IsOrdered = true;
                     StringContent content1 = new StringContent(JsonConvert.SerializeObject(cart1), Encoding.UTF8, "application/json");
-                    using (var response1 = await httpClient.PostAsync(baseURL + "/api/Carts"+cart1.CartId, content1))
+                    using (var response1 = await httpClient.PostAsync(baseURL + "/api/Carts" + cart1.CartId, content1))
                     {
                         Product product = await GetProducts(cart1.ProductId);
                         product.Qty -= cart1.PurchasedQty;
                         StringContent content2 = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
 
-                        using (var res = await httpClient.PostAsync(baseURL + "/api/Products"+product.ProductId, content2))
+                        using (var res = await httpClient.PostAsync(baseURL + "/api/Products" + product.ProductId, content2))
                         {
                             string apiResponse1 = await res.Content.ReadAsStringAsync();
-        
+
                         }
 
                         string apiResponse = await response1.Content.ReadAsStringAsync();
-                       
+
                     }
                 }
 
@@ -339,7 +339,7 @@ namespace GroceryAppMvcCore.Controllers
                 }
                 HttpContext.Session.Remove("UserId");
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         public async Task<List<Order>> GetOrderView()
         {
@@ -364,11 +364,11 @@ namespace GroceryAppMvcCore.Controllers
         public async Task<IActionResult> ViewOrders()
         {
             OrderView orderView = new OrderView();
-            ViewBag.UserId = id;
-            ViewBag.CartId = id;
+            ViewBag.UserId = 1;
+
             orderView.Orders = await GetOrderView();
             orderView.Carts = await GetCartView();
-            ViewBag.User
+
             return View(orderView);
 
         }
@@ -381,7 +381,7 @@ namespace GroceryAppMvcCore.Controllers
                 var httpClient = new HttpClient(clientHandler);
                 var response = await httpClient.DeleteAsync(baseURL + "/api/Orders/" + id);
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                return RedirectToAction(nameof(ViewCart));
+                return RedirectToAction(nameof(ViewOrders));
             }
             catch
             {
@@ -389,5 +389,6 @@ namespace GroceryAppMvcCore.Controllers
             }
 
 
+        }
     }
 }
