@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GroceryAppMvcCore.Models;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GroceryAppMvcCore.Controllers
 {
@@ -43,6 +45,39 @@ namespace GroceryAppMvcCore.Controllers
                 HttpContext.Session.Remove("AdminName");
             }
             return RedirectToAction("Index","Home");
+        }
+
+        public async Task<List<Product>> GetProducts()
+        {
+
+            List<Product> received = new List<Product>();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/"))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+
+            return received;
+
+        }
+
+        public async Task<ActionResult> ViewProducts()
+        {
+            List<Product> products = await GetProducts();
+            return View(products);
         }
     }
 }
