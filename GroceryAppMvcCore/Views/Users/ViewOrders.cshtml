@@ -1,79 +1,80 @@
-﻿@using GroceryAppMvcCore;
+@using GroceryAppMvcCore;
 @using System;
 @using System.Linq;
 @using System.Collections.Generic;
-
-
-
 @model OrderView
 @{
-   
     ViewBag.Title = "View_Orders";
     List<Order> orderlist = new List<Order>();
     List<Cart> cartlist = new List<Cart>();
-    OrderView obj= new OrderView();
+    Cart objcart = new Cart();
+    Order objorder = new Order();
+    OrderView obj = new OrderView();
+    int CartId = Convert.ToInt32(ViewBag.CartId);
     int UserID = Convert.ToInt32(ViewBag.UserId);
-    int CartId= Concert. ToInt32(ViewBag.CartId) 
-    string CartIdList = "";
-    List<int> list = new List<int>();
-    
+    string CartIdList = " ";
+    List<string> list = new List<string>();
+    list = CartIdList.Split(',').ToList();
 }
 @foreach (Order order in Model.Orders)
+{
+    if (order.UserId == UserID)
     {
-        if (order.UserId == UserID)
+        <h1>Order Id: @order.OrderId</h1>
+
+        string[] list1 = CartIdList.Split(",");
+        list1 = list1.Take(list1.Count() - 1).ToArray();
+
+        foreach (var orderlsit in list1)
+
         {
-           <h1> Order Id @order.OrderId</h1>
-            string[] subs = CartIdList.Split(',');
+            <table>
+                <tr>
+                    <th>PaymentMode</th>
+                    <th>DeliveryDate</th>
+                    <th>TotalVlaue</th>
+                    <th>CartId</th>
+                    <th>ProductId</th>
+                    <th>PurchasedQty</th>
+                    <th>Sub TotalPrice</th>
+                </tr>
 
-            subs = subs.Take(subs.Count() - 1).ToArray();
-
-            foreach (var sub in subs)
-             //list.Add(Convert.ToInt32 (sub));
-            {
-              <table>
-              <tr>
-               <th>OrderID</th>   
-               
-               <th>PaymentMode</th>
-               <th>DeliveryDate</th>
-               <th>TotalVlaue</</th>
-               <th>CartId</th>
-               <th>ProductId</th>
-               <th>PurchasedQty</th>
-                <th>Sub TotalPrice</th>
-               </tr>
-             if(obj.CartId==CartId)
-             <tr>
-                <td>@order.OrderId</td>
-                <td>@order.PaymentMode</td>
-                <td>@order.DeliveryDate</td>
-                <td>@order.TotalValue</td>
-                <td>@order.CartId</td>
-                <td>@order.ProductId</td>
-                <td>@order.PurchasedQty</td>
-              </tr>
-           
+                if(obj.Carts.Contains(orderlist))
+                {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.PaymentMode</td>
+                    <td>@order.DeliveryDate</td>
+                    <td>@order.TotalValue</td>
+                </tr>
+                }
+             }
         }
-       </table>
-     
-    }<div>
-     <td>@order.TotalValue</td>
-   </div>
+}
 
-    @foreach (Order order in Model.Orders)
-    {
-        if (order.UserId == UserID)
-        {
-           
-            <tr>
-                <td>@order.OrderId</td>
-                <td>@order.PaymentMode</td>
-                <td>@order.DeliveryDate</td>
-                
-            </tr>
+
+                @foreach (Cart cart in Model.Carts)
+                {
+                    <tr>
+                        <td>@cart.ProductId</td>
+                        <td>@cart.PurchasedQty</td>
+
+
+                    </tr>
+
+
+
+                }
+            </table>
+            <div>
+                total Price :@objcart.SubTotalPrice
+                @Html.ActionLink("Delete", "DeleteOrder", new { id=objorder.OrderId})
+            </div>
+
+
+
+
         }
-      
+
     }
-   
-
-    
+}
