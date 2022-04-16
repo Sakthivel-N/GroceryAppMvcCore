@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GroceryAppMvcCore.Models;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace GroceryAppMvcCore.Controllers
 {
@@ -44,5 +47,121 @@ namespace GroceryAppMvcCore.Controllers
             }
             return RedirectToAction("Index","Home");
         }
+
+        public async Task<List<Product>> GetProducts()
+        {
+
+            List<Product> received = new List<Product>();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/"))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+
+            return received;
+
+        }
+
+        public async Task<Product> GetProducts(int id)
+        {
+
+            Product received = new Product();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/" + id))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<Product>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+            return received;
+
+        }
+
+
+        public async Task<ActionResult> ViewProducts()
+        {
+            List<Product> products = await GetProducts();
+            return View(products);
+        }
+        
+        public async Task<ActionResult> DeleteProducts(int id)
+        {
+            try
+            {
+                
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                var httpClient = new HttpClient(clientHandler);
+                var response = await httpClient.DeleteAsync(baseURL + "/api/Products/" + id);
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                return RedirectToAction(nameof(ViewProducts));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public async Task<ActionResult> DetailProducts(int id)
+        {
+            Product prod = await GetProducts(id);
+            return View(prod);
+        }
+        public async Task<ActionResult> EditProducts(int id)
+        {
+            Product product = await GetProducts(id);
+            return View(product);
+        }
+
+
+        // POST: TraineesController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProducts(int id, Product UpdatedProduct)
+        {
+            Product pdt = await GetProducts(id);
+            UpdatedProduct.ProductId = id;
+            UpdatedProduct.Qty = pdt.Qty;
+
+
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+
+            var httpClient = new HttpClient(clientHandler);
+            StringContent contents = new StringContent(JsonConvert.SerializeObject(UpdatedProduct), Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.PutAsync(baseURL + "/api/Trainees/" + id, contents))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                if (apiResponse != null)
+                    return RedirectToAction("Index");
+                else
+                    return View();
+            }
+        }
+
     }
 }
