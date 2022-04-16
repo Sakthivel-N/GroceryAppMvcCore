@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
     string CartList = "";
     int TotalPrice = 0;
+    
+    string delete = "";
+    string IncVal = "";
+    string DecVal = "";
 }
 
 <h1>ViewCart</h1>
@@ -37,6 +41,10 @@
 @foreach (var item in Model) {
             if (item.UserId != 0 && item.IsOrdered == false)
             {
+                
+                delete = $"https://localhost:7284/Users/Delete?id={item.CartId}";
+                DecVal = $"https://localhost:7284/Users/Quantity?CartId={item.CartId}&Qty={item.PurchasedQty - 1}";
+                IncVal = $"https://localhost:7284/Users/Quantity?CartId={item.CartId}&Qty={item.PurchasedQty + 1}";
                 CartList += item.CartId.ToString()+",";
                 TotalPrice += item.SubTotalPrice;
                 <tr>
@@ -48,11 +56,11 @@
                 @Html.DisplayFor(modelItem => item.ProductId)
             </td>
              <td>
-                 <a asp-action="Add" asp-controller="Users" asp-route-id="@item.CartId,@item.ProductId" class="btn btn-sm btn-primary">+</a>
-
+                 
+                 <button onclick="window.location.href='@DecVal';" class="btn btn-danger ">-</button>
                 @Html.DisplayFor(modelItem => item.PurchasedQty)
-
-                 <a asp-action="Decrease" asp-controller="Users" asp-route-id="@item.CartId,@item.ProductId" class="btn btn-sm btn-success">-</a>
+                 <button onclick="window.location.href='@IncVal';" class="btn btn-success ">+</button>
+                 
              </td>
             <td>
                 
@@ -65,10 +73,13 @@
             <td>
                 
                 @*@Html.ActionLink("Confirm", "ConfirmCart", new {  Id=item.CartId,ProId=item.ProductId,Qty=item.PurchasedQty}) |*@
-                @Html.ActionLink("Delete", "Delete", new { id=item.CartId  })
+                @*@Html.ActionLink("Delete", "Delete", new { id=item.CartId  })*@
+                <button onclick="window.location.href='@delete';" class="btn btn-danger ">Delete</button>
             </td>
         </tr>
         }
+       
+
 
 }
        
@@ -78,5 +89,6 @@
 <h4>@TotalPrice</h4>
        
 
-<a asp-area="User" asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+<a  asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-success"></a>
+
 

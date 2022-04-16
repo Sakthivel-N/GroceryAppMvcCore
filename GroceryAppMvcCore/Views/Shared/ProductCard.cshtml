@@ -1,199 +1,28 @@
 ﻿@model ProductView
 @{
-    List<Product> productList = Model.Products;
-    string msgg1 = "";
-    string msgg2 = "";
-    string msgg3 = "";
-
+    Product products = Model.Products;
+    int CatgId = Model.CatgId;
+    string msgg=$"https://localhost:7284/Users/AddToCart?ProdId={@products.ProductId}&CatId={CatgId}";
 }
 
-    @if(productList.Count ==3)
-    {
-        msgg1 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[0].ProductId}&CatId={@productList[0].CategoryId}";
-        msgg2 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[1].ProductId}&CatId={@productList[1].CategoryId}";
-        msgg3 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[2].ProductId}&CatId={@productList[2].CategoryId}";
-<div class="bg-dark d-flex align-items-stretch">
 
-    <div class="container d-flex">
-        <div class="row p-4">
-            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="col-sm-3 card">
-                <div class="card p-2 ">
-                    <div class="p-info ">
-                        <div>
-                            <h5 class="mb-0">@productList[0].ProductName</h5> <span>@productList[0].Description</span>
-                        </div>
-                        <div class="p-price d-flex flex-row">
-                            <span>₹</span>
-                            <h1>@productList[0].Price</h1>
-                        </div>
-                        <div class="heart"> <i class="bx bx-heart"></i> </div>
-                    </div>
-                    <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
-                    <div class="p-about">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
-                    </div>
-
-                    <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg1';" class="btn btn-outline-danger w-100">Add T0 Cart</button> </div>
-                </div>
-            </div>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-            <div class="col-sm-4 card">
-                <div class="card p-2 ">
-                    <div class="p-info">
-                        <div>
-                            <h5 class="mb-0">@productList[1].ProductName</h5> <span>@productList[1].Description</span>
-                        </div>
-                        <div class="p-price d-flex flex-row">
-                            <span>₹</span>
-                            <h1>@productList[1].Price</h1>
-                        </div>
-                        <div class="heart"> <i class="bx bx-heart"></i> </div>
-                    </div>
-                    <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
-                    <div class="p-about">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
-                    </div>
-                    <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg2';" class="btn btn-outline-danger w-100">Add T0 Cart</button> </div>
-                </div>
-            </div>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-            <div class="col-sm-4 card">
-                <div class="card p-2 ">
-                    <div class="p-info ">
-                        <div>
-                            <h5 class="mb-0">@productList[2].ProductName</h5> <span>@productList[2].Description</span>
-                        </div>
-                        <div class="p-price d-flex flex-row">
-                            <span>₹</span>
-                            <h1>@productList[2].Price</h1>
-                        </div>
-                        <div class="heart"> <i class="bx bx-heart"></i> </div>
-                    </div>
-                    <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
-                    <div class="p-about">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
-                    </div>
-                    <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg3';" class="btn btn-outline-danger w-100">Add T0 Cart</button> </div>
-                </div>
+    <div class="col-sm-4 card">
+    <div class="card p-2 ">
+        <div class="p-info ">
+            <div>
+                <h5 class="mb-0">@products.ProductName</h5> <span>@products.Description</span>
             </div>
-
-
+            <div class="p-price d-flex flex-row">
+                <span>₹</span>
+                <h1>@products.Price</h1>
+            </div>
+            <div class="heart"> <i class="bx bx-heart"></i> </div>
+        </div>
+        <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/strawberry.png"> </div>
+        <div class="p-about">
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
         </div>
 
+        <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
     </div>
-
-
-
-
 </div>
-    }
-    else if (productList.Count ==1)
-    {
-        msgg1 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[0].ProductId}&CatId={@productList[0].CategoryId}";
-
-<div class="bg-dark d-flex align-items-stretch">
-
-    <div class="container d-flex">
-        <div class="row p-4">
-            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="col-sm-3 card">
-                <div class="card p-2 ">
-                    <div class="p-info ">
-                        <div>
-                            <h5 class="mb-0">@productList[0].ProductName</h5> <span>@productList[0].Description</span>
-                        </div>
-                        <div class="p-price d-flex flex-row">
-                            <span>₹</span>
-                            <h1>@productList[0].Price</h1>
-                        </div>
-                        <div class="heart"> <i class="bx bx-heart"></i> </div>
-                    </div>
-                    <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
-                    <div class="p-about">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
-                    </div>
-
-                    <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg1';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
-                </div>
-            </div>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-
-
-
-
-        </div>
-
-    </div>
-
-
-
-
-</div>
-
-    }
-
-    else if (productList.Count ==2)
-    {
-        msgg1 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[0].ProductId}&CatId={@productList[0].CategoryId}";
-        msgg2 = $"https://localhost:7284/Users/AddToCart?ProdId={@productList[1].ProductId}&CatId={@productList[1].CategoryId}";
-
-<div class="bg-dark d-flex align-items-stretch">
-
-    <div class="container d-flex">
-        <div class="row p-4">
-            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="col-sm-3 card">
-                <div class="card p-2 ">
-                    <div class="p-info ">
-                        <div>
-                            <h5 class="mb-0">@productList[0].ProductName</h5> <span>@productList[0].Description</span>
-                        </div>
-                        <div class="p-price d-flex flex-row">
-                            <span>₹</span>
-                            <h1>@productList[0].Price</h1>
-                        </div>
-                        <div class="heart"> <i class="bx bx-heart"></i> </div>
-                    </div>
-                    <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
-                    <div class="p-about">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
-                    </div>
-
-                    <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg1';" class="btn btn-outline-danger w-100">Add T0 Cart</button> </div>
-                </div>
-            </div>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-            <div class="col-sm-4 card">
-                <div class="card p-2 ">
-                    <div class="p-info">
-                        <div>
-                            <h5 class="mb-0">@productList[1].ProductName</h5> <span>@productList[1].Description</span>
-                        </div>
-                        <div class="p-price d-flex flex-row">
-                            <span>₹</span>
-                            <h1>@productList[1].Price</h1>
-                        </div>
-                        <div class="heart"> <i class="bx bx-heart"></i> </div>
-                    </div>
-                    <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/juice2.png"> </div>
-                    <div class="p-about">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
-                    </div>
-                    <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg2';" class="btn btn-outline-danger w-100">Add T0 Cart</button> </div>
-                </div>
-            </div>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-
-
-
-        </div>
-
-    </div>
-
-
-
-
-</div>
-
-
-    }
-
-
-}
-
