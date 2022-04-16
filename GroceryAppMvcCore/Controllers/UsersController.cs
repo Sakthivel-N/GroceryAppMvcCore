@@ -416,7 +416,7 @@ namespace GroceryAppMvcCore.Controllers
 
         }
 
-
+        //Logout
         public IActionResult Logout()
         {
             if (HttpContext.Session.GetString("UserId") != null)
