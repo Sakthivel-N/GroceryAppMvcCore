@@ -391,5 +391,43 @@ namespace GroceryAppMvcCore.Controllers
 
 
         }
+         public ActionResult FeedBack()
+        {
+            return View();
+        }
+
+        // POST: TraineesController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FeedBack(Feedback feedback)
+        {
+
+            
+            Feedback cf  = new Feedback();
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+
+
+            var httpClient = new HttpClient(clientHandler);
+
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.PostAsync(baseURL + "api/Feedbacks", content))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                cf = JsonConvert.DeserializeObject<Feedback>(apiResponse);
+                if (cf != null)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
+
+            ViewBag.Message = "Feedback not added, Sorry Please try again!!!!!...";
+            return View();
+
+
+        }
     }
 }

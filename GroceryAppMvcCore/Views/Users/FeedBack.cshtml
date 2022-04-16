@@ -1,0 +1,44 @@
+﻿@model GroceryAppMvcCore.Models.Feedback
+
+@{
+    ViewData["Title"] = "FeedBack";
+    Layout = "~/Views/Shared/_UsersLayout.cshtml";
+}
+
+<h1>FeedBack</h1>
+
+<h4>Feedback</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="FeedBack">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FeedbackID" class="control-label"></label>
+                <input asp-for="FeedbackID" class="form-control" />
+                <span asp-validation-for="FeedbackID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FeedbackMsg" class="control-label"></label>
+                <input asp-for="FeedbackMsg" class="form-control" />
+                <span asp-validation-for="FeedbackMsg" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Dashboard</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

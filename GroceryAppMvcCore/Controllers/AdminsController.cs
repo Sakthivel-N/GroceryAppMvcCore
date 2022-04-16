@@ -162,6 +162,89 @@ namespace GroceryAppMvcCore.Controllers
                     return View();
             }
         }
+        
+         public async Task<List<User>> GetUsers()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
+
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Users");
+            var result = JsonConvert.DeserializeObject<List<User>>(JsonStr);
+            return result;
+        }
+
+        public async Task<User> GetUsers(int id)
+        {
+
+            
+            User receivedusers = new User();
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+
+            var httpClient = new HttpClient(clientHandler);
+
+            using (var response = await httpClient.GetAsync(baseURL + "/api/Users/" + id))
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    receivedusers = JsonConvert.DeserializeObject<User>(apiResponse);
+                }
+                else
+                    ViewBag.StatusCode = response.StatusCode;
+            }
+            return receivedusers;
+        }
+
+
+        public async Task<ActionResult> ViewCustomer()
+        {
+            List<User> users= await GetUsers();
+            return View(users);
+            
+        }
+
+        public async Task<ActionResult> DeleteUsers(int id)
+        {
+            User user = await GetUsers(id);
+            return View(user);
+        }
+
+        // POST: TraineesController/Delete/5
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteUsers(int id, IFormCollection collection)
+        {
+            try
+            {
+                
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                var httpClient = new HttpClient(clientHandler);
+                var response = await httpClient.DeleteAsync(baseURL + "/api/Users/" + id);
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public async Task<List<Feedback>> GetFeedBack()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
+
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Feedbacks");
+            var result = JsonConvert.DeserializeObject<List<Feedback>>(JsonStr);
+            return result;
+        }
+        public async Task<ActionResult> ViewFeedback()
+        {
+            List<Feedback> feedback = await GetFeedBack();
+            return View(feedback);
+
+        }
 
     }
 }

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<GroceryAppMvcCore.Models.Feedback>
+
+@{
+    ViewData["Title"] = "ViewFeedback";
+    Layout = "~/Views/Shared/_AdminsLayout.cshtml";
+}
+
+<h1>ViewFeedback</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FeedbackID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FeedbackMsg)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FeedbackID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FeedbackMsg)
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>
