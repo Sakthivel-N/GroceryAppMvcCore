@@ -11,14 +11,13 @@
 
     List<string> list = new List<string>();
 
-
-
+    
 }
 @foreach (Order order in Model.Orders)
 {
     if (order.UserId == UserID)
     {
-
+        totalOrders++;
         <h1>Order Id: @order.OrderId</h1>
 
         string[] list1 = (order.CartIdList.Split(","));
@@ -57,7 +56,8 @@
 
         </table>
         <div>
-            total Price :@order.TotalValue;
+            OrderCount : @totalOrders <br/>
+            total Price :@order.TotalValue;><br/>
             @Html.ActionLink("DeleteOrder", "DeleteOrder", new { id=order.OrderId})
         </div>
 
