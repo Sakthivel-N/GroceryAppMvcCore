@@ -364,6 +364,8 @@ namespace GroceryAppMvcCore.Controllers
         public async Task<IActionResult> ViewOrders()
         {
             OrderView orderView = new OrderView();
+            ViewBag.UserId = id;
+            ViewBag.CartId = id;
             orderView.Orders = await GetOrderView();
             orderView.Carts = await GetCartView();
             return View(orderView);
