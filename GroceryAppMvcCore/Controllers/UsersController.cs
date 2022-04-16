@@ -263,11 +263,7 @@ namespace GroceryAppMvcCore.Controllers
         }
 
 
-        public string kkk(string Cartlist, int TV)
-        {
-            return (Cartlist + TV.ToString());
-        }
-
+       
 
         public async Task<IActionResult> AddToOrder(string Cartlist, int TV)
         {

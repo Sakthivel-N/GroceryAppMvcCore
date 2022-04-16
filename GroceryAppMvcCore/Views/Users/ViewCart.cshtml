@@ -39,7 +39,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-            if (item.UserId != 0 && item.IsOrdered == false)
+            if (item.UserId == 1 && item.IsOrdered == false)
             {
                 
                 delete = $"https://localhost:7284/Users/Delete?id={item.CartId}";
@@ -72,8 +72,7 @@
             
             <td>
                 
-                @*@Html.ActionLink("Confirm", "ConfirmCart", new {  Id=item.CartId,ProId=item.ProductId,Qty=item.PurchasedQty}) |*@
-                @*@Html.ActionLink("Delete", "Delete", new { id=item.CartId  })*@
+                
                 <button onclick="window.location.href='@delete';" class="btn btn-danger ">Delete</button>
             </td>
         </tr>
@@ -88,7 +87,9 @@
 
 <h4>@TotalPrice</h4>
        
-
-<a  asp-action="AddToOrder" asp-controller="User" asp-route-id="@CartList,@TotalPrice" class="btn btn-success"></a>
-
+@{
+    string OrderPlace= $"https://localhost:7284/Users/AddToOrder?Cartlist="+@CartList+"&TV="+@TotalPrice;
+}
+@OrderPlace<br />
+<button onclick="window.location.href='@OrderPlace';" class="btn btn-primary ">Place Order</button>
 
