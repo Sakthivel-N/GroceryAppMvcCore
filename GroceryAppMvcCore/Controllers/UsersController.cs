@@ -12,7 +12,8 @@ namespace GroceryAppMvcCore.Controllers
         //2.ViewProducts
         //3.ViewCart
         //4.ViewOrders
-        //5.Logout
+        //5.Feedback
+        //6.Logout
 
 
         //API URL ADDED
