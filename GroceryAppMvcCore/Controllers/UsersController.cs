@@ -366,6 +366,7 @@ namespace GroceryAppMvcCore.Controllers
             OrderView orderView = new OrderView();
             orderView.Orders = await GetOrderView();
             orderView.Carts = await GetCartView();
+            ViewBag.User
             return View(orderView);
 
         }
