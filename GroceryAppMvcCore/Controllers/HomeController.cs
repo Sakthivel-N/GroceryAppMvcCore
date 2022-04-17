@@ -63,22 +63,21 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         
-        [HttpPost]
+       
         public async Task<string> UpdateUser()
         {
-            User user = new User();
-            user.UserId = 1;
-            user.UserName = "Sakthi";
-            user.EmailId = "sakthi@gmail.com";
-            user.PhoneNumber = "999999990";
-            user.Address = "Chennai";
-            user.Wallet = 100;
-            user.Password = "1234567890";
+           Cart cart = new Cart();
+            cart.CartId = 37;
+            cart.UserId = 1;
+            cart.ProductId = 33;
+            cart.PurchasedQty = 10;
+            cart.SubTotalPrice = 1000;
+            cart.IsOrdered = true;
             using (var httpClient = new HttpClient())
             {
-                StringContent contents = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+                StringContent contents = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PutAsync(baseURL + "/api/Users/1", contents))
+                using (var response = await httpClient.PutAsync(baseURL + "/api/Carts/37", contents))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
 

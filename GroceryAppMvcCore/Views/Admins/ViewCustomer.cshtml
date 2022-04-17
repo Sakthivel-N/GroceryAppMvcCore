@@ -60,7 +60,7 @@
                 @Html.DisplayFor(modelItem => item.Password)
             </td>
             <td>
-                @Html.ActionLink("DeleteUsers", "DeleteUsers", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("DeleteUsers", "DeleteUsers", new {id=item.UserId })
             </td>
         </tr>
 }
