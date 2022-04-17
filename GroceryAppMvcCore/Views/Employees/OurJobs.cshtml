@@ -4,46 +4,130 @@
     ViewData["Title"] = "OurJobs";
     Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
     int EmployeeId = Convert.ToInt32(ViewBag.Empid);
+   int statuss = ViewBag.Status;
+    
+
+
 }
 
 <h1>OurJobs</h1>
 
 
-@foreach (var item in Model.deliveries)
+
+@if (statuss == 0)
 {
-    if (item.EmployeeId == EmployeeId)
+    var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == false);
+    if (deliv != null)
     {
-        <h2>OrderId : @item.OrderId</h2>
-        Order orderOne = Model.orders.FirstOrDefault(m => m.OrderId == item.OrderId);
-        string[] list1 = (orderOne.CartIdList.Split(","));
-        list1 = list1.Take(list1.Count() - 1).ToArray();
-        <table>
-            <tr>
-                <th>CartId</th>
-                <th>ProductId</th>
-                <th>PuchasedQty</th>
-            </tr>
+        foreach (Delivery item1 in deliv)
+        {
+            Order order = Model.orders.FirstOrDefault(m => m.OrderId == item1.OrderId);
+            <h2>Order #:@order.OrderId <span> @Html.ActionLink("DeliveryNow", "Delivered", new {  id= item1.DeliveryId })</span></h2> 
 
-
-
-            @foreach (var cartid in list1)
-            {
-                Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
-                <tr>
-                    <td>@cart.CartId</td>
-                    <td>@cart.ProductId</td>
-                    <td>@cart.PurchasedQty</td>
-                </tr>
-            }
+            string[] list1 = (order.CartIdList.Split(","));
+            list1 = list1.Take(list1.Count() - 1).ToArray();
             <table>
                 <tr>
-                    <td>Total Price : @orderOne.TotalValue</td>
+                    <th>CartId</th>
+                    <th>ProductId</th>
+                    <th>PuchasedQty</th>
                 </tr>
+
+
+
+                @foreach (var cartid in list1)
+                {
+                    Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                    <tr>
+                        <td>@cart.CartId</td>
+                        <td>@cart.ProductId</td>
+                        <td>@cart.PurchasedQty</td>
+                    </tr>
+                }
+
+                <tr>
+                    <td>Total Price : @order.TotalValue</td>
+                </tr>
+
+
+
+
             </table>
 
 
-        </table>
+        }
+    }
+}
+else if (statuss == 1)
+{
+    var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == true);
+    if (deliv != null)
+    {
+        foreach (Delivery item1 in deliv)
+        {
+            Order order = Model.orders.FirstOrDefault(m => m.OrderId == item1.OrderId);
+            <h2>Order #:@order.OrderId</h2>
+
+            string[] list1 = (order.CartIdList.Split(","));
+            list1 = list1.Take(list1.Count() - 1).ToArray();
+            <table>
+                <tr>
+                    <th>CartId</th>
+                    <th>ProductId</th>
+                    <th>PuchasedQty</th>
+                </tr>
+
+
+
+                @foreach (var cartid in list1)
+                {
+                    Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                    <tr>
+                        <td>@cart.CartId</td>
+                        <td>@cart.ProductId</td>
+                        <td>@cart.PurchasedQty</td>
+                    </tr>
+                }
+
+                <tr>
+                    <td>Total Price : @order.TotalValue</td>
+                </tr>
+
+
+
+
+            </table>
+
+
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*
+
+    }
+    }
+    }
 
 
     }
-}
+
+*@
+
+
+
+
+

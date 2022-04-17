@@ -48,7 +48,7 @@ namespace GroceryAppMvcCore.Controllers
             {
                 HttpContext.Session.Remove("AdminName");
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<List<Product>> GetProducts()
@@ -110,12 +110,12 @@ namespace GroceryAppMvcCore.Controllers
             List<Product> products = await GetProducts();
             return View(products);
         }
-        
+
         public async Task<ActionResult> DeleteProducts(int id)
         {
             try
             {
-                
+
                 HttpClientHandler clientHandler = new HttpClientHandler();
                 var httpClient = new HttpClient(clientHandler);
                 var response = await httpClient.DeleteAsync(baseURL + "/api/Products/" + id);
@@ -165,8 +165,8 @@ namespace GroceryAppMvcCore.Controllers
                     return View();
             }
         }
-        
-         public async Task<List<User>> GetUsers()
+
+        public async Task<List<User>> GetUsers()
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             HttpClient client = new HttpClient(clientHandler);
@@ -179,7 +179,7 @@ namespace GroceryAppMvcCore.Controllers
         public async Task<User> GetUsers(int id)
         {
 
-            
+
             User receivedusers = new User();
 
             HttpClientHandler clientHandler = new HttpClientHandler();
@@ -202,9 +202,9 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<ActionResult> ViewCustomer()
         {
-            List<User> users= await GetUsers();
+            List<User> users = await GetUsers();
             return View(users);
-            
+
         }
 
         public async Task<ActionResult> DeleteUsers(int id)
@@ -220,7 +220,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             try
             {
-                
+
                 HttpClientHandler clientHandler = new HttpClientHandler();
                 var httpClient = new HttpClient(clientHandler);
                 var response = await httpClient.DeleteAsync(baseURL + "/api/Users/" + id);
@@ -260,7 +260,7 @@ namespace GroceryAppMvcCore.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
-          
+
             Product received = new Product();
             //Product ob = new Product();
 
@@ -288,16 +288,16 @@ namespace GroceryAppMvcCore.Controllers
             }
             return View();
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> ReorderNow()
         {
             List<Product> all = await GetProducts();
             var products = all.Where(m => m.Qty <= 10);
             List<Product> Products = new List<Product>();
-            foreach(Product product in products)
+            foreach (Product product in products)
             {
-                Products.Add(product);  
+                Products.Add(product);
             }
             return View(Products);
         }
@@ -308,7 +308,7 @@ namespace GroceryAppMvcCore.Controllers
             return View(product);
         }
         [HttpPost]
-        public async Task<IActionResult> AddStock(int id,Product products)
+        public async Task<IActionResult> AddStock(int id, Product products)
         {
             Product product = await GetProducts(id);
             product.Qty = products.Qty;
@@ -321,10 +321,8 @@ namespace GroceryAppMvcCore.Controllers
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
-                if (apiResponse != null)
-                    return RedirectToAction("ViewProducts");
-                else
-                    return View();
+
+                return RedirectToAction("ReorderNow");
             }
 
         }

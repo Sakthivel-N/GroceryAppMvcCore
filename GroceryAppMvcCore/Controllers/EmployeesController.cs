@@ -1,6 +1,7 @@
 ﻿using GroceryAppMvcCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace GroceryAppMvcCore.Controllers
 {
@@ -9,10 +10,11 @@ namespace GroceryAppMvcCore.Controllers
         //nav - items
         //1.JobList
         //2.OurJobs
+        //3.JobHistory
 
         public static string baseURL;
         private readonly IConfiguration _configuration;
-        
+
         public EmployeesController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -42,6 +44,30 @@ namespace GroceryAppMvcCore.Controllers
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         received = JsonConvert.DeserializeObject<List<Delivery>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+
+            return received;
+        }
+        public async Task<Delivery> GetDelivery(int id)
+        {
+            Delivery received = new Delivery();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Deliveries/" + id))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<Delivery>(apiResponse);
                     }
                     else
                         ViewBag.StatusCode = response.StatusCode;
@@ -86,15 +112,38 @@ namespace GroceryAppMvcCore.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> OurJobs()
+        public async Task<IActionResult> OurJobs(int id)
         {
             ViewBag.Empid = 1;
+            ViewBag.Status = id;
             JobView obj = new JobView();
-            obj.deliveries= await GetDelivery();
+            obj.deliveries = await GetDelivery();
             obj.orders = await GetOrderView();
             obj.carts = await GetCarts();
             return View(obj);
 
         }
+        public async Task<IActionResult> Delivered(int id)
+        {
+            Delivery delivery = await GetDelivery(id);
+            delivery.DeliveryDate = DateTime.Now.ToString("dd/mm/yyyy");
+            delivery.Status = true;
+            using (var httpClient = new HttpClient())
+            {
+                StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PutAsync(baseURL + "/api/Deliveries/" + id, contents))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+                return RedirectToAction("OurJobs", new {id=0});
+
+
+            }
+        }
+
+
+        
     }
 }
