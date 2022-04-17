@@ -143,7 +143,14 @@ namespace GroceryAppMvcCore.Controllers
             }
         }
 
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetString("EmployeeName") != null)
+            {
+                HttpContext.Session.Remove("EmployeeName");
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
-        
     }
 }

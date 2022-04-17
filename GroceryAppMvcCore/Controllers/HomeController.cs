@@ -34,6 +34,8 @@ namespace GroceryAppMvcCore.Controllers
             return View();
         }
 
+        //Admin Login
+
         [HttpGet]
         public IActionResult AdminLogin()
         {
@@ -60,7 +62,7 @@ namespace GroceryAppMvcCore.Controllers
             return View();
         }
 
-        //Admin Login
+        
         [HttpPost]
         public async Task<string> UpdateUser()
         {
@@ -202,5 +204,51 @@ namespace GroceryAppMvcCore.Controllers
             return View();
         }
 
+
+        //Employee Login
+
+        [HttpGet]
+        public IActionResult EmployeeLogin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EmployeeLogin(Employee employee)
+        {
+            if (employee.EmployeeName != null && employee.Password != null)
+            {
+                Employee employees = await GetValidEmployee(employee.EmployeeName, employee.Password);
+                if (employees != null)
+                {
+                    HttpContext.Session.SetString("Employee", employee.EmployeeName);
+                    return RedirectToAction("Index", "Employees");
+                }
+                else
+                {
+                    ViewBag.Message = "Incorrect Employee Credentials";
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<Employee> GetValidEmployee(string EmployeeName, string Password)
+        {
+
+            List<Employee> employee = new List<Employee>();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Employees"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    employee = JsonConvert.DeserializeObject<List<Employee>>(apiResponse);
+                }
+            }
+            return (employee.FirstOrDefault(m => m.EmployeeName == EmployeeName && m.Password == Password));
+
+        }
     }
 }
