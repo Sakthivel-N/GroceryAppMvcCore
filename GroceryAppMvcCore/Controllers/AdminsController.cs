@@ -154,7 +154,7 @@ namespace GroceryAppMvcCore.Controllers
             var httpClient = new HttpClient(clientHandler);
             StringContent contents = new StringContent(JsonConvert.SerializeObject(UpdatedProduct), Encoding.UTF8, "application/json");
 
-            using (var response = await httpClient.PutAsync(baseURL + "/api/Trainees/" + id, contents))
+            using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + id, contents))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -287,6 +287,45 @@ namespace GroceryAppMvcCore.Controllers
             }
             return View();
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> ReorderNow()
+        {
+            List<Product> all = await GetProducts();
+            var products = all.Where(m => m.Qty <= 10);
+            List<Product> Products = new List<Product>();
+            foreach(Product product in products)
+            {
+                Products.Add(product);  
+            }
+            return View(Products);
+        }
+        [HttpGet]
+        public async Task<IActionResult> AddStock(int id)
+        {
+            Product product = await GetProducts(id);
+            return View(product);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddStock(int id,Product products)
+        {
+            Product product = await GetProducts(id);
+            product.Qty = products.Qty;
+            HttpClientHandler clientHandler = new HttpClientHandler();
 
+            var httpClient = new HttpClient(clientHandler);
+            StringContent contents = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + id, contents))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                if (apiResponse != null)
+                    return RedirectToAction("ViewProducts");
+                else
+                    return View();
+            }
+
+        }
     }
 }
