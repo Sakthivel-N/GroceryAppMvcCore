@@ -246,5 +246,45 @@ namespace GroceryAppMvcCore.Controllers
 
         }
 
+
+
+        [HttpGet]
+        public IActionResult AddProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(Product product)
+        {
+          
+            Product received = new Product();
+            //Product ob = new Product();
+
+            //ob.ProductName = "Juice";
+            //ob.Qty = 2;
+            //ob.Price = 40;
+            //ob.CategoryId = 1;
+            //ob.ImageUrl = "juice";
+            //ob.Description = "mkand";
+
+            using (var httpClient = new HttpClient())
+            {
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync(baseURL + "/api/Products", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    received = JsonConvert.DeserializeObject<Product>(apiResponse);
+                    if (received != null)
+                    {
+                        return RedirectToAction("ViewProducts", "Admins");
+                    }
+                }
+            }
+            return View();
+        }
+
     }
 }
