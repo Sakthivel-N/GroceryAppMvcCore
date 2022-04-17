@@ -273,7 +273,7 @@ namespace GroceryAppMvcCore.Controllers
             orders.UserId = 1;
             orders.CartIdList = Cartlist;
             orders.PaymentMode = "Online";
-            orders.DeliveryDate = DateTime.Now.AddDays(3).ToString("dd/mm/yyyy");
+            orders.OrderDate = DateTime.Now.ToString("dd/mm/yyyy");
             orders.TotalValue = TV;
 
 

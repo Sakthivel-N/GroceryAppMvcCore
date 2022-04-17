@@ -1,0 +1,49 @@
+﻿@model GroceryAppMvcCore.Models.JobView
+
+@{
+    ViewData["Title"] = "OurJobs";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+    int EmployeeId = Convert.ToInt32(ViewBag.Empid);
+}
+
+<h1>OurJobs</h1>
+
+
+@foreach (var item in Model.deliveries)
+{
+    if (item.EmployeeId == EmployeeId)
+    {
+        <h2>OrderId : @item.OrderId</h2>
+        Order orderOne = Model.orders.FirstOrDefault(m => m.OrderId == item.OrderId);
+        string[] list1 = (orderOne.CartIdList.Split(","));
+        list1 = list1.Take(list1.Count() - 1).ToArray();
+        <table>
+            <tr>
+                <th>CartId</th>
+                <th>ProductId</th>
+                <th>PuchasedQty</th>
+            </tr>
+
+
+
+            @foreach (var cartid in list1)
+            {
+                Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                <tr>
+                    <td>@cart.CartId</td>
+                    <td>@cart.ProductId</td>
+                    <td>@cart.PurchasedQty</td>
+                </tr>
+            }
+            <table>
+                <tr>
+                    <td>Total Price : @orderOne.TotalValue</td>
+                </tr>
+            </table>
+
+
+        </table>
+
+
+    }
+}
