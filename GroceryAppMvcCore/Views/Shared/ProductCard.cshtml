@@ -3,7 +3,7 @@
     Product products = Model.Products;
     int CatgId = Model.CatgId;
     string msgg=$"https://localhost:7284/Users/AddToCart?ProdId={@products.ProductId}&CatId={CatgId}";
-    string Imageurl = $"~/css/Images/{@products.ImageUrl}";
+    //string Imageurl = $"~/css/Images/{@products.ImageUrl}";
 }
 
 
@@ -19,11 +19,13 @@
             </div>
             <div class="heart"> <i class="bx bx-heart"></i> </div>
         </div>
-        <div class="text-center p-image"> <img alt="Image not found" src="@Imageurl"> </div>
+        
+        <div class="text-center p-image"> <img alt="Image not found" src="~/css/Images/@products.ImageUrl"> </div>
         <div class="p-about">
             <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed</p>
         </div>
 
+        
         <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
     </div>
 </div>
