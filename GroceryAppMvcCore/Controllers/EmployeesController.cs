@@ -161,21 +161,23 @@ namespace GroceryAppMvcCore.Controllers
             delivery.OrderId = id;
             delivery.PickupDate = DateTime.Now.ToString("dd/mm/yyyy");
             delivery.Status = false;
-            delivery.DeliveryDate = "within 3 days";
+            delivery.DeliveryDate = "--";
             delivery.EmployeeId = 1;
 
+            Delivery received = new Delivery();
 
             using (var httpClient = new HttpClient())
             {
                 StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PutAsync(baseURL + "/api/Deliveries/" , contents))
+                using (var response = await httpClient.PostAsync(baseURL + "/api/Deliveries", contents))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-
+                    received = JsonConvert.DeserializeObject<Delivery>(apiResponse);
                 }
 
                 return RedirectToAction("OurJobs");
+                //return received;
             }
         }
     }

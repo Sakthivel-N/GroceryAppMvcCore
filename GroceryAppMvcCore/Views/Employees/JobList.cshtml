@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "JobList";
     Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
-   
+
 }
 
 <h1>JobList</h1>
@@ -14,6 +14,7 @@
     var delivery = Model.deliveries.FirstOrDefault(D => D.OrderId == order.OrderId);
     if (delivery == null)
     {
+        <h1>order #:@order.OrderId</h1>
         string[] list = (order.CartIdList.Split(","));
         list = list.Take(list.Count() - 1).ToArray();
 
@@ -29,13 +30,18 @@
             @foreach (var list1 in list)
             {
                 Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(list1));
-                <tr>
-                    <td>@cart.CartId</td>
-                    <td>@cart.ProductId</td>
-                    <td>@cart.PurchasedQty</td>
-                    <td>@cart.SubTotalPrice</td>
-                    <td> @Html.ActionLink("Accept", "Accept", new { id = @order.OrderId }) </td>
-                </tr>
+                if (cart != null)
+                {
+                    <tr>
+
+                        <td>@cart.CartId</td>
+                        <td>@cart.ProductId</td>
+                        <td>@cart.PurchasedQty</td>
+                        <td>@cart.SubTotalPrice</td>
+                        <td> @Html.ActionLink("Accept", "Accept", new { id = @order.OrderId }) </td>
+                    </tr>
+                }
+
             }
         </table>
 

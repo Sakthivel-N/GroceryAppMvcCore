@@ -13,9 +13,6 @@
 
 <h1>ViewCart</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
 <table class="table">
     <thead>
@@ -84,12 +81,19 @@
        
     </tbody>
 </table>
+@if (TotalPrice == 0)
+{
+    <h3>No Products Found in your cart</h3>
+}
+else
+{
+    <h4>@TotalPrice</h4>
+}
 
-<h4>@TotalPrice</h4>
        
 @{
     string OrderPlace= $"https://localhost:7284/Users/AddToOrder?Cartlist="+@CartList+"&TV="+@TotalPrice;
 }
-@OrderPlace<br />
+
 <button onclick="window.location.href='@OrderPlace';" class="btn btn-primary ">Place Order</button>
 
