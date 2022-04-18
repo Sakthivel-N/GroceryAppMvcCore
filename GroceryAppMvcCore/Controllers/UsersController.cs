@@ -209,7 +209,7 @@ namespace GroceryAppMvcCore.Controllers
 
             List<Cart> carts = await GetCarts();
 
-            //ViewBag.TotalPrice = TV;
+            ViewBag.ProductList=await GetProducts();
 
             return View(carts);
         }
