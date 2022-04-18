@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
     string CartList = "";
     int TotalPrice = 0;
+    List<Product> listProduct = ViewBag.ProductList;
     
     string delete = "";
     string IncVal = "";
@@ -14,86 +15,183 @@
 <h1>ViewCart</h1>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CartId)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PurchasedQty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubTotalPrice)
-            </th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
+
+
+
+
+
+
+<section class="h-100 h-custom" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+
+            <div class="row">
+
+              <div class="col-lg-7">
+                <h5 class="mb-3"><a href="#!" class="text-body"><i
+                      class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Shopping cart</p>
+                    @*<p class="mb-0">You have 4 items in your cart</p>*@
+                  </div>
+                 @* <div>
+                    <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!"
+                        class="text-body">price <i class="fas fa-angle-down mt-1"></i></a></p>
+                  </div>*@
+                </div>
+         @foreach (var item in Model) 
+         {
             if (item.UserId == 1 && item.IsOrdered == false)
             {
-                
+                 Product pro = listProduct.FirstOrDefault(m => m.ProductId == item.ProductId);
+
+
                 delete = $"https://localhost:7284/Users/Delete?id={item.CartId}";
                 DecVal = $"https://localhost:7284/Users/Quantity?CartId={item.CartId}&Qty={item.PurchasedQty - 1}";
                 IncVal = $"https://localhost:7284/Users/Quantity?CartId={item.CartId}&Qty={item.PurchasedQty + 1}";
                 CartList += item.CartId.ToString()+",";
                 TotalPrice += item.SubTotalPrice;
-                <tr>
-                    <td>
-                @Html.DisplayFor(modelItem => item.CartId)
-            </td>
-          
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-             <td>
-                 
-                 <button onclick="window.location.href='@DecVal';" class="btn btn-danger ">-</button>
-                @Html.DisplayFor(modelItem => item.PurchasedQty)
-                 <button onclick="window.location.href='@IncVal';" class="btn btn-success ">+</button>
-                 
-             </td>
-            <td>
                 
+
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div>
+                            @*~/css/Images/@item.Product.ImageUrl*@
+                          <img
+                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img3.webp"
+                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                        </div>
+                        <div class="ms-3">
+                          <h5>@Html.DisplayFor(modelItem => pro.ProductName)</h5>
+                          @*<p class="small mb-0">256GB, Navy Blue</p>*@
+                        </div>
                         
-                @Html.DisplayFor(modelItem => item.SubTotalPrice)
+                      </div>
 
-               
-            </td>
-            
-            <td>
-                
-                
-                <button onclick="window.location.href='@delete';" class="btn btn-danger ">Delete</button>
-            </td>
-        </tr>
-        }
-       
+                      <div class="d-flex flex-row align-items-center">
+                          <button onclick="window.location.href='@DecVal';" class="btn btn-danger ">-</button>
+                        <div >
+                          
+                          <h5 class="fw-normal mb-0">@Html.DisplayFor(modelItem => item.PurchasedQty)</h5>
+                          
+                        </div>
+                        <button onclick="window.location.href='@IncVal';" class="btn btn-success ">+</button>&nbsp;&nbsp;&nbsp;
+                        <div style="width: 80px;">
+                          <h5 class="mb-0">₹@Html.DisplayFor(modelItem => item.SubTotalPrice)</h5>
+                        </div>
+                        <a href='@delete' style="color: red;"><i class="bi bi-trash"></i></a>
+                        <button onclick="window.location.href='@delete';" class="btn "><svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+</svg></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
+             }
+         }
 
-}
-       
-    </tbody>
-</table>
-@if (TotalPrice == 0)
-{
-    <h3>No Products Found in your cart</h3>
-}
-else
-{
-    <h4>@TotalPrice</h4>
-}
+              </div>
+              <div class="col-lg-5">
 
-       
-@{
+                <div class="card bg-primary text-white rounded-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Card details</h5>
+                     
+                       
+                    </div>
+
+                    <p class="small mb-2">Card type</p>
+                    <a href="#!" type="submit" class="text-white"><i
+                        class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i
+                        class="fab fa-cc-visa fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i
+                        class="fab fa-cc-amex fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
+
+                    <form class="mt-4">
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                          placeholder="Cardholder's Name" required/>
+                        <label class="form-label" for="typeName">Cardholder's Name</label>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                          placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" required/>
+                        <label class="form-label" for="typeText">Card Number</label>
+                      </div>
+
+                      <div class="row mb-4">
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="text" id="typeExp" class="form-control form-control-lg"
+                              placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" required/>
+                            <label class="form-label" for="typeExp">Expiration</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="password" id="typeText" class="form-control form-control-lg"
+                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" required/>
+                            <label class="form-label" for="typeText">Cvv</label>
+                          </div>
+                        </div>
+                       
+                        
+                      </div>
+
+                    </form>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Subtotal</p>
+                      <p class="mb-2">₹@TotalPrice</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Shipping</p>
+                      <p class="mb-2">free</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-4">
+                      <p class="mb-2">Total(Incl. taxes)</p>
+                      <p class="mb-2">₹@TotalPrice</p>
+                    </div>
+
+                   
+                      @*<div class="d-flex justify-content-between">
+                        <span>@TotalPrice</span>
+                        <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                      </div>*@
+                    @{
     string OrderPlace= $"https://localhost:7284/Users/AddToOrder?Cartlist="+@CartList+"&TV="+@TotalPrice;
 }
 
-<button onclick="window.location.href='@OrderPlace';" class="btn btn-primary ">Place Order</button>
+<button onclick="window.location.href='@OrderPlace';" class="btn btn-success btn-block btn-lg ">Place Order</button>
 
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
