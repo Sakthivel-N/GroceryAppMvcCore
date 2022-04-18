@@ -1,0 +1,66 @@
+﻿@model IEnumerable<GroceryAppMvcCore.Models.Employee>
+
+@{
+    ViewData["Title"] = "ViewEmployees";
+    Layout = "~/Views/Shared/_AdminsLayout.cshtml";
+}
+
+<h1>ViewEmployees</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmaiLId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmaiLId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+               @* @Html.ActionLink("Edit", "Edit", new {  id=item.EmployeeId  }) |*@
+                @Html.ActionLink("Details", "DetailEmployees", new {  id=item.EmployeeId  }) |
+                @Html.ActionLink("Delete", "DeleteEmployees", new {  id=item.EmployeeId  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

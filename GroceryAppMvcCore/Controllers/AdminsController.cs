@@ -321,5 +321,157 @@ namespace GroceryAppMvcCore.Controllers
             }
 
         }
+
+        public async Task<List<Employee>> GetEmployees()
+        {
+
+            List<Employee> received = new List<Employee>();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Employees/"))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<List<Employee>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+            return received;
+
+        }
+        public async Task<Employee> GetEmployees(int id)
+        {
+
+            Employee received = new Employee();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Employees/" + id))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<Employee>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+            return received;
+
+        }
+
+
+        public async Task<IActionResult> ViewEmployees()
+        {
+            List<Employee> employees = await GetEmployees();
+            return View(employees);
+        }
+
+
+
+        public async Task<ActionResult> DetailEmployees(int id)
+        {
+            Employee employee = await GetEmployees(id);
+            return View(employee);
+        }
+        [HttpGet]
+        public ActionResult AddEmployee()
+        {
+            return View();
+        }
+
+        
+        public async Task<IActionResult> AddEmployee(Employee employee)
+        {
+
+            //var AccessMail = HttpContext.Session.GetString("Email");
+            Employee received = new Employee();
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+
+
+            var httpClient = new HttpClient(clientHandler);
+
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.PostAsync(baseURL + "api/Employees", content))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                received = JsonConvert.DeserializeObject<Employee>(apiResponse);
+                if (received != null)
+                {
+                    return RedirectToAction("ViewEmployees");
+                }
+            }
+
+
+            ViewBag.Message = "Sorry Please try again!!!!!...";
+            return View();
+
+
+        }
+
+        public async Task<ActionResult> EditEmployees(int id)
+        {
+            Employee employee = await GetEmployees(id);
+            return View(employee);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditEmployees(Employee UpdatedEmployee)
+        {
+            //UpdatedEmployee.EmployeeId = UpdatedEmployee;
+            //var accessToken = HttpContext.Session.GetString("Email");
+
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+
+            var httpClient = new HttpClient(clientHandler);
+            StringContent contents = new StringContent(JsonConvert.SerializeObject(UpdatedEmployee), Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.PutAsync(baseURL + "/api/Employees/" + UpdatedEmployee.EmployeeId, contents))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                if (apiResponse != null)
+                    return RedirectToAction("ViewEmployees");
+                else
+                    return View();
+            }
+        }
+
+        public async Task<ActionResult> DeleteEmployees(int id)
+        {
+            try
+            {
+
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                var httpClient = new HttpClient(clientHandler);
+                var response = await httpClient.DeleteAsync(baseURL + "/api/Employees/" + id);
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                return RedirectToAction(nameof(ViewEmployees));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
