@@ -397,29 +397,25 @@ namespace GroceryAppMvcCore.Controllers
         public async Task<IActionResult> AddEmployee(Employee employee)
         {
 
-            //var AccessMail = HttpContext.Session.GetString("Email");
             Employee received = new Employee();
 
-            HttpClientHandler clientHandler = new HttpClientHandler();
-
-
-            var httpClient = new HttpClient(clientHandler);
-
-
-            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
-
-            using (var response = await httpClient.PostAsync(baseURL + "api/Employees", content))
+            using (var httpClient = new HttpClient())
             {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                received = JsonConvert.DeserializeObject<Employee>(apiResponse);
-                if (received != null)
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync(baseURL + "/api/Employees", content))
                 {
-                    return RedirectToAction("ViewEmployees");
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    received = JsonConvert.DeserializeObject<Employee>(apiResponse);
+                    if (received != null)
+                    {
+
+                        return RedirectToAction("ViewEmployees");
+                    }
                 }
             }
-
-
-            ViewBag.Message = "Sorry Please try again!!!!!...";
+            ViewBag.Message = " Failed To Add Employee ";
             return View();
 
 
