@@ -78,8 +78,8 @@ namespace GroceryAppMvcCore.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<Product> GetProducts(int id)
+        
+        public async Task<Product> GetProductss(int id)
         {
 
             Product received = new Product();
@@ -130,39 +130,39 @@ namespace GroceryAppMvcCore.Controllers
         }
         public async Task<ActionResult> DetailProducts(int id)
         {
-            Product prod = await GetProducts(id);
+            Product prod = await GetProductss(id);
             return View(prod);
         }
         
         [HttpGet]
         public async Task<ActionResult> EditProducts(int id)
         {
-            Product product = await GetProducts(id);
+            Product product = await GetProductss(id);
             return View(product);
         }
 
 
         
         
-        public async Task< Product> EditProducts(int id, Product UpdatedProduct)
+        public async Task< IActionResult> EditProducts(Product UpdatedProduct)
         {
-            Product product = await GetProducts(id);
+            Product product = await GetProductss(UpdatedProduct.ProductId);
             UpdatedProduct.Qty = product.Qty;
-            //HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClientHandler clientHandler = new HttpClientHandler();
 
-            //var httpClient = new HttpClient(clientHandler);
-            //StringContent contents = new StringContent(JsonConvert.SerializeObject(UpdatedProduct), Encoding.UTF8, "application/json");
+            var httpClient = new HttpClient(clientHandler);
+            StringContent contents = new StringContent(JsonConvert.SerializeObject(UpdatedProduct), Encoding.UTF8, "application/json");
 
-            //using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + UpdatedProduct.ProductId, contents))
-            //{
-            //    string apiResponse = await response.Content.ReadAsStringAsync();
+            using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + UpdatedProduct.ProductId, contents))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
 
-            //    if (apiResponse != null)
-            //        return RedirectToAction("Index");
-            //    else
-            //        return View();
-            //}
-            return product;
+                if (apiResponse != null)
+                    return RedirectToAction("Index");
+                else
+                    return View();
+            }
+            
 
         }
 
@@ -297,29 +297,30 @@ namespace GroceryAppMvcCore.Controllers
             return View(Products);
         }
        
+        [HttpGet]
         public async Task<IActionResult> AddStock(int id)
         {
-            Product product = await GetProducts(id);
+            Product product = await GetProductss(id);
             return View(product);
         }
         
-        public async Task<IActionResult> AddStock(int id, Product products)
+        public async Task<IActionResult> AddStock(Product products)
         {
-            Product product = await GetProducts(id);
+            Product product = await GetProductss(products.ProductId);
             product.Qty = products.Qty;
             HttpClientHandler clientHandler = new HttpClientHandler();
 
             var httpClient = new HttpClient(clientHandler);
             StringContent contents = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
 
-            using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + id, contents))
+            using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + products.ProductId, contents))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
 
                 return RedirectToAction("ReorderNow");
             }
-
+            
         }
     }
 }
