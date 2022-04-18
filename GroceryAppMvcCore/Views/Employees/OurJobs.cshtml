@@ -38,11 +38,15 @@
                 @foreach (var cartid in list1)
                 {
                     Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
-                    <tr>
+                    if(cart != null)
+                    {
+                        <tr>
                         <td>@cart.CartId</td>
                         <td>@cart.ProductId</td>
                         <td>@cart.PurchasedQty</td>
                     </tr>
+                    }
+                    
                 }
 
                 <tr>
@@ -82,11 +86,15 @@ else if (statuss == 1)
                 @foreach (var cartid in list1)
                 {
                     Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
-                    <tr>
+                    if(cart != null)
+                    {
+                        <tr>
                         <td>@cart.CartId</td>
                         <td>@cart.ProductId</td>
                         <td>@cart.PurchasedQty</td>
                     </tr>
+                    }
+                    
                 }
 
                 <tr>
