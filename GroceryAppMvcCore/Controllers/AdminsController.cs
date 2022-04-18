@@ -469,7 +469,7 @@ namespace GroceryAppMvcCore.Controllers
                 return View();
             }
         }
-         public async Task<List<Order>> GetDeliveryOrder()
+         public async Task<List<Order>> GetOrder()
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             HttpClient client = new HttpClient(clientHandler);
@@ -495,7 +495,7 @@ namespace GroceryAppMvcCore.Controllers
             DeliveryVuew deliveryView = new DeliveryVuew();
             ViewBag.val = val;
 
-            deliveryView.Orders = await GetDeliveryOrder();
+            deliveryView.Orders = await GetOrder();
             deliveryView.Deliveries = await GetDelivery();
             
 
