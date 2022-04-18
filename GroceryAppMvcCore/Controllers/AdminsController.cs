@@ -484,7 +484,7 @@ namespace GroceryAppMvcCore.Controllers
             HttpClientHandler clientHandler = new HttpClientHandler();
             HttpClient client = new HttpClient(clientHandler);
 
-            string JsonStr = await client.GetStringAsync(baseURL + "/api/Delivery");
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Deliveries");
             List<Delivery> result = JsonConvert.DeserializeObject<List<Delivery>>(JsonStr);
             return result;
         }
