@@ -120,34 +120,64 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<IActionResult> AddToCart(int ProdId, int CatId)
         {
-            Product product = await GetProducts(ProdId);
-            Cart cart = new Cart();
-            //cart.UserId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
-            cart.UserId = 1;
-            cart.PurchasedQty = 1;
-            cart.ProductId = product.ProductId;
-            cart.SubTotalPrice = product.Price;
-            cart.IsOrdered = false;
-
             int Msg = 0;
-            Cart received = new Cart();
-            using (var httpClient = new HttpClient())
+            Product product = await GetProducts(ProdId);
+            List<Cart> CartData = await GetCarts();
+            var cartPresent = CartData.FirstOrDefault(m=>m.ProductId == ProdId & m.IsOrdered == false & m.UserId == 1);
+            if(cartPresent != null)
             {
-
-                StringContent content = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
-
-                using (var response = await httpClient.PostAsync(baseURL + "/api/Carts", content))
+                Cart cart = cartPresent;
+                cart.PurchasedQty += 1;
+                cart.SubTotalPrice = cart.PurchasedQty * product.Price;
+                using (var httpClient = new HttpClient())
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    received = JsonConvert.DeserializeObject<Cart>(apiResponse);
-                    if (received != null)
-                        Msg = 1;
+
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
+
+                    using (var response = await httpClient.PutAsync(baseURL + "/api/Carts/"+cart.CartId, content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        if (apiResponse != null)
+                            Msg = 1;
+                    }
+
                 }
+                return RedirectToAction("ViewProducts", new { id = CatId, msg = Msg });
 
             }
+            else
+            {
+                Cart cart = new Cart();
+                //cart.UserId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+                cart.UserId = 1;
+                cart.PurchasedQty = 1;
+                cart.ProductId = product.ProductId;
+                cart.SubTotalPrice = product.Price;
+                cart.IsOrdered = false;
 
 
-            return RedirectToAction("ViewProducts", new { id = CatId, msg = Msg });
+                
+                Cart received = new Cart();
+                using (var httpClient = new HttpClient())
+                {
+
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
+
+                    using (var response = await httpClient.PostAsync(baseURL + "/api/Carts", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<Cart>(apiResponse);
+                        if (received != null)
+                            Msg = 1;
+                    }
+
+                }
+                return RedirectToAction("ViewProducts", new { id = CatId, msg = Msg });
+            }
+            
+
+
+            
 
 
         }
@@ -392,10 +422,11 @@ namespace GroceryAppMvcCore.Controllers
             return View();
         }
 
-
+        [HttpPost]  
         public async Task<IActionResult> FeedBack(Feedback feedback)
         {
 
+            feedback.UserId = 1;
 
             Feedback cf = new Feedback();
 
@@ -407,7 +438,7 @@ namespace GroceryAppMvcCore.Controllers
 
             StringContent content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json");
 
-            using (var response = await httpClient.PostAsync(baseURL + "api/Feedbacks", content))
+            using (var response = await httpClient.PostAsync(baseURL + "/api/Feedbacks", content))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 cf = JsonConvert.DeserializeObject<Feedback>(apiResponse);
@@ -417,7 +448,7 @@ namespace GroceryAppMvcCore.Controllers
                 }
             }
 
-
+            
             ViewBag.Message = "Feedback not added, Sorry Please try again!!!!!...";
             return View();
 

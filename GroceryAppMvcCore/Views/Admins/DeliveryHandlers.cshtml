@@ -1,0 +1,139 @@
+﻿@using GroceryAppMvcCore;
+@using System;
+@using System.Linq;
+@using System.Collections.Generic;
+@model DeliveryVuew;
+@{
+    ViewBag.Title = "Delivery_Hnadlers";
+    Layout = "~/Views/Shared/_AdminsLayout.cshtml";
+    int val = Convert.ToInt32(ViewBag.val);
+    //int totalOrders = 0;
+
+    List<string> list = new List<string>();
+
+
+}
+
+@if (val == 1)
+{
+    <h1>DeliveryList</h1>
+    List<Order> orders = new List<Order>();
+    foreach (Order order in Model.Orders)
+    {
+        if (Model.Deliveries.FirstOrDefault(m => m.OrderId == order.OrderId) == null)
+        {
+            orders.Add(order);
+        }
+    }
+
+
+    <table>
+        <tr>
+
+
+            <th>OrderId</th>
+            <th>OrderDate</th>
+            <th>Status</th>
+            <th>TotalValue</th>
+
+
+        </tr>
+        @foreach (Order i in orders)
+        {
+            <tr>
+                <td>@i.OrderId</td>
+                <td>@i.OrderDate</td>
+                <td>Order Confirmed</td>
+                <td>@i.TotalValue</td>
+            </tr>
+        }
+    </table>
+
+}
+
+else if (val == 2)
+{
+
+    <h1>Pickup_Delivery</h1>
+
+
+
+    List<Delivery> del = Model.Deliveries.Where(m => m.Status == false).ToList();
+    <table>
+        <tr>
+
+
+            <th>OrderId</th>
+            <th>OrderDate</th>
+            <th>Status</th>
+            <th>PickupDate</th>
+            <th>TotalValue</th>
+
+
+        </tr>
+        @foreach (Delivery delivery in del)
+        {
+            Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
+            <tr>Order Id: @order.OrderId</tr>
+
+            <tr>
+
+                <td>@order.OrderId</td>
+                <td>@order.OrderDate</td>
+                <td>PickeUp for delivery </td>
+                <td>@delivery.PickupDate</td>
+                <td>@order.TotalValue</td>
+            </tr>
+
+
+
+        }
+    </table>
+}
+
+
+
+
+
+
+else if (val == 3)
+{
+    <h1>Pickup_Delivery</h1>
+
+   
+     
+    List<Delivery> del = Model.Deliveries.Where(m=> m.Status==true).ToList();
+        <table>
+            <tr>
+
+                
+                <th>OrderId</th>
+                <th>OrderDate</th>
+                <th>Status</th>
+                <th>DeliveryDate</th>
+                <th>TotalValue</th>
+                
+
+            </tr>
+    @foreach (Delivery delivery in del)
+    {
+        Order order = Model.Orders.FirstOrDefault(m=>m.OrderId==delivery.OrderId);
+        <tr>Order Id: @order.OrderId</tr>
+        
+        <tr>
+                           
+            <td>@order.OrderId</td>
+            <td>@order.OrderDate</td>
+            <td>delivered </td>
+            <td>@delivery.DeliveryDate</td>
+            <td>@order.TotalValue</td>
+        </tr>
+
+                      
+
+     }
+     </table>
+
+}
+
+

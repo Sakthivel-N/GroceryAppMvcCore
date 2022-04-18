@@ -158,7 +158,7 @@ namespace GroceryAppMvcCore.Controllers
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
                 if (apiResponse != null)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ViewProducts");
                 else
                     return View();
             }
@@ -469,6 +469,37 @@ namespace GroceryAppMvcCore.Controllers
                 return View();
             }
         }
+         public async Task<List<Order>> GetOrder()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
 
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Orders");
+            List<Order> result = JsonConvert.DeserializeObject<List<Order>>(JsonStr);
+            return result;
+        }
+
+        public async Task<List<Delivery>> GetDelivery()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
+
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Deliveries");
+            List<Delivery> result = JsonConvert.DeserializeObject<List<Delivery>>(JsonStr);
+            return result;
+        }
+        
+
+        public async Task<IActionResult> DeliveryHandlers(int val)
+        {
+            DeliveryVuew deliveryView = new DeliveryVuew();
+            ViewBag.val = val;
+
+            deliveryView.Orders = await GetOrder();
+            deliveryView.Deliveries = await GetDelivery();
+            
+
+            return View(deliveryView);
+        }
     }
 }

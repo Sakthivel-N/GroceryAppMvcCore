@@ -220,6 +220,7 @@ namespace GroceryAppMvcCore.Controllers
                 Employee employees = await GetValidEmployee(employee.EmployeeName, employee.Password);
                 if (employees != null)
                 {
+                    HttpContext.Session.SetInt32("EmployeeId", employee.EmployeeId);
                     HttpContext.Session.SetString("Employee", employee.EmployeeName);
                     return RedirectToAction("Index", "Employees");
                 }

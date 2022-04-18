@@ -8,19 +8,38 @@
     List<Product> ProdList = new List<Product>();
 
     ProductView obj = new ProductView();
-    
+
 
 
 
 }
+
+
 <environment names="Development">
+    
+    
     <link rel="stylesheet" href="~/css/StyleSheet.css" />
 </environment>
 <h1>ViewProducts</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@ViewBag.Msg
+
+@if(ViewBag.Msg == "Product Added to Cart !!")
+{
+    <div class="alert alert-success alert-dismissible fade show ">
+        <strong>Success!..</strong> @ViewBag.Msg
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+else if(ViewBag.Msg == "Failed to Add Cart")
+{
+     <div class="alert alert-danger alert-dismissible fade show ">
+        <strong>Error!..</strong> @ViewBag.Msg
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+
 
 
 @if (CategoryID < 4 && CategoryID > 0)
@@ -34,7 +53,7 @@
                 ProdList.Add(item);
                 if (ProdList.Count == 3)
                 {
-                    <div class="bg-dark d-flex align-items-stretch">
+                    <div class=" d-flex align-items-stretch" style="border-radius:20px;background-color:#F7F6F6;">
                         <div class="container d-flex">
                             <div class="row p-4">
                                 &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
@@ -58,7 +77,7 @@
     }
     if (ProdList != null & ProdList.Count == 2)
     {
-        <div class="bg-dark d-flex align-items-stretch">
+        <div class=" d-flex align-items-stretch" style="border-radius:20px;background-color:#BDBDBD;">
             <div class="container d-flex">
                 <div class="row p-4">
                     &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
@@ -74,7 +93,7 @@
     }
     else if (ProdList != null & ProdList.Count == 1)
     {
-        <div class="bg-dark d-flex align-items-stretch">
+        <div class=" d-flex align-items-stretch" style="border-radius:20px;background-color:#BDBDBD;">
             <div class="container d-flex">
                 <div class="row p-4">
                     &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
@@ -99,7 +118,7 @@ else
             ProdList.Add(item);
             if (ProdList.Count == 3)
             {
-                <div class="bg-dark d-flex align-items-stretch">
+                <div class=" d-flex align-items-stretch" style="border-radius:20px;background-color:#BDBDBD;">
                     <div class="container d-flex">
                         <div class="row p-4">
                             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
@@ -120,7 +139,7 @@ else
     }
     if (ProdList != null & ProdList.Count == 2)
     {
-        <div class="bg-dark d-flex align-items-stretch">
+        <div class=" d-flex align-items-stretch" style="border-radius:20px;background-color:#BDBDBD;">
             <div class="container d-flex">
                 <div class="row p-4">
                     &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
@@ -136,7 +155,7 @@ else
     }
     else if (ProdList != null & ProdList.Count == 1)
     {
-        <div class="bg-dark d-flex align-items-stretch">
+        <div class=" d-flex align-items-stretch" style="border-radius:20px;background-color:#BDBDBD;">
             <div class="container d-flex">
                 <div class="row p-4">
                     &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
