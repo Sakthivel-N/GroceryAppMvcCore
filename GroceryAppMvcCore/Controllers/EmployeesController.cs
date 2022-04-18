@@ -24,7 +24,6 @@ namespace GroceryAppMvcCore.Controllers
 
         //---------------
 
-
         public IActionResult Index()
         {
             return View();
@@ -33,11 +32,8 @@ namespace GroceryAppMvcCore.Controllers
         {
             List<Delivery> received = new List<Delivery>();
 
-
             using (var httpClient = new HttpClient())
             {
-
-
                 using (var response = await httpClient.GetAsync(baseURL + "/api/Deliveries/"))
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -48,20 +44,15 @@ namespace GroceryAppMvcCore.Controllers
                     else
                         ViewBag.StatusCode = response.StatusCode;
                 }
-
             }
-
             return received;
         }
         public async Task<Delivery> GetDelivery(int id)
         {
             Delivery received = new Delivery();
 
-
             using (var httpClient = new HttpClient())
             {
-
-
                 using (var response = await httpClient.GetAsync(baseURL + "/api/Deliveries/" + id))
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -77,6 +68,7 @@ namespace GroceryAppMvcCore.Controllers
 
             return received;
         }
+
         public async Task<List<Order>> GetOrderView()
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
@@ -94,8 +86,6 @@ namespace GroceryAppMvcCore.Controllers
 
             using (var httpClient = new HttpClient())
             {
-
-
                 using (var response = await httpClient.GetAsync(baseURL + "/api/Carts/"))
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -106,11 +96,10 @@ namespace GroceryAppMvcCore.Controllers
                     else
                         ViewBag.StatusCode = response.StatusCode;
                 }
-
             }
             return received;
-
         }
+
         [HttpGet]
         public async Task<IActionResult> OurJobs(int id)
         {
@@ -128,6 +117,7 @@ namespace GroceryAppMvcCore.Controllers
             Delivery delivery = await GetDelivery(id);
             delivery.DeliveryDate = DateTime.Now.ToString("dd/mm/yyyy");
             delivery.Status = true;
+
             using (var httpClient = new HttpClient())
             {
                 StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
@@ -135,10 +125,8 @@ namespace GroceryAppMvcCore.Controllers
                 using (var response = await httpClient.PutAsync(baseURL + "/api/Deliveries/" + id, contents))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-
                 }
                 return RedirectToAction("OurJobs", new {id=0});
-
 
             }
         }
@@ -152,5 +140,43 @@ namespace GroceryAppMvcCore.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> JobList()
+        {
+            
+            JobView obj = new JobView();
+            obj.deliveries = await GetDelivery();
+            obj.orders = await GetOrderView();
+            obj.carts = await GetCarts();
+            return View(obj);
+        }
+
+
+        public async Task<IActionResult> Accept(int id)
+        {
+            Delivery delivery = new Delivery();
+            
+            
+            delivery.OrderId = id;
+            delivery.PickupDate = DateTime.Now.ToString("dd/mm/yyyy");
+            delivery.Status = false;
+            delivery.DeliveryDate = "within 3 days";
+            delivery.EmployeeId = 1;
+
+
+            using (var httpClient = new HttpClient())
+            {
+                StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PutAsync(baseURL + "/api/Deliveries/" , contents))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+
+                return RedirectToAction("OurJobs");
+            }
+        }
     }
 }
