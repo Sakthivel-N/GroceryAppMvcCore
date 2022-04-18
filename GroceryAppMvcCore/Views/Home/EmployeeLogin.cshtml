@@ -1,9 +1,12 @@
-﻿@model GroceryAppMvcCore.Models.Admin
+﻿@model GroceryAppMvcCore.Models.Employee
 
 @{
-    ViewData["Title"] = "AdminLogin";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "EmployeeLogin";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
 }
+
+<h1>EmployeeLogin</h1>
+
 <environment names="Development">
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
@@ -11,7 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </environment>
-<h1>AdminLogin</h1>
+
 
 @if (ViewBag.Message != null)
 {
@@ -24,11 +27,11 @@
 
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="AdminLogin" asp-controller="Home">
+            <form asp-action="EmployeeLogin" asp-controller="Home">
                 <div class="form-group">
-                    <label asp-for="AdminName" class="control-label">AdminName</label>
-                    <input asp-for="AdminName" class="form-control" />
-                    <span asp-validation-for="AdminName" class="text-danger"></span>
+                    <label asp-for="EmployeeName" class="control-label">Employee Name</label>
+                    <input asp-for="EmployeeName" class="form-control" />
+                    <span asp-validation-for="EmployeeName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password" class="control-label">Password</label>
@@ -41,17 +44,8 @@
                 </div>
                 <div asp-validation-summary="ModelOnly" class="text-danger">
                 </div>
-                
+
             </form>
 
         </div>
     </div>
-
-
-
-
-
-
-
-
-
