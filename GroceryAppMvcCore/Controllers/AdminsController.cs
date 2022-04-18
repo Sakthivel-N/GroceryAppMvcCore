@@ -158,7 +158,7 @@ namespace GroceryAppMvcCore.Controllers
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
                 if (apiResponse != null)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ViewProducts");
                 else
                     return View();
             }
