@@ -7,10 +7,15 @@
 <environment names="Development">
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/Style.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+
 </environment>
+
+
+
+
 <h1>AdminLogin</h1>
 
 @if (ViewBag.Message != null)
@@ -22,33 +27,34 @@
     </div>
 }
 
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="AdminLogin" asp-controller="Home">
-                <div class="form-group">
-                    <label asp-for="AdminName" class="control-label">AdminName</label>
-                    <input asp-for="AdminName" class="form-control" />
-                    <span asp-validation-for="AdminName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label">Password</label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="login" class="btn btn-primary" />
-                    
-                </div>
-                <div asp-validation-summary="ModelOnly" class="text-danger">
-                </div>
-                
-            </form>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AdminLogin" asp-controller="Home">
+            <div class="form-group">
+                <label asp-for="AdminName" class="control-label">AdminName</label>
+                <input asp-for="AdminName" class="form-control" />
+                <span asp-validation-for="AdminName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="login" class="btn btn-primary" />
 
-        </div>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+            </div>
+
+        </form>
+
     </div>
+</div>
 
 
-
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 
