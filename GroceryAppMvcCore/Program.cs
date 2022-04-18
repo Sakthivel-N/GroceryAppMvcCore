@@ -34,6 +34,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Users}/{action=ViewProducts}");
+    pattern: "{controller=Users}/{action=ViewCart}");
 
 app.Run();

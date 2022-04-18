@@ -5,6 +5,7 @@
 @model OrderView
 @{
     ViewBag.Title = "View_Orders";
+    Layout = "~/Views/Shared/_UsersLayout.cshtml";
 
     int totalOrders = 0;
     int UserID = Convert.ToInt32(ViewBag.UserId);
