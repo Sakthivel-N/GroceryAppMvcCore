@@ -38,7 +38,10 @@ namespace GroceryAppMvcCore.Controllers
             {
                 ViewBag.Message = HttpContext.Session.GetString("AdminName");
             }
-
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
