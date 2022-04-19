@@ -386,6 +386,15 @@ namespace GroceryAppMvcCore.Controllers
             List<Cart> result = JsonConvert.DeserializeObject<List<Cart>>(JsonStr);
             return result;
         }
+        public async Task<List<Delivery>> GetDelivery()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
+
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Deliveries");
+            List<Delivery> result = JsonConvert.DeserializeObject<List<Delivery>>(JsonStr);
+            return result;
+        }
 
         public async Task<IActionResult> ViewOrders()
         {
@@ -395,7 +404,8 @@ namespace GroceryAppMvcCore.Controllers
 
             orderView.Orders = await GetOrderView();
             orderView.Carts = await GetCartView();
-
+            orderView.Deliverys = await GetDelivery();
+            orderView.Products = await GetProducts();
             return View(orderView);
 
         }
