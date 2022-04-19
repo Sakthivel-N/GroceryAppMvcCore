@@ -1,4 +1,4 @@
-﻿@using GroceryAppMvcCore;
+@using GroceryAppMvcCore;
 @using System;
 @using System.Linq;
 @using System.Collections.Generic;
@@ -14,6 +14,47 @@
 
 }
 
+<style>
+    .track-line {
+        height: 2px !important;
+        background-color: #488978;
+        opacity: 1;
+    }
+
+    .dot {
+        height: 10px;
+        width: 10px;
+        margin-left: 3px;
+        margin-right: 3px;
+        margin-top: 0px;
+        background-color: #488978;
+        border-radius: 50%;
+        display: inline-block
+    }
+
+    .big-dot {
+        height: 25px;
+        width: 25px;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 0px;
+        background-color: #488978;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+        .big-dot i {
+            font-size: 12px;
+        }
+
+    .card-stepper {
+        z-index: 0
+    }
+</style>
+
+
+
+
 @if (val == 1)
 {
     <h1>DeliveryList</h1>
@@ -26,31 +67,53 @@
         }
     }
 
+    @foreach (Order i in orders)
+    {
 
-    <table>
-        <tr>
+        <section class="vh-100" style="background-color: #eee;">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col">
+                        <div class="card card-stepper" style="border-radius: 10px;">
+                            <div class="card-body p-4">
 
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <span class="lead fw-normal">Your Order Has Been Confirmed</span>
+                                        <span class="text-muted small">@i.OrderId</span>
+ 
 
-            <th>OrderId</th>
-            <th>OrderDate</th>
-            <th>Status</th>
-            <th>TotalValue</th>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
 
+                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                                    <span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                        <i class="fa fa-check text-white"></i>
+                                    </span>
+                                </div>
 
-        </tr>
-        @foreach (Order i in orders)
-        {
-            <tr>
-                <td>@i.OrderId</td>
-                <td>@i.OrderDate</td>
-                <td>Order Confirmed</td>
-                <td>@i.TotalValue</td>
-            </tr>
-        }
-    </table>
-
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="d-flex flex-column align-items-start"><span>Order_Date</span><span>@i.OrderDate</span></div>
+                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>Order Confirmed</span></div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>TotalValue</span><span>@i.TotalValue</span></div>
+                                    <div class="d-flex flex-column align-items-center"><span>Delivery_Status</span><span>Yet to deliver</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
 }
-
 else if (val == 2)
 {
 
@@ -59,36 +122,55 @@ else if (val == 2)
 
 
     List<Delivery> del = Model.Deliveries.Where(m => m.Status == false).ToList();
-    <table>
-        <tr>
+
+    @foreach (Delivery delivery in del)
+    {
+        Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
+        <section class="vh-100" style="background-color: #eee;">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col">
+                        <div class="card card-stepper" style="border-radius: 10px;">
+                            <div class="card-body p-4">
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <span class="lead fw-normal">Your Order Has Been Confirmed</span>
+                                         <span class="text-muted small">@order.OrderId</span>
+
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+
+                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                                    <span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                        <i class="fa fa-check text-white"></i>
+                                    </span>
+                                </div>
+
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="d-flex flex-column align-items-start"><span>OrderDate</span><span>@order.OrderDate</span></div>
+                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>PickeUp for delivery </span></div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Pickup_Date</span><span>@delivery.PickupDate</span></div>
+                                    <div class="d-flex flex-column align-items-center"><span>15 Mar</span><span>Out for delivery</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
-            <th>OrderId</th>
-            <th>OrderDate</th>
-            <th>Status</th>
-            <th>PickupDate</th>
-            <th>TotalValue</th>
+    }
 
-
-        </tr>
-        @foreach (Delivery delivery in del)
-        {
-            Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
-            <tr>Order Id: @order.OrderId</tr>
-
-            <tr>
-
-                <td>@order.OrderId</td>
-                <td>@order.OrderDate</td>
-                <td>PickeUp for delivery </td>
-                <td>@delivery.PickupDate</td>
-                <td>@order.TotalValue</td>
-            </tr>
-
-
-
-        }
-    </table>
 }
 
 
@@ -100,39 +182,64 @@ else if (val == 3)
 {
     <h1>Pickup_Delivery</h1>
 
-   
-     
-    List<Delivery> del = Model.Deliveries.Where(m=> m.Status==true).ToList();
-        <table>
-            <tr>
 
-                
-                <th>OrderId</th>
-                <th>OrderDate</th>
-                <th>Status</th>
-                <th>DeliveryDate</th>
-                <th>TotalValue</th>
-                
 
-            </tr>
+    List<Delivery> del = Model.Deliveries.Where(m => m.Status == true).ToList();
+
     @foreach (Delivery delivery in del)
     {
-        Order order = Model.Orders.FirstOrDefault(m=>m.OrderId==delivery.OrderId);
-        <tr>Order Id: @order.OrderId</tr>
-        
-        <tr>
-                           
-            <td>@order.OrderId</td>
-            <td>@order.OrderDate</td>
-            <td>delivered </td>
-            <td>@delivery.DeliveryDate</td>
-            <td>@order.TotalValue</td>
-        </tr>
+        Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
 
-                      
+        <section class="vh-100" style="background-color: #eee;">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col">
+                        <div class="card card-stepper" style="border-radius: 10px;">
+                            <div class="card-body p-4">
 
-     }
-     </table>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <span class="lead fw-normal">Your Order Has Been Confirmed</span>
+                                         <span class="text-muted small">@order.OrderId</span>
+
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+
+                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                                    <span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                        <i class="fa fa-check text-white"></i>
+                                    </span>
+                                </div>
+
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="d-flex flex-column align-items-start"><span>OrderDate</span><span>@order.OrderDate</span></div>
+                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>Delivered </span></div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Pickup_Date</span><span>@delivery.PickupDate</span></div>
+                                    <div class="d-flex flex-column align-items-center"><span>Delivery_Date</span><span>@delivery.DeliveryDate</span></div>
+                                    <div class="d-flex flex-column align-items-center"><span>Ready to use..</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+    }
+
 
 }
 
