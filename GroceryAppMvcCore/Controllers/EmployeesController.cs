@@ -99,6 +99,32 @@ namespace GroceryAppMvcCore.Controllers
             }
             return received;
         }
+        public async Task<List<Product>> GetProducts()
+        {
+
+            List<Product> received = new List<Product>();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/"))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+
+            return received;
+
+        }
 
         [HttpGet]
         public async Task<IActionResult> OurJobs(int id)
@@ -109,6 +135,7 @@ namespace GroceryAppMvcCore.Controllers
             obj.deliveries = await GetDelivery();
             obj.orders = await GetOrderView();
             obj.carts = await GetCarts();
+            obj.products = await GetProducts();
             return View(obj);
 
         }
