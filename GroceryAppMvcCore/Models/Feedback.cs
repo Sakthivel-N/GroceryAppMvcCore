@@ -12,5 +12,8 @@ namespace GroceryAppMvcCore.Models
 
         [MaxLength(255)]
         public string FeedbackMsg { get; set; }
+        [Required, MaxLength(25)]
+        public string FeedbackTime { get; set; }
     }
+}
 }

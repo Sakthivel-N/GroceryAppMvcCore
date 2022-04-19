@@ -14,7 +14,7 @@
     }
 }
 
-<h1>JobList</h1>
+<h1 style="text-align:center;">Available Jobs</h1>
 <style>
     body {
         background: #f5f5f5;
@@ -272,7 +272,10 @@
                                     </div>
                                     <div class="job-right my-4 flex-shrink-0">
                                         <h5>Total Price : @order.TotalValue</h5>
-                                        <a href=$"https://localhost:7284/Employees/Accept?id =@order.OrderId" style="color:white" class="btn d-block w-100 d-sm-inline-block btn-light bg-success">Accept</a>
+                                        @{
+                                            string accept = $"https://localhost:7284/Employees/Accept?id={@order.OrderId}";
+                                        }
+                                        <a href="@accept" style="color:white" class="btn d-block w-100 d-sm-inline-block btn-light bg-success">Accept</a>
                                     </div>
                                 </div>
                         
