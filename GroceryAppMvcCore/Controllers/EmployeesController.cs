@@ -142,7 +142,7 @@ namespace GroceryAppMvcCore.Controllers
         public async Task<IActionResult> Delivered(int id)
         {
             Delivery delivery = await GetDelivery(id);
-            delivery.DeliveryDate = DateTime.Now.ToString("dd/mm/yyyy");
+            delivery.DeliveryDate = DateTime.Now.ToString("dd/MM/yyyy");
             delivery.Status = true;
 
             using (var httpClient = new HttpClient())
@@ -186,7 +186,7 @@ namespace GroceryAppMvcCore.Controllers
             
             
             delivery.OrderId = id;
-            delivery.PickupDate = DateTime.Now.ToString("dd/mm/yyyy");
+            delivery.PickupDate = DateTime.Now.ToString("dd/MM/yyyy");
             delivery.Status = false;
             delivery.DeliveryDate = "--";
             delivery.EmployeeId = 1;

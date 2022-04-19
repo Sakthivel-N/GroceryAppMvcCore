@@ -304,7 +304,7 @@ namespace GroceryAppMvcCore.Controllers
             orders.UserId = 1;
             orders.CartIdList = Cartlist;
             orders.PaymentMode = "Online";
-            orders.OrderDate = DateTime.Now.ToString("dd/mm/yyyy");
+            orders.OrderDate = DateTime.Now.ToString("dd/MM/yyyy");
             orders.TotalValue = TV;
             ViewBag.Message1 = ViewBag.Message2 = ViewBag.Message3 = 0;
 
@@ -438,6 +438,7 @@ namespace GroceryAppMvcCore.Controllers
         {
 
             feedback.UserId = 1;
+            feedback.FeedbackTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
             Feedback cf = new Feedback();
 
