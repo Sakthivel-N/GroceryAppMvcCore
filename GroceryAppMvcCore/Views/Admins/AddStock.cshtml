@@ -5,34 +5,77 @@
     Layout = "~/Views/Shared/_AdminsLayout.cshtml";
 }
 
-<h1>AddStock</h1>
+@*<h1>AddStock</h1>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
+    <h4>Product</h4>
+    <hr />*@
+@*<div class="row">
     <div class="col-md-4">
-        <form asp-action="AddStock">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                @*<label asp-for="ProductId" class="control-label"></label>*@
-                <input type="hidden" asp-for="ProductId" class="form-control" />
-                <span asp-validation-for="ProductId" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Qty" class="control-label"></label>
-                <input asp-for="Qty" class="form-control" />
-                <span asp-validation-for="Qty" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    <form asp-action="AddStock">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
 
-<div>
-    <a accesskey="Admins"   asp-action="ReorderNow">Back to List</a>
-</div>
+    <input type="hidden" asp-for="ProductId" class="form-control" />
+    <span asp-validation-for="ProductId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+    <label asp-for="Qty" class="control-label"></label>
+    <input asp-for="Qty" class="form-control" />
+    <span asp-validation-for="Qty" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+    </form>
+    </div>
+    </div>*@
+
+
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<style>
+    body {
+        background-image: url(https://wallpaperaccess.com/full/2089168.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        color:white;
+    }
+</style>
+
+<form asp-action="AddStock">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset>
+
+        <div id="legend">
+            <legend class="">Add Stock</legend>
+        </div>
+
+        <div class="form-group">
+            @*<label asp-for="ProductId" class="control-label"></label>*@
+            <input type="hidden" asp-for="ProductId" class="form-control" />
+            <span asp-validation-for="ProductId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Qty" class="control-label"></label>
+            <input asp-for="Qty" class="form-control" />
+            <span asp-validation-for="Qty" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+
+        <div>
+            <a accesskey="Admins" asp-action="ReorderNow">Back to List</a>
+        </div>
+
+
+    </fieldset>
+</form>
 
