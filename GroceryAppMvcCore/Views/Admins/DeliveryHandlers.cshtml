@@ -10,6 +10,7 @@
     //int totalOrders = 0;
 
     List<string> list = new List<string>();
+     var deli= Model.Deliveries.Where(m => m.Status == true);
 
 
 }
@@ -54,7 +55,6 @@
 
 
 
-
 @if (val == 1)
 {
     <h1>DeliveryList</h1>
@@ -69,11 +69,11 @@
 
    
 
-   <section class="vh-100" style="background-color: #eee;">
+   <section class="vh-100" >
      @foreach (Order i in orders)
     {
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
+            
+               
                     <div class="col">
                         <div class="card card-stepper" style="border-radius: 10px;">
                             <div class="card-body p-4">
@@ -104,9 +104,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><br />
+                    <br />
+                
         }
         </section>
     
@@ -125,8 +125,7 @@ else if (val == 2)
     @foreach (Delivery delivery in del)
     {
         Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
+            
                     <div class="col">
                         <div class="card card-stepper" style="border-radius: 10px;">
                             <div class="card-body p-4">
@@ -161,14 +160,13 @@ else if (val == 2)
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><br /><br />
+                
             }
         </section>
 
 
-    }
+    
 
 }
 
@@ -179,21 +177,20 @@ else if (val == 2)
 
 else if (val == 3)
 {
-    <h1>Pickup_Delivery</h1>
+    <h1>Deleivered</h1>
 
-     List<Delivery> del= Model.Deliveries.Where(m => m.Status == true).ToList();
+    
     
          <section class="vh-100" style="background-color: #eee;">
 
        
 
    
-        @foreach (Delivery delivery in del)
+        @foreach (Delivery delivery in deli)
         {
          Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
 
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
+            
                     <div class="col">
                         <div class="card card-stepper" style="border-radius: 10px;">
                             <div class="card-body p-4">
@@ -229,12 +226,13 @@ else if (val == 3)
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><br /><br />
+                
             }
         </section>
 
         }
+
+
 
 
