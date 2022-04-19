@@ -88,19 +88,17 @@
 
                                 <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
                                     <span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
                                     <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
                                         <i class="fa fa-check text-white"></i>
-                                    </span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                   </span>
                                 </div>
 
                                 <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-column align-items-start"><span>Order_Date</span><span>@i.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>Order Confirmed</span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>TotalValue</span><span>@i.TotalValue</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>Delivery_Status</span><span>Yet to deliver</span></div>
+                                    <div class="d-flex flex-column align-items-start"><span>Order_Confirmed/span><span>@i.OrderDate</span></div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span></div>
+                                    <div class="d-flex flex-column align-items-center"><span>Delivery_Status</span><span>Order_Delivered</span></div>
                                 </div>
                             </div>
                         </div>
@@ -145,18 +143,19 @@ else if (val == 2)
                                 <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
                                     <span class="dot"></span>
                                     <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                     <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
                                         <i class="fa fa-check text-white"></i>
+                                    
+                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                   
+                                   
                                     </span>
                                 </div>
 
                                 <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-column align-items-start"><span>OrderDate</span><span>@order.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>PickeUp for delivery </span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Pickup_Date</span><span>@delivery.PickupDate</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>15 Mar</span><span>Out for delivery</span></div>
+                                    <div class="d-flex flex-column align-items-start"><span>Order_Confirmed</span><span>@order.OrderDate</span></div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span><span>@delivery.PickupDate</span></div>
+                                    <div class="d-flex flex-column align-items-center"><span>Order_deivered</span></div>
                                 </div>
                             </div>
                         </div>
@@ -209,8 +208,7 @@ else if (val == 3)
 
                                 <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
                                     <span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
+                                     <hr class="flex-fill track-line"><span class="dot"></span>
                                     <hr class="flex-fill track-line"><span class="dot"></span>
                                     <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
                                         <i class="fa fa-check text-white"></i>
@@ -218,12 +216,10 @@ else if (val == 3)
                                 </div>
 
                                 <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-column align-items-start"><span>OrderDate</span><span>@order.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>Delivered </span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Pickup_Date</span><span>@delivery.PickupDate</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>Delivery_Date</span><span>@delivery.DeliveryDate</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>Ready to use..</span></div>
-                                </div>
+                                    <div class="d-flex flex-column align-items-start"><span>Order_Confirmed</span><span>@order.OrderDate</span></div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUP</span><span>@delivery.PickupDate</span></div>
+                                    <div class="d-flex flex-column align-items-center"><spanOrder_Deelivered</span><span>@delivery.DeliveryDate</span></div>
+                                 </div>
                             </div>
                         </div>
                     </div><br /><br />
