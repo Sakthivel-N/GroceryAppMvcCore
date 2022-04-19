@@ -49,89 +49,145 @@
     </div>
     </div>*@
 
-<section class="vh-100 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
-    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-        <div class="container h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                    <div class="card" style="border-radius: 15px;">
-                        <div class="card-body p-5">
-                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-                            <form asp-action="Register">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="col-md-4 col-md-offset-4" id="login">
+    <section id="inner-wrapper" class="login">
+        <article>
+            <h3 style="text-align:center ; color:yellowgreen">User Registration</h3>
+            <form asp-action="Register">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-
-                                <div class="form-outline mb-4">
-                                    <label asp-for="UserName" class="control-label"></label>
-                                    <input asp-for="UserName" class="form-control" />
-                                    <span asp-validation-for="UserName" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label asp-for="EmailId" class="control-label"></label>
-                                    <input asp-for="EmailId" class="form-control" />
-                                    <span asp-validation-for="EmailId" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label asp-for="PhoneNumber" class="control-label"></label>
-                                    <input asp-for="PhoneNumber" class="form-control" />
-                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label asp-for="Password" class="control-label"></label>
-                                    <input asp-for="Password" class="form-control" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label asp-for="Address" class="control-label"></label>
-                                    <input asp-for="Address" class="form-control" />
-                                    <span asp-validation-for="Address" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-check d-flex justify-content-center mb-5">
-                                    <input class="form-check-input me-2"
-                                           type="checkbox"
-                                           value=""
-                                           id="form2Example3cg" />
-                                    <label class="form-check-label" for="form2Example3g">
-                                        I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-                                    </label>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="submit" value="Create" class="btn btn-primary" /><br />
-                                    <label style="color:green;"></label>
-                                </div>
-
-                            </form>
-
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
+                <div class="form-group">
+                    <label asp-for="EmailId" class="control-label"></label>
+                    <input asp-for="EmailId" class="form-control" />
+                    <span asp-validation-for="EmailId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+
+                    <br />
+                    <label style="color:green;"></label>
+                </div>
+                <div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </form>
+        </article>
+    </section>
+</div>
+
 <style>
-    .gradient-custom-3 {
-        /* fallback for old browsers */
-        background: #84fab0;
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+    body {
+        background: #333;
+        background-image: url(https://wallpaperaccess.com/full/1624843.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
-    .gradient-custom-4 {
-        /* fallback for old browsers */
-        background: #84fab0;
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+    #login {
+        -webkit-perspective: 1000px;
+        -moz-perspective: 1000px;
+        perspective: 1000px;
+        margin-top: 50px;
+        margin-left: 30%;
+        border-radius: 50px;
+    }
+
+    .login {
+        font-family: 'Josefin Sans', sans-serif;
+        -webkit-transition: .3s;
+        -moz-transition: .3s;
+        transition: .3s;
+        -webkit-transform: rotateY(40deg);
+        -moz-transform: rotateY(40deg);
+        transform: rotateY(40deg);
+    }
+
+        .login:hover {
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            transform: rotate(0);
+        }
+
+        .login article {
+        }
+
+        .login .form-group {
+            margin-bottom: 17px;
+        }
+
+        .login .form-control,
+        .login .btn {
+            border-radius: 0;
+        }
+
+        .login .btn {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+    .input-group-addon {
+        border-radius: 0;
+        color: #fff;
+        background: #f3aa0c;
+        border: #f3aa0c;
+    }
+
+    .forgot {
+        font-size: 16px;
+    }
+
+        .forgot a {
+            color: #333;
+        }
+
+            .forgot a:hover {
+                color: #5cb85c;
+            }
+
+    #inner-wrapper, #contact-us .contact-form, #contact-us .our-address {
+        color: #1d1d1d;
+        font-size: 19px;
+        line-height: 1.7em;
+        font-weight: 300;
+        padding: 50px;
+        background: #fff;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        margin-bottom: 100px;
+    }
+
+    .input-group-addon {
+        border-radius: 0;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        color: #fff;
+        background: #f3aa0c;
+        border: #f3aa0c;
+        border-right-color: rgb(243, 170, 12);
+        border-right-style: none;
+        border-right-width: medium;
     }
 </style>

@@ -5,11 +5,90 @@
     Layout = "~/Views/Shared/_AdminsLayout.cshtml";
 }
 
-<h1>AddProduct</h1>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
+
+@*<h1>AddProduct</h1>
+    <hr />*@
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+<style>
+body{
+    
+    background-image: url(https://wallpaperaccess.com/full/2089168.jpg);
+    background-repeat: no-repeat;
+        background-size: cover;
+}
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <h2 style="text-align:center ; color:black">Add Product</h2>
+
+        <form asp-action="AddProduct">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <fieldset>
+
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label asp-for="ProductName" class="control-label"></label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label asp-for="Qty" class="control-label"></label>
+                    <input asp-for="Qty" class="form-control" />
+                    <span asp-validation-for="Qty" class="text-danger"></span>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    < <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" type="file" accept=".png" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control">
+                        <option value="1">Snacks</option>
+                        <option value="2">Vegetables</option>
+                        <option value="3">Bevarages</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+@*<div class="row">
     <div class="col-md-4">
         <form asp-action="AddProduct">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -40,8 +119,8 @@
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-               <label asp-for="CategoryId" class="control-label"></label>
-                <select  asp-for="CategoryId" class="form-control">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control">
                     <option value="1">Snacks</option>
                     <option value="2">Vegetables</option>
                     <option value="3">Bevarages</option>
@@ -53,7 +132,7 @@
             </div>
         </form>
     </div>
-</div>
+</div>*@
 
 <div>
     <a asp-action="Index">Back to List</a>
