@@ -30,7 +30,10 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         //---------------
-
+        public IActionResult DeliveryHandler1()
+        {
+            return View();
+        }
 
         public IActionResult Index()
         {
