@@ -1,242 +1,31 @@
-﻿@using GroceryAppMvcCore;
-@using System;
-@using System.Linq;
-@using System.Collections.Generic;
-@model DeliveryVuew;
-@{
-    ViewBag.Title = "Delivery_Hnadlers";
-    Layout = "~/Views/Shared/_AdminsLayout.cshtml";
-    int val = Convert.ToInt32(ViewBag.val);
-    //int totalOrders = 0;
+﻿
+<div class="container">
+  <h2>Modal Example</h2>
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
-    List<string> list = new List<string>();
-     var deli= Model.Deliveries.Where(m => m.Status == true);
-
-
-}
-
-<style>
-    .track-line {
-        height: 2px !important;
-        background-color: #488978;
-        opacity: 1;
-    }
-
-    .dot {
-        height: 10px;
-        width: 10px;
-        margin-left: 3px;
-        margin-right: 3px;
-        margin-top: 0px;
-        background-color: #488978;
-        border-radius: 50%;
-        display: inline-block
-    }
-
-    .big-dot {
-        height: 25px;
-        width: 25px;
-        margin-left: 0px;
-        margin-right: 0px;
-        margin-top: 0px;
-        background-color: #488978;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-        .big-dot i {
-            font-size: 12px;
-        }
-
-    .card-stepper {
-        z-index: 0
-    }
-</style>
-
-
-
-
-@if (val == 1)
-{
-    <h1>DeliveryList</h1>
-    List<Order> orders = new List<Order>();
-    foreach (Order order in Model.Orders)
-    {
-        if (Model.Deliveries.FirstOrDefault(m => m.OrderId == order.OrderId) == null)
-        {
-            orders.Add(order);
-        }
-    }
-
-   
-
-   <section class="vh-100" >
-     @foreach (Order i in orders)
-    {
-            <div class="container py-5 h-100">
-               
-                    <div class="col">
-                        <div class="card card-stepper" style="border-radius: 10px;">
-                            <div class="card-body p-4">
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h1>Order Id: #@i.OrderId </h1>
-                                    <div>
-                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
-                                    </div>
-                                </div>
-                                <hr class="my-4">
-
-                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                                    <span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
-                                        <i class="fa fa-check text-white"></i>
-                                    </span>
-                                </div>
-
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-column align-items-start"><span>Order_Date</span><span>@i.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>Order Confirmed</span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>TotalValue</span><span>@i.TotalValue</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>Delivery_Status</span><span>Yet to deliver</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-           
-        }
-        </section>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
     
-}
-else if (val == 2)
-{
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
 
-    <h1>Pickup_Delivery</h1>
-
-
-
-    List<Delivery> del = Model.Deliveries.Where(m => m.Status == false).ToList();
-        <section class="vh-100" style="background-color: #eee;">
-            
-
-    @foreach (Delivery delivery in del)
-    {
-        Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col">
-                        <div class="card card-stepper" style="border-radius: 10px;">
-                            <div class="card-body p-4">
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="lead fw-normal">Your Order Has Been Confirmed</span>
-                                         <span class="text-muted small">@order.OrderId</span>
-
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
-                                    </div>
-                                </div>
-                                <hr class="my-4">
-
-                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                                    <span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
-                                        <i class="fa fa-check text-white"></i>
-                                    </span>
-                                </div>
-
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-column align-items-start"><span>OrderDate</span><span>@order.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>PickeUp for delivery </span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Pickup_Date</span><span>@delivery.PickupDate</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>15 Mar</span><span>Out for delivery</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            }
-        </section>
-
-
-    
-
-}
-
-
-
-
-
-
-else if (val == 3)
-{
-    <h1>Pickup_Delivery</h1>
-
-    
-    
-         <section class="vh-100" style="background-color: #eee;">
-
-       
-
-   
-        @foreach (Delivery delivery in deli)
-        {
-         Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
-
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col">
-                        <div class="card card-stepper" style="border-radius: 10px;">
-                            <div class="card-body p-4">
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="lead fw-normal">Your Order Has Been Confirmed</span>
-                                         <span class="text-muted small">@order.OrderId</span>
-
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
-                                    </div>
-                                </div>
-                                <hr class="my-4">
-
-                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                                    <span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
-                                        <i class="fa fa-check text-white"></i>
-                                    </span>
-                                </div>
-
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-column align-items-start"><span>OrderDate</span><span>@order.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Status</span><span>Delivered </span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Pickup_Date</span><span>@delivery.PickupDate</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>Delivery_Date</span><span>@delivery.DeliveryDate</span></div>
-                                    <div class="d-flex flex-column align-items-center"><span>Ready to use..</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            }
-        </section>
-
-        }
-
-
-
+</body>
+</html>
