@@ -26,7 +26,18 @@ namespace GroceryAppMvcCore.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (HttpContext.Session.GetString("EmployeeName") != null)
+            {
+                ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
+                ViewBag.EmployeeId = HttpContext.Session.GetInt32("EmployeeName");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
         }
         public async Task<List<Delivery>> GetDelivery()
         {
@@ -129,33 +140,49 @@ namespace GroceryAppMvcCore.Controllers
         [HttpGet]
         public async Task<IActionResult> OurJobs(int id)
         {
-            ViewBag.Empid = 1;
-            ViewBag.Status = id;
-            JobView obj = new JobView();
-            obj.deliveries = await GetDelivery();
-            obj.orders = await GetOrderView();
-            obj.carts = await GetCarts();
-            obj.products = await GetProducts();
-            return View(obj);
+            if (HttpContext.Session.GetString("EmployeeName") != null)
+            {
+                ViewBag.Empid = HttpContext.Session.GetInt32("EmployeeId");
+                ViewBag.Status = id;
+                JobView obj = new JobView();
+                obj.deliveries = await GetDelivery();
+                obj.orders = await GetOrderView();
+                obj.carts = await GetCarts();
+                obj.products = await GetProducts();
+                return View(obj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
 
         }
         public async Task<IActionResult> Delivered(int id)
         {
-            Delivery delivery = await GetDelivery(id);
-            delivery.DeliveryDate = DateTime.Now.ToString("dd/MM/yyyy");
-            delivery.Status = true;
-
-            using (var httpClient = new HttpClient())
+            if (HttpContext.Session.GetString("EmployeeName") != null)
             {
-                StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
+                Delivery delivery = await GetDelivery(id);
+                delivery.DeliveryDate = DateTime.Now.ToString("dd/MM/yyyy");
+                delivery.Status = true;
 
-                using (var response = await httpClient.PutAsync(baseURL + "/api/Deliveries/" + id, contents))
+                using (var httpClient = new HttpClient())
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                }
-                return RedirectToAction("OurJobs", new {id=0});
+                    StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
 
+                    using (var response = await httpClient.PutAsync(baseURL + "/api/Deliveries/" + id, contents))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                    return RedirectToAction("OurJobs", new { id = 0 });
+
+                }
             }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         public IActionResult Logout()
@@ -171,42 +198,58 @@ namespace GroceryAppMvcCore.Controllers
         [HttpGet]
         public async Task<IActionResult> JobList()
         {
-            
-            JobView obj = new JobView();
-            obj.deliveries = await GetDelivery();
-            obj.orders = await GetOrderView();
-            obj.carts = await GetCarts();
-            obj.products = await GetProducts();
-            return View(obj);
+            if (HttpContext.Session.GetString("EmployeeName") != null)
+            {
+                ViewBag.EmployeeId = HttpContext.Session.GetInt32("EmployeeId");
+                JobView obj = new JobView();
+                obj.deliveries = await GetDelivery();
+                obj.orders = await GetOrderView();
+                obj.carts = await GetCarts();
+                obj.products = await GetProducts();
+                return View(obj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
 
         public async Task<IActionResult> Accept(int id)
         {
-            Delivery delivery = new Delivery();
-            
-            
-            delivery.OrderId = id;
-            delivery.PickupDate = DateTime.Now.ToString("dd/MM/yyyy");
-            delivery.Status = false;
-            delivery.DeliveryDate = "--";
-            delivery.EmployeeId = 1;
-
-            Delivery received = new Delivery();
-
-            using (var httpClient = new HttpClient())
+            if (HttpContext.Session.GetString("EmployeeName") != null)
             {
-                StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
+                Delivery delivery = new Delivery();
 
-                using (var response = await httpClient.PostAsync(baseURL + "/api/Deliveries", contents))
+
+                delivery.OrderId = id;
+                delivery.PickupDate = DateTime.Now.ToString("dd/MM/yyyy");
+                delivery.Status = false;
+                delivery.DeliveryDate = "--";
+                delivery.EmployeeId = Convert.ToInt32(HttpContext.Session.GetInt32("EmployeeId")); 
+
+                Delivery received = new Delivery();
+
+                using (var httpClient = new HttpClient())
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    received = JsonConvert.DeserializeObject<Delivery>(apiResponse);
-                }
+                    StringContent contents = new StringContent(JsonConvert.SerializeObject(delivery), Encoding.UTF8, "application/json");
 
-                return RedirectToAction("OurJobs");
-                //return received;
+                    using (var response = await httpClient.PostAsync(baseURL + "/api/Deliveries", contents))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<Delivery>(apiResponse);
+                    }
+
+                    return RedirectToAction("OurJobs");
+                    //return received;
+                }
             }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
         }
     }
 }

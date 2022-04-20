@@ -152,13 +152,22 @@ namespace GroceryAppMvcCore.Controllers
 
 
         public async Task<ActionResult> ViewProducts()
-        {
-            List<Product> products = await GetProducts();
-            return View(products);
+        { 
+         if (HttpContext.Session.GetString("AdminName") != null)
+            {
+                List<Product> products = await GetProducts();
+                return View(products);
+            }
+         else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         
         public async Task<ActionResult> DeleteProducts(int id)
         {
+         if (HttpContext.Session.GetString("AdminName") != null)
+         {
             try
             {
 
@@ -172,44 +181,70 @@ namespace GroceryAppMvcCore.Controllers
             {
                 return View();
             }
+          }
+          else
+          {
+             return RedirectToAction("Index", "Home");
+          }
         }
         public async Task<ActionResult> DetailProducts(int id)
         {
-            Product prod = await GetProductss(id);
-            return View(prod);
+            if (HttpContext.Session.GetString("AdminName") != null)
+            {
+
+                Product prod = await GetProductss(id);
+                return View(prod);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
-        
         [HttpGet]
         public async Task<ActionResult> EditProducts(int id)
         {
-            Product product = await GetProductss(id);
-            return View(product);
-        }
+            if (HttpContext.Session.GetString("AdminName") != null)
+            {
+                Product product = await GetProductss(id);
+                return View(product);
+             }
+             else
+             {
+                return RedirectToAction("Index","Home");
+             }
+         }
 
 
         
         
         public async Task< IActionResult> EditProducts(Product UpdatedProduct)
         {
-            Product product = await GetProductss(UpdatedProduct.ProductId);
-            UpdatedProduct.Qty = product.Qty;
-            HttpClientHandler clientHandler = new HttpClientHandler();
-
-            var httpClient = new HttpClient(clientHandler);
-            StringContent contents = new StringContent(JsonConvert.SerializeObject(UpdatedProduct), Encoding.UTF8, "application/json");
-
-            using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + UpdatedProduct.ProductId, contents))
+            if (HttpContext.Session.GetString("AdminName") != null)
             {
-                string apiResponse = await response.Content.ReadAsStringAsync();
+                Product product = await GetProductss(UpdatedProduct.ProductId);
+                UpdatedProduct.Qty = product.Qty;
+                HttpClientHandler clientHandler = new HttpClientHandler();
 
-                if (apiResponse != null)
-                    return RedirectToAction("ViewProducts");
-                else
-                    return View();
+                var httpClient = new HttpClient(clientHandler);
+                StringContent contents = new StringContent(JsonConvert.SerializeObject(UpdatedProduct), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PutAsync(baseURL + "/api/Products/" + UpdatedProduct.ProductId, contents))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+
+                    if (apiResponse != null)
+                     return RedirectToAction("ViewProducts");
+                    else
+                        return View();
+                }
             }
-            
+            else
+             {
+                return RedirectToAction("Index","Home");
+             }
 
-        }
+           }
+            
 
         public async Task<List<User>> GetUsers()
         {
@@ -247,9 +282,15 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<ActionResult> ViewCustomer()
         {
-            List<User> users = await GetUsers();
-            return View(users);
-
+        if (HttpContext.Session.GetString("AdminName") != null)
+            {
+                List<User> users = await GetUsers();
+                return View(users);
+            }
+         else
+         {
+            return RedirectToAction("Index","Home");
+         }
         }
 
         
@@ -258,19 +299,26 @@ namespace GroceryAppMvcCore.Controllers
         
         public async Task<ActionResult> DeleteUsers(int id)
         {
-            try
+        if (HttpContext.Session.GetString("AdminName") != null)
             {
+                try
+                {
 
-                HttpClientHandler clientHandler = new HttpClientHandler();
-                var httpClient = new HttpClient(clientHandler);
-                var response = await httpClient.DeleteAsync(baseURL + "/api/Users/" + id);
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                return RedirectToAction("ViewCustomer");
+                    HttpClientHandler clientHandler = new HttpClientHandler();
+                    var httpClient = new HttpClient(clientHandler);
+                    var response = await httpClient.DeleteAsync(baseURL + "/api/Users/" + id);
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    return RedirectToAction("ViewCustomer");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+           else
+           {
+                return RedirectToAction("Index","Home");
+           }
         }
 
         public async Task<List<Feedback>> GetFeedBack()
@@ -294,14 +342,22 @@ namespace GroceryAppMvcCore.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
-            return View();
-        }
+             if (HttpContext.Session.GetString("AdminName") != null)
+                {
+                    return View();
+                }
+              else
+              {
+                     return RedirectToAction("Index","Home");
+              }
+         }        
 
        
         public async Task<IActionResult> AddProduct(Product product)
         {
-
-            Product received = new Product();
+            if (HttpContext.Session.GetString("AdminName") != null)
+                {
+                Product received = new Product();
             //Product ob = new Product();
 
             //ob.ProductName = "Juice";
@@ -311,27 +367,34 @@ namespace GroceryAppMvcCore.Controllers
             //ob.ImageUrl = "juice";
             //ob.Description = "mkand";
 
-            using (var httpClient = new HttpClient())
-            {
-
-                StringContent content = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
-
-                using (var response = await httpClient.PostAsync(baseURL + "/api/Products", content))
+                using (var httpClient = new HttpClient())
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    received = JsonConvert.DeserializeObject<Product>(apiResponse);
-                    if (received != null)
-                    {
-                        return RedirectToAction("ViewProducts", "Admins");
+
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+
+                    using (var response = await httpClient.PostAsync(baseURL + "/api/Products", content))
+                    {   
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<Product>(apiResponse);
+                        if (received != null)
+                        {
+                            return RedirectToAction("ViewProducts", "Admins");
+                        }
                     }
-                }
             }
             return View();
-        }
+           }
+           else
+           {
+                 return RedirectToAction("Index","Home");         
+           }
+       }
 
         
         public async Task<IActionResult> ReorderNow()
         {
+         if (HttpContext.Session.GetString("AdminName") != null)
+          {
             List<Product> all = await GetProducts();
             var products = all.Where(m => m.Qty <= 10);
             List<Product> Products = new List<Product>();
@@ -340,20 +403,35 @@ namespace GroceryAppMvcCore.Controllers
                 Products.Add(product);
             }
             return View(Products);
+          }
+          else
+          {
+                return RedirectToAction("Index","Home"); 
+          }
+           
         }
        
         [HttpGet]
         public async Task<IActionResult> AddStock(int id)
         {
+         if (HttpContext.Session.GetString("AdminName") != null)
+          {
             Product product = await GetProductss(id);
             return View(product);
-        }
+           }
+          else
+            {
+                return RedirectToAction("Index","Home"); 
+            }
+         }
         
         public async Task<IActionResult> AddStock(Product products)
         {
-            Product product = await GetProductss(products.ProductId);
-            product.Qty = products.Qty;
-            HttpClientHandler clientHandler = new HttpClientHandler();
+          if (HttpContext.Session.GetString("AdminName") != null)
+          {
+             Product product = await GetProductss(products.ProductId);
+             product.Qty = products.Qty;
+             HttpClientHandler clientHandler = new HttpClientHandler();
 
             var httpClient = new HttpClient(clientHandler);
             StringContent contents = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
@@ -364,6 +442,11 @@ namespace GroceryAppMvcCore.Controllers
 
 
                 return RedirectToAction("ReorderNow");
+            }
+          }
+          else
+            {
+                return RedirectToAction("Index","Home"); 
             }
             
         }
@@ -422,27 +505,45 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<IActionResult> ViewEmployees()
         {
+         if (HttpContext.Session.GetString("AdminName") != null)
+          {
             List<Employee> employees = await GetEmployees();
             return View(employees);
+          }
+          else
+          {
+             return RedirectToAction("Index","Home");
+          }
         }
 
 
 
         public async Task<ActionResult> DetailEmployees(int id)
         {
+        if (HttpContext.Session.GetString("AdminName") != null)
+          {
             Employee employee = await GetEmployees(id);
             return View(employee);
-        }
+           }
+         else
+            {
+                return RedirectToAction("Index","Home");
+            }
+         } 
         [HttpGet]
         public ActionResult AddEmployee()
         {
-            return View();
+            if (HttpContext.Session.GetString("AdminName") != null)
+                return View();
+            else
+                return RedirectToAction("Index","Home");
         }
 
         
         public async Task<IActionResult> AddEmployee(Employee employee)
         {
-
+        if (HttpContext.Session.GetString("AdminName") != null)
+        {
             Employee received = new Employee();
 
             using (var httpClient = new HttpClient())
@@ -460,6 +561,11 @@ namespace GroceryAppMvcCore.Controllers
                         return RedirectToAction("ViewEmployees");
                     }
                 }
+              }
+              else
+                {
+                    return RedirectToAction("Index","Home");   
+                }
             }
             ViewBag.Message = " Failed To Add Employee ";
             return View();
@@ -469,14 +575,23 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<ActionResult> EditEmployees(int id)
         {
+        if (HttpContext.Session.GetString("AdminName") != null)
+        {
             Employee employee = await GetEmployees(id);
             return View(employee);
+        }
+        else
+            {
+                 return RedirectToAction("Index","Home"); 
+            }
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditEmployees(Employee UpdatedEmployee)
+        {
+        if (HttpContext.Session.GetString("AdminName") != null)
         {
             //UpdatedEmployee.EmployeeId = UpdatedEmployee;
             //var accessToken = HttpContext.Session.GetString("Email");
@@ -496,9 +611,16 @@ namespace GroceryAppMvcCore.Controllers
                 else
                     return View();
             }
+           }
+           else
+            {
+                return RedirectToAction("Index","Home"); 
+            }
         }
 
         public async Task<ActionResult> DeleteEmployees(int id)
+        {
+        if (HttpContext.Session.GetString("AdminName") != null)
         {
             try
             {
@@ -512,6 +634,11 @@ namespace GroceryAppMvcCore.Controllers
             catch
             {
                 return View();
+            }
+           }
+           else
+            {
+                return RedirectToAction("Index","Home"); 
             }
         }
          public async Task<List<Order>> GetOrder()
@@ -537,6 +664,8 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<IActionResult> DeliveryHandlers(int val)
         {
+            if (HttpContext.Session.GetString("AdminName") != null)
+            {
             DeliveryVuew deliveryView = new DeliveryVuew();
             ViewBag.val = val;
 
@@ -547,6 +676,13 @@ namespace GroceryAppMvcCore.Controllers
             deliveryView.Carts = await GetCarts();
 
             return View(deliveryView);
-        }
+            }
+           else
+               {
+                 return RedirectToAction("Index","Home"); 
+               }
+                
+         }
+            
     }
 }

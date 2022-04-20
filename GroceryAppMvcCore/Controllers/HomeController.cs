@@ -221,7 +221,7 @@ namespace GroceryAppMvcCore.Controllers
                 if (employees != null)
                 {
                     HttpContext.Session.SetInt32("EmployeeId", employee.EmployeeId);
-                    HttpContext.Session.SetString("Employee", employee.EmployeeName);
+                    HttpContext.Session.SetString("EmployeeName", employee.EmployeeName);
                     return RedirectToAction("Index", "Employees");
                 }
                 else
