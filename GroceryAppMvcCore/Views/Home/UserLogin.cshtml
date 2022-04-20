@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<environment names="Development">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+</environment>
+
 
 <div class="container bootstrap snippets bootdey">
     <div class="row login-page">
@@ -12,6 +18,14 @@
             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="user-avatar img-thumbnail">
             <h1>UserLogin</h1>
             <form asp-action="UserLogin" asp-controller="Home">
+                @if (ViewBag.Message != null)
+                {
+
+                    <div class="alert alert-danger alert-dismissible fade show ">
+                        <strong>Error!</strong> @ViewBag.Message
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
                 <div class="form-content">
                     <div class="form-group">
                         <label asp-for="EmailId" class="control-label">EmailId</label>
@@ -30,8 +44,8 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger">
                 </div>
                 <div>
-                        <a asp-action="Index">Back to List</a>
-                    </div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
             </form>
         </div>
     </div>
@@ -40,7 +54,6 @@
 <style>
     body {
         margin-top: 20px;
-       
         background-image: url(https://wallpaperaccess.com/full/1624843.jpg);
         background-repeat: no-repeat;
         background-size: cover;
@@ -123,25 +136,25 @@
 
 @*<div class="row">
     <div class="col-md-4">
-        <form asp-action="UserLogin" asp-controller="Home">
-            <div class="form-group">
-                <label asp-for="EmailId" class="control-label">EmailId</label>
-                <input asp-for="EmailId" class="form-control" />
-                <span asp-validation-for="EmailId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label">Password</label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="login" class="btn btn-primary" />
-            </div>
-            <div asp-validation-summary="ModelOnly" class="text-danger">
-            </div>
-            <label style="color:red;">@Html.Raw(ViewBag.Message)</label>
-        </form>
+    <form asp-action="UserLogin" asp-controller="Home">
+    <div class="form-group">
+    <label asp-for="EmailId" class="control-label">EmailId</label>
+    <input asp-for="EmailId" class="form-control" />
+    <span asp-validation-for="EmailId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+    <label asp-for="Password" class="control-label">Password</label>
+    <input asp-for="Password" class="form-control" />
+    <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+    <input type="submit" value="login" class="btn btn-primary" />
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger">
+    </div>
+    <label style="color:red;">@Html.Raw(ViewBag.Message)</label>
+    </form>
 
     </div>
-</div>
+    </div>
 *@
