@@ -13,7 +13,14 @@
 }
 
 <h1>ViewCart</h1>
+@if (ViewBag.Error != null)
+{
 
+    <div class="alert alert-danger alert-dismissible fade show ">
+        <strong>Error!</strong> @ViewBag.Error
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
 
 
 
@@ -66,7 +73,7 @@
                         <div>
                             @*~/css/Images/@item.Product.ImageUrl*@
                           <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img3.webp"
+                            src="~/css/Images/@pro.ImageUrl"
                             class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
                         </div>
                         <div class="ms-3">

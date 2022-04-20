@@ -228,29 +228,51 @@
                                 </div>
 
                                 <div class="job-content">
-                                    <h5 class="text-center text-md-left">Order #:@order.OrderId</h5>
+                                    <h5 class="text-md-left" style="padding-left:50px;">Order #:@order.OrderId</h5>
+                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
+                                        <li class="mr-md-4">
+                                            <div class="flex-shrink-0">
+                                                
+                                            </div>
 
+                                        </li>
+                                        <li class="mr-md-4">
+                                            ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                            <div></div>
+                                        </li>
+                                       
+                                        <li class="mr-md-4">
+                                            PurchasedQty &emsp;&emsp;
+                                            <div></div>
+                                        </li>
+                                        <li class="mr-md-4">
+                                            SubTotalPrice &emsp;&emsp;
+                                            <div></div>
+                                        </li>
+                                    </ul>
 
                                     @foreach (var cartid in list1)
                                     {
                                         Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
-                                        Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+
                                         if (cart != null)
                                         {
+                                            Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
 
                                             <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
                                                 <li class="mr-md-4">
                                                     <div class="flex-shrink-0">
                                                         <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">
-                                                    </div>
+                                                    </div>&emsp;
 
                                                 </li>
                                                 <li class="mr-md-4">
-                                                    @product.ProductName &emsp;&emsp;&emsp;
+                                                    @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;
                                                     <div></div>
                                                 </li>
+                                                
                                                 <li class="mr-md-4">
-                                                    @cart.PurchasedQty &emsp;&emsp;
+                                                    @cart.PurchasedQty &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                                     <div></div>
                                                 </li>
                                                 <li class="mr-md-4">

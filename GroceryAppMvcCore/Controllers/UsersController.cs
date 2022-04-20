@@ -123,8 +123,8 @@ namespace GroceryAppMvcCore.Controllers
             int Msg = 0;
             Product product = await GetProducts(ProdId);
             List<Cart> CartData = await GetCarts();
-            var cartPresent = CartData.FirstOrDefault(m=>m.ProductId == ProdId & m.IsOrdered == false & m.UserId == 1);
-            if(cartPresent != null)
+            var cartPresent = CartData.FirstOrDefault(m => m.ProductId == ProdId & m.IsOrdered == false & m.UserId == 1);
+            if (cartPresent != null)
             {
                 Cart cart = cartPresent;
                 cart.PurchasedQty += 1;
@@ -134,7 +134,7 @@ namespace GroceryAppMvcCore.Controllers
 
                     StringContent content = new StringContent(JsonConvert.SerializeObject(cart), Encoding.UTF8, "application/json");
 
-                    using (var response = await httpClient.PutAsync(baseURL + "/api/Carts/"+cart.CartId, content))
+                    using (var response = await httpClient.PutAsync(baseURL + "/api/Carts/" + cart.CartId, content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         if (apiResponse != null)
@@ -156,7 +156,7 @@ namespace GroceryAppMvcCore.Controllers
                 cart.IsOrdered = false;
 
 
-                
+
                 Cart received = new Cart();
                 using (var httpClient = new HttpClient())
                 {
@@ -174,10 +174,10 @@ namespace GroceryAppMvcCore.Controllers
                 }
                 return RedirectToAction("ViewProducts", new { id = CatId, msg = Msg });
             }
-            
 
 
-            
+
+
 
 
         }
@@ -234,12 +234,22 @@ namespace GroceryAppMvcCore.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> ViewCart()
+        public async Task<IActionResult> ViewCart(int msg)
         {
 
+            ViewBag.Error = null;
+
+            if (msg == 1)
+            {
+                ViewBag.Error = "Plz enter correct payment details";
+            }
+            else if(msg == 2)
+            {
+                ViewBag.Error = "Your cart is empty";
+            }
             List<Cart> carts = await GetCarts();
 
-            ViewBag.ProductList=await GetProducts();
+            ViewBag.ProductList = await GetProducts();
 
             return View(carts);
         }
@@ -308,7 +318,7 @@ namespace GroceryAppMvcCore.Controllers
             orders.TotalValue = TV;
             ViewBag.Message1 = ViewBag.Message2 = ViewBag.Message3 = 0;
 
-            
+
             var httpClient = new HttpClient();
 
 
@@ -318,30 +328,30 @@ namespace GroceryAppMvcCore.Controllers
             var response = await httpClient.PostAsync(baseURL + "/api/Orders", content);
             string apiResponse1 = await response.Content.ReadAsStringAsync();
             Order received = JsonConvert.DeserializeObject<Order>(apiResponse1);
-            
 
-            
+
+
             string[] cartList = Cartlist.Split(",");
             cartList = cartList.Take(cartList.Count() - 1).ToArray();
             foreach (string cart in cartList)
             {
-                
-                
+
+
                 //update cart 
                 Cart cart1 = await GetCarts(Convert.ToInt32(cart));
                 cart1.IsOrdered = true;
-                
+
                 StringContent content1 = new StringContent(JsonConvert.SerializeObject(cart1), Encoding.UTF8, "application/json");
                 var response1 = await httpClient.PutAsync(baseURL + "/api/Carts/" + cart1.CartId, content1);
-                
-                    
+
+
 
                 //update Product
                 Product product = await GetProducts(cart1.ProductId);
                 product.Qty -= cart1.PurchasedQty;
                 StringContent content2 = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
                 var response2 = await httpClient.PutAsync(baseURL + "/api/Products/" + cart1.ProductId, content2);
-               
+
 
 
             }
@@ -353,7 +363,7 @@ namespace GroceryAppMvcCore.Controllers
         }
 
 
-    
+
 
         public IActionResult Logout()
         {
@@ -433,7 +443,7 @@ namespace GroceryAppMvcCore.Controllers
             return View();
         }
 
-        [HttpPost]  
+        [HttpPost]
         public async Task<IActionResult> FeedBack(Feedback feedback)
         {
 
@@ -460,7 +470,7 @@ namespace GroceryAppMvcCore.Controllers
                 }
             }
 
-            
+
             ViewBag.Message = "Feedback not added, Sorry Please try again!!!!!...";
             return View();
 
