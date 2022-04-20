@@ -29,6 +29,9 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         //---------------
+
+        
+
         public async Task<List<Product>> GetProducts()
         {
 
@@ -334,62 +337,70 @@ namespace GroceryAppMvcCore.Controllers
 
 
 
-        public async Task<IActionResult> AddToOrder(string Cartlist, int TV)
+        public async Task<IActionResult> AddToOrder(string Cartlist, int TV, string name, string card, string exp, string cvv)
         {
             if (HttpContext.Session.GetString("UserName") != null)
             {
-                //Cart carts = await GetCarts(); 
-                Order orders = new Order();
-                orders.UserId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
-                
-                orders.CartIdList = Cartlist;
-                orders.PaymentMode = "Online";
-                orders.OrderDate = DateTime.Now.ToString("dd/MM/yyyy");
-                orders.TotalValue = TV;
-                ViewBag.Message1 = ViewBag.Message2 = ViewBag.Message3 = 0;
-
-
-                var httpClient = new HttpClient();
-
-
-                StringContent content = new StringContent(JsonConvert.SerializeObject(orders), Encoding.UTF8, "application/json");
-
-                //insert order
-                var response = await httpClient.PostAsync(baseURL + "/api/Orders", content);
-                string apiResponse1 = await response.Content.ReadAsStringAsync();
-                Order received = JsonConvert.DeserializeObject<Order>(apiResponse1);
-
-
-
-                string[] cartList = Cartlist.Split(",");
-                cartList = cartList.Take(cartList.Count() - 1).ToArray();
-                foreach (string cart in cartList)
+                if (Cartlist != null & TV.ToString() != null & name != null & card != null & exp != null & cvv != null)
                 {
+                    //Cart carts = await GetCarts(); 
+                    Order orders = new Order();
+                    orders.UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
+
+                    orders.CartIdList = Cartlist;
+                    orders.PaymentMode = "Online";
+                    orders.OrderDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    orders.TotalValue = TV;
+                    ViewBag.Message1 = ViewBag.Message2 = ViewBag.Message3 = 0;
 
 
-                    //update cart 
-                    Cart cart1 = await GetCarts(Convert.ToInt32(cart));
-                    cart1.IsOrdered = true;
-
-                    StringContent content1 = new StringContent(JsonConvert.SerializeObject(cart1), Encoding.UTF8, "application/json");
-                    var response1 = await httpClient.PutAsync(baseURL + "/api/Carts/" + cart1.CartId, content1);
+                    var httpClient = new HttpClient();
 
 
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(orders), Encoding.UTF8, "application/json");
 
-                    //update Product
-                    Product product = await GetProducts(cart1.ProductId);
-                    product.Qty -= cart1.PurchasedQty;
-                    StringContent content2 = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
-                    var response2 = await httpClient.PutAsync(baseURL + "/api/Products/" + cart1.ProductId, content2);
+                    //insert order
+                    var response = await httpClient.PostAsync(baseURL + "/api/Orders", content);
+                    string apiResponse1 = await response.Content.ReadAsStringAsync();
+                    Order received = JsonConvert.DeserializeObject<Order>(apiResponse1);
 
 
 
+                    string[] cartList = Cartlist.Split(",");
+                    cartList = cartList.Take(cartList.Count() - 1).ToArray();
+                    foreach (string cart in cartList)
+                    {
+
+
+                        //update cart 
+                        Cart cart1 = await GetCarts(Convert.ToInt32(cart));
+                        cart1.IsOrdered = true;
+
+                        StringContent content1 = new StringContent(JsonConvert.SerializeObject(cart1), Encoding.UTF8, "application/json");
+                        var response1 = await httpClient.PutAsync(baseURL + "/api/Carts/" + cart1.CartId, content1);
+
+
+
+                        //update Product
+                        Product product = await GetProducts(cart1.ProductId);
+                        product.Qty -= cart1.PurchasedQty;
+                        StringContent content2 = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+                        var response2 = await httpClient.PutAsync(baseURL + "/api/Products/" + cart1.ProductId, content2);
+
+
+
+                    }
+
+
+
+
+                    return RedirectToAction("ViewOrders");
+                }
+                else
+                {
+                    return RedirectToAction("ViewCart", new { msg = 1 });
                 }
 
-
-
-
-                return RedirectToAction("ViewOrders");
             }
             else
             {
@@ -456,12 +467,12 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 OrderView orderView = new OrderView();
-                ViewBag.UserId =HttpContext.Session.GetInt32("UserId");
+                ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 int UserId = Convert.ToInt32(ViewBag.UserId);
                 ViewBag.ProductList = await GetProducts();
 
                 List<Order> orders = await GetOrderView();
-                var ordersList = orders.Where(m=>m.UserId == UserId).ToList();
+                var ordersList = orders.Where(m => m.UserId == UserId).ToList();
                 orderView.Orders = ordersList;
                 orderView.Carts = await GetCartView();
                 orderView.Deliverys = await GetDelivery();
