@@ -14,7 +14,7 @@
     }
 }
 
-<h1>JobList</h1>
+<h1 style="text-align:center;">Available Jobs</h1>
 <style>
     body {
         background: #f5f5f5;
@@ -216,72 +216,69 @@
                     <p class="mb-30 ff-montserrat">Total Available Jobs : @orderList.Count()</p>
                     @foreach (Order order in orderList)
                     {
-                                i++;
+                        i++;
 
 
-                                string[] list1 = (order.CartIdList.Split(","));
-                                list1 = list1.Take(list1.Count() - 1).ToArray();
-                                <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
-                                    <div class="job-left my-4 d-md-flex align-items-center flex-wrap">
-                                        <div class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
-                                            @i
-                                        </div>
+                        string[] list1 = (order.CartIdList.Split(","));
+                        list1 = list1.Take(list1.Count() - 1).ToArray();
+                        <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+                            <div class="job-left my-4 d-md-flex align-items-center flex-wrap">
+                                <div class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
+                                    @i
+                                </div>
 
-                                        <div class="job-content">
-                                            <h5 class="text-center text-md-left">Order #:@order.OrderId</h5>
+                                <div class="job-content">
+                                    <h5 class="text-center text-md-left">Order #:@order.OrderId</h5>
+
+
+                                    @foreach (var cartid in list1)
+                                    {
+                                        Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                                        Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+                                        if (cart != null)
+                                        {
+
                                             <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
                                                 <li class="mr-md-4">
-                                                    CartId
+                                                    <div class="flex-shrink-0">
+                                                        <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">
+                                                    </div>
+
+                                                </li>
+                                                <li class="mr-md-4">
+                                                    @product.ProductName &emsp;&emsp;&emsp;
                                                     <div></div>
                                                 </li>
                                                 <li class="mr-md-4">
-                                                    ProductId
+                                                    @cart.PurchasedQty &emsp;&emsp;
                                                     <div></div>
                                                 </li>
                                                 <li class="mr-md-4">
-                                                    PurchasedQty
+                                                    @cart.SubTotalPrice &emsp;&emsp;
                                                     <div></div>
                                                 </li>
                                             </ul>
 
-                                            @foreach (var cartid in list1)
-                                            {
-                                                Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
-                                                if (cart != null)
-                                                {
+                                        }
 
-                                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                        <li class="mr-md-4">
-                                                            @cart.CartId &emsp;&emsp;
-
-                                                        </li>
-                                                        <li class="mr-md-4">
-                                                            @cart.ProductId &emsp;&emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
-                                                        <li class="mr-md-4">
-                                                            @cart.PurchasedQty &emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
-                                                    </ul>
-
-                                                }
-
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="job-right my-4 flex-shrink-0">
-                                        <h5>Total Price : @order.TotalValue</h5>
-                                        <a href=$"https://localhost:7284/Employees/Accept?id =@order.OrderId" style="color:white" class="btn d-block w-100 d-sm-inline-block btn-light bg-success">Accept</a>
-                                    </div>
+                                    }
                                 </div>
-                        
+                            </div>
+                            <div class="job-right my-4 flex-shrink-0">
+                                <h5>Total Price : @order.TotalValue</h5>
+                                @{
+                                    string accept = $"https://localhost:7284/Employees/Accept?id={@order.OrderId}";
+                                }
+                                <a href="@accept" style="color:white" class="btn d-block w-100 d-sm-inline-block btn-light bg-success">Accept</a>
+                            </div>
+                        </div>
+
 
 
                     }
-                    </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 

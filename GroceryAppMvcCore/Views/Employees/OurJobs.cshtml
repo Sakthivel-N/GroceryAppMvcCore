@@ -10,7 +10,7 @@
 
 }
 
-<h1 style="text-align:center;">OurJobs</h1>
+
 <style>
     body {
         background: #f5f5f5;
@@ -210,6 +210,7 @@
 
 @if (statuss == 0)
 {
+    <h1 style="text-align:center;">Pending Jobs</h1>
     var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == false);
     if (deliv != null)
     {
@@ -240,38 +241,32 @@
 
                                         <div class="job-content">
                                             <h5 class="text-center text-md-left">Order #:@order.OrderId</h5>
-                                            <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                <li class="mr-md-4">
-                                                    CartId
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    ProductId
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    PurchasedQty
-                                                    <div></div>
-                                                </li>
-                                            </ul>
+
 
                                             @foreach (var cartid in list1)
                                             {
                                                 Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                                                Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
                                                 if (cart != null)
                                                 {
 
                                                     <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
                                                         <li class="mr-md-4">
-                                                            @cart.CartId &emsp;&emsp;
+                                                            <div class="flex-shrink-0">
+                                                                <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">
+                                                            </div>
 
                                                         </li>
                                                         <li class="mr-md-4">
-                                                            @cart.ProductId &emsp;&emsp;&emsp;
+                                                            @product.ProductName &emsp;&emsp;&emsp;
                                                             <div></div>
                                                         </li>
                                                         <li class="mr-md-4">
                                                             @cart.PurchasedQty &emsp;&emsp;
+                                                            <div></div>
+                                                        </li>
+                                                        <li class="mr-md-4">
+                                                            @cart.SubTotalPrice &emsp;&emsp;
                                                             <div></div>
                                                         </li>
                                                     </ul>
@@ -283,7 +278,10 @@
                                     </div>
                                     <div class="job-right my-4 flex-shrink-0">
                                         <h5>Total Price : @order.TotalValue</h5>
-                                        <a href=$"https://localhost:7284/Employees/Delivered?id =@item1.DeliveryId" style="color:white" class="btn d-block w-100 d-sm-inline-block btn-light bg-success">DeliveryNow</a>
+                                        @{
+                                            string DeliveryUrl = $"https://localhost:7284/Employees/Delivered?id={@item1.DeliveryId}";
+                                        }
+                                        <a href="@DeliveryUrl" style="color:white" class="btn d-block w-100 d-sm-inline-block btn-light bg-success">DeliveryNow</a>
                                     </div>
                                 </div>
 
@@ -305,6 +303,7 @@
 }
 else if (statuss == 1)
 {
+    <h1 style="text-align:center;">Job History</h1>
     var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == true);
     if (deliv != null)
     {
@@ -335,38 +334,32 @@ else if (statuss == 1)
 
                                         <div class="job-content">
                                             <h5 class="text-center text-md-left">Order #:@order.OrderId</h5>
-                                            <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                <li class="mr-md-4">
-                                                    CartId
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    ProductId
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    PurchasedQty
-                                                    <div></div>
-                                                </li>
-                                            </ul>
+                                            
 
                                             @foreach (var cartid in list1)
                                             {
                                                 Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                                                Product product = Model.products.FirstOrDefault(m=>m.ProductId==cart.ProductId);
                                                 if (cart != null)
                                                 {
 
-                                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
+                                                   <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
                                                         <li class="mr-md-4">
-                                                            @cart.CartId &emsp;&emsp;
+                                                            <div class="flex-shrink-0">
+                                                                <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">
+                                                            </div>
 
                                                         </li>
                                                         <li class="mr-md-4">
-                                                            @cart.ProductId &emsp;&emsp;&emsp;
+                                                            @product.ProductName &emsp;&emsp;&emsp;
                                                             <div></div>
                                                         </li>
                                                         <li class="mr-md-4">
                                                             @cart.PurchasedQty &emsp;&emsp;
+                                                            <div></div>
+                                                        </li>
+                                                        <li class="mr-md-4">
+                                                            @cart.SubTotalPrice &emsp;&emsp;
                                                             <div></div>
                                                         </li>
                                                     </ul>

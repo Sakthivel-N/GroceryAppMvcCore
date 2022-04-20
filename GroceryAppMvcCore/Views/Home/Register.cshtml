@@ -5,49 +5,7 @@
     Layout = "~/Views/Shared/_Login.cshtml";
 }
 
-@*<h1>Register</h1>*@
 
-@*<div class="row">
-    <div class="col-md-4">
-    <form asp-action="Register">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="form-group">
-    <label asp-for="UserName" class="control-label"></label>
-    <input asp-for="UserName" class="form-control" />
-    <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="EmailId" class="control-label"></label>
-    <input asp-for="EmailId" class="form-control" />
-    <span asp-validation-for="EmailId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="PhoneNumber" class="control-label"></label>
-    <input asp-for="PhoneNumber" class="form-control" />
-    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="Address" class="control-label"></label>
-    <input asp-for="Address" class="form-control" />
-    <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-    <label asp-for="Password" class="control-label"></label>
-    <input asp-for="Password" class="form-control" />
-    <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-    <input type="submit" value="Create" class="btn btn-primary" /><br />
-    <label style="color:green;"></label>
-    </div>
-
-    </form>
-
-    </div>
-    </div>*@
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -76,9 +34,29 @@
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Address" class="control-label"></label>
-                    <input asp-for="Address" class="form-control" />
-                    <span asp-validation-for="Address" class="text-danger"></span>
+                    <label asp-for="Area" class="control-label"></label>
+                    <input asp-for="Area" class="form-control" />
+                    <span asp-validation-for="Area" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="State" class="control-label"></label>
+                    <input asp-for="State" class="form-control" />
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" class="form-control" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Pincode" class="control-label"></label>
+                    <input asp-for="Pincode" class="form-control" />
+                    <span asp-validation-for="Pincode" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password" class="control-label"></label>

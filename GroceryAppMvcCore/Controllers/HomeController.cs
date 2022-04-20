@@ -179,7 +179,7 @@ namespace GroceryAppMvcCore.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            user.Wallet = 0;
+            
 
             User received = new User();
 

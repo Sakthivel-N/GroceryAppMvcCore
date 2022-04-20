@@ -99,6 +99,32 @@ namespace GroceryAppMvcCore.Controllers
             }
             return received;
         }
+        public async Task<List<Product>> GetProducts()
+        {
+
+            List<Product> received = new List<Product>();
+
+
+            using (var httpClient = new HttpClient())
+            {
+
+
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Products/"))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+
+            }
+
+            return received;
+
+        }
 
         [HttpGet]
         public async Task<IActionResult> OurJobs(int id)
@@ -109,13 +135,14 @@ namespace GroceryAppMvcCore.Controllers
             obj.deliveries = await GetDelivery();
             obj.orders = await GetOrderView();
             obj.carts = await GetCarts();
+            obj.products = await GetProducts();
             return View(obj);
 
         }
         public async Task<IActionResult> Delivered(int id)
         {
             Delivery delivery = await GetDelivery(id);
-            delivery.DeliveryDate = DateTime.Now.ToString("dd/mm/yyyy");
+            delivery.DeliveryDate = DateTime.Now.ToString("dd/MM/yyyy");
             delivery.Status = true;
 
             using (var httpClient = new HttpClient())
@@ -159,7 +186,7 @@ namespace GroceryAppMvcCore.Controllers
             
             
             delivery.OrderId = id;
-            delivery.PickupDate = DateTime.Now.ToString("dd/mm/yyyy");
+            delivery.PickupDate = DateTime.Now.ToString("dd/MM/yyyy");
             delivery.Status = false;
             delivery.DeliveryDate = "--";
             delivery.EmployeeId = 1;
