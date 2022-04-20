@@ -6,5 +6,7 @@
         public List<Order> orders { get; set; }
         public List<Cart> carts { get; set; }
         public List<Product> products { get; set; }
+
+        public List<User> users { get; set; }
     }
 }

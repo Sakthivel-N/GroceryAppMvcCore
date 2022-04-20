@@ -30,9 +30,48 @@ namespace GroceryAppMvcCore.Controllers
         }
 
         //---------------
-        public IActionResult DeliveryHandler1()
+        public async Task<IActionResult> DeliveryHandler1()
         {
-            return View();
+            DeliveryVuew deliveryView = new DeliveryVuew();
+            ViewBag.val = 100;
+
+            deliveryView.Orders = await GetOrder();
+            deliveryView.Deliveries = await GetDelivery();
+            
+
+            return View(deliveryView);
+
+        }
+        public async Task<List<Order>> GetOrderView()
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            HttpClient client = new HttpClient(clientHandler);
+
+            string JsonStr = await client.GetStringAsync(baseURL + "/api/Orders");
+            List<Order> result = JsonConvert.DeserializeObject<List<Order>>(JsonStr);
+            return result;
+        }
+
+        public async Task<List<Cart>> GetCarts()
+        {
+
+            List<Cart> received = new List<Cart>();
+
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(baseURL + "/api/Carts/"))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        received = JsonConvert.DeserializeObject<List<Cart>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+            }
+            return received;
         }
 
         public IActionResult Index()
@@ -503,7 +542,9 @@ namespace GroceryAppMvcCore.Controllers
 
             deliveryView.Orders = await GetOrder();
             deliveryView.Deliveries = await GetDelivery();
-            
+            deliveryView.Users = await GetUsers();
+            deliveryView.Products = await GetProducts();
+            deliveryView.Carts = await GetCarts();
 
             return View(deliveryView);
         }
