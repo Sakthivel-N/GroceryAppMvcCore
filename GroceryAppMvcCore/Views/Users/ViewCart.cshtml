@@ -6,7 +6,7 @@
     string CartList = "";
     int TotalPrice = 0;
     List<Product> listProduct = ViewBag.ProductList;
-    
+    int UserId = Convert.ToInt32(ViewBag.UserId);
     string delete = "";
     string IncVal = "";
     string DecVal = "";
@@ -54,7 +54,7 @@
                 </div>
          @foreach (var item in Model) 
          {
-            if (item.UserId == 1 && item.IsOrdered == false)
+            if (item.UserId == UserId && item.IsOrdered == false)
             {
                  Product pro = listProduct.FirstOrDefault(m => m.ProductId == item.ProductId);
 

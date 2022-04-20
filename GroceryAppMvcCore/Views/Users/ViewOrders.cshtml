@@ -7,13 +7,13 @@
 @{
     ViewBag.Title = "View_Orders";
     Layout = "~/Views/Shared/_UsersLayout.cshtml";
-
+    int UserId = Convert.ToInt32(ViewBag.UserId);  
 
     int UserID = Convert.ToInt32(ViewBag.UserId);
 
     List<string> list = new List<string>();
     List<Product> ListProduct = ViewBag.ProductList;
-
+    User usersDetails = Model.Users.FirstOrDefault(m => m.UserId == UserId);
 }
 
 <style>
@@ -158,13 +158,13 @@
                              
                             <h3 class="h6">Address</h3>
                             <address>
-                                <strong>user.UserName</strong><br>
-                                user.areawithDoorNo<br>
-                                user.city<br>
-                                user.state<br>
-                                user.Country<br>
-                                user.pincode<br>
-                                user.PhoneNumber<br>
+                                <strong>@usersDetails.UserName</strong><br>
+                                @usersDetails.Area<br>
+                                @usersDetails.City<br>
+                                @usersDetails.State<br>
+                                @usersDetails.Country<br>
+                                @usersDetails.Pincode<br>
+                                @usersDetails.PhoneNumber<br>
                             </address>
 
 

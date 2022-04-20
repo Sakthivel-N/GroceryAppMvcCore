@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "JobList";
+    int EmployeeId = Convert.ToInt32(ViewBag.EmployeeId);
     Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
     List<Order> orderList = new List<Order>();
     int i = 0;
