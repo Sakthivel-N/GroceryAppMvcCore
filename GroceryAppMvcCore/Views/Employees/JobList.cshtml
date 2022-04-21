@@ -17,10 +17,7 @@
 
 <h1 style="text-align:center;">Available Jobs</h1>
 <style>
-    body {
-        background: #f5f5f5;
-        margin-top: 20px;
-    }
+   
 
     /* ===== Career ===== */
     .career-form {
@@ -222,7 +219,7 @@
 
                         string[] list1 = (order.CartIdList.Split(","));
                         list1 = list1.Take(list1.Count() - 1).ToArray();
-                        <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+                        <div class="job-box d-md-flex align-items-center justify-content-between mb-30 bg-white" >
                             <div class="job-left my-4 d-md-flex align-items-center flex-wrap">
                                 <div class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
                                     @i
@@ -268,7 +265,7 @@
 
                                                 </li>
                                                 <li class="mr-md-4">
-                                                    @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;
+                                                    @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                                     <div></div>
                                                 </li>
                                                 
