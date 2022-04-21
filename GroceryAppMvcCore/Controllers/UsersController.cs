@@ -532,7 +532,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("UserName") != null)
             {
-                feedback.UserId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+                feedback.UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
                 feedback.FeedbackTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
                 Feedback cf = new Feedback();
