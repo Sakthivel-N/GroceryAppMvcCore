@@ -173,13 +173,18 @@ namespace GroceryAppMvcCore.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            
+            if(user.UserName==null  || user.EmailId == null  ||  user.PhoneNumber == null || user.Area == null || user.City == null || user.State == null || user.Country == null || user.Pincode == null || user.Password == null)
+            {
+                ViewBag.Message = "Some Fields are Empty,Plz Enter Your Valid Details";
+                return View();
+            }
 
             User received = new User();
 
@@ -197,10 +202,14 @@ namespace GroceryAppMvcCore.Controllers
 
                         return RedirectToAction("Index", "Users");
                     }
+                    else
+                    {
+                        ViewBag.Message = "Plz Enter Your Valid Details";
+                        return View();
+                    }
                 }
             }
-            ViewBag.Message = "Registration Failed";
-            return View();
+            
         }
 
 
