@@ -32,6 +32,7 @@ namespace GroceryAppMvcCore.Controllers
         //---------------
         public async Task<IActionResult> DeliveryHandler1()
         {
+            ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
             DeliveryVuew deliveryView = new DeliveryVuew();
             ViewBag.val = 100;
 
@@ -78,7 +79,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
-                ViewBag.Message = HttpContext.Session.GetString("AdminName");
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
             }
             else
             {
@@ -155,6 +156,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 List<Product> products = await GetProducts();
                 return View(products);
             }
@@ -168,6 +170,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 try
                 {
 
@@ -191,6 +194,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
 
                 Product prod = await GetProductss(id);
                 return View(prod);
@@ -205,6 +209,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Product product = await GetProductss(id);
                 return View(product);
             }
@@ -221,6 +226,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Product product = await GetProductss(UpdatedProduct.ProductId);
                 UpdatedProduct.Qty = product.Qty;
                 HttpClientHandler clientHandler = new HttpClientHandler();
@@ -284,6 +290,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 List<User> users = await GetUsers();
                 return View(users);
             }
@@ -301,6 +308,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 try
                 {
 
@@ -323,6 +331,7 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<List<Feedback>> GetFeedBack()
         {
+
             HttpClientHandler clientHandler = new HttpClientHandler();
             HttpClient client = new HttpClient(clientHandler);
 
@@ -332,6 +341,7 @@ namespace GroceryAppMvcCore.Controllers
         }
         public async Task<ActionResult> ViewFeedback()
         {
+            ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
             List<Feedback> feedback = await GetFeedBack();
             return View(feedback);
 
@@ -342,6 +352,7 @@ namespace GroceryAppMvcCore.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
+            ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 return View();
@@ -357,6 +368,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Product received = new Product();
 
 
@@ -389,6 +401,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 List<Product> all = await GetProducts();
                 var products = all.Where(m => m.Qty <= 10);
                 List<Product> Products = new List<Product>();
@@ -410,6 +423,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Product product = await GetProductss(id);
                 return View(product);
             }
@@ -423,6 +437,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Product product = await GetProductss(products.ProductId);
                 product.Qty = products.Qty;
                 HttpClientHandler clientHandler = new HttpClientHandler();
@@ -501,6 +516,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 List<Employee> employees = await GetEmployees();
                 return View(employees);
             }
@@ -516,6 +532,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Employee employee = await GetEmployees(id);
                 return View(employee);
             }
@@ -527,6 +544,7 @@ namespace GroceryAppMvcCore.Controllers
         [HttpGet]
         public ActionResult AddEmployee()
         {
+            ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
             if (HttpContext.Session.GetString("AdminName") != null)
                 return View();
             else
@@ -538,6 +556,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Employee received = new Employee();
 
                 using (var httpClient = new HttpClient())
@@ -573,6 +592,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 Employee employee = await GetEmployees(id);
                 return View(employee);
             }
@@ -589,6 +609,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 //UpdatedEmployee.EmployeeId = UpdatedEmployee;
                 //var accessToken = HttpContext.Session.GetString("Email");
 
@@ -618,6 +639,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 try
                 {
 
@@ -662,6 +684,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
                 DeliveryVuew deliveryView = new DeliveryVuew();
                 ViewBag.val = val;
 

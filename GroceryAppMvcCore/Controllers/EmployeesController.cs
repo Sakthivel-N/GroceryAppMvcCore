@@ -151,6 +151,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
+                ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
                 ViewBag.Empid = HttpContext.Session.GetInt32("EmployeeId");
                 ViewBag.Status = id;
                 JobView obj = new JobView();
@@ -171,6 +172,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
+                ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
                 Delivery delivery = await GetDelivery(id);
                 delivery.DeliveryDate = DateTime.Now.ToString("dd/MM/yyyy");
                 delivery.Status = true;
@@ -209,6 +211,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
+                ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
                 ViewBag.EmployeeId = HttpContext.Session.GetInt32("EmployeeId");
                 JobView obj = new JobView();
                 obj.deliveries = await GetDelivery();

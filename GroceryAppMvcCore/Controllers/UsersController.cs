@@ -102,6 +102,7 @@ namespace GroceryAppMvcCore.Controllers
 
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 List<Product> products = await GetProducts();
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 ViewBag.CategoryId = id;
@@ -126,6 +127,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 int Msg = 0;
                 int UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
                 Product product = await GetProducts(ProdId);
@@ -251,6 +253,7 @@ namespace GroceryAppMvcCore.Controllers
 
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 ViewBag.Error = null;
 
@@ -275,6 +278,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 try
                 {
                     //var accessEmail = HttpContext.Session.GetString("Email");
@@ -297,6 +301,7 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<IActionResult> Quantity(int CartId, int Qty)
         {
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 Cart cart = await GetCarts(CartId);
@@ -339,6 +344,7 @@ namespace GroceryAppMvcCore.Controllers
 
         public async Task<IActionResult> AddToOrder(string Cartlist, int TV, string name, string card, string exp, string cvv)
         {
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 if (Cartlist != null & TV.ToString() != null & name != null & card != null & exp != null & cvv != null)
@@ -466,6 +472,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 OrderView orderView = new OrderView();
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 int UserId = Convert.ToInt32(ViewBag.UserId);
@@ -516,6 +523,7 @@ namespace GroceryAppMvcCore.Controllers
         [HttpGet]
         public ActionResult FeedBack()
         {
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 return View();
@@ -530,6 +538,7 @@ namespace GroceryAppMvcCore.Controllers
         [HttpPost]
         public async Task<IActionResult> FeedBack(Feedback feedback)
         {
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 feedback.UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
