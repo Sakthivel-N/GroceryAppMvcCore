@@ -341,9 +341,11 @@ namespace GroceryAppMvcCore.Controllers
         }
         public async Task<ActionResult> ViewFeedback()
         {
+            FeedbackView obj = new FeedbackView();
             ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
-            List<Feedback> feedback = await GetFeedBack();
-            return View(feedback);
+            obj.Feedbacks = await GetFeedBack();
+            obj.Users = await GetUsers();
+            return View(obj);
 
         }
 

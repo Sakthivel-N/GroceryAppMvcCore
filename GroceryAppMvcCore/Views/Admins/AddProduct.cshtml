@@ -186,9 +186,12 @@
         <div class="form-group">
             <label asp-for="CategoryId" class="control-label"></label>
             <select asp-for="CategoryId" class="form-control">
-                <option value="1">Snacks</option>
-                <option value="2">Vegetables</option>
-                <option value="3">Bevarages</option>
+                <option value="1">Dairy Products</option>
+                    <option value="2">Frozen Foods</option>
+                    <option value="3">Oils & Pulses</option>
+                    <option value="4">Packed Foods</option>
+                    <option value="5">Personal Care</option>
+                    <option value="6">Pet Care</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>

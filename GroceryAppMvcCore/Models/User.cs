@@ -15,6 +15,8 @@ namespace GroceryAppMvcCore.Models
         public string EmailId { get; set; }
         [Required, MaxLength(13)]
         public string PhoneNumber { get; set; }
+        [Required, MaxLength(30)]
+        public string Street { get; set; }
         [Required, MaxLength(20)]
         public string Area { get; set; }
 

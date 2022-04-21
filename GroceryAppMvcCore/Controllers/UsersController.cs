@@ -103,7 +103,8 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
-                List<Product> products = await GetProducts();
+                var products = await GetProducts();
+                List<Product> ProductList = products.Where(m=>m.Qty > 10).ToList();
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 ViewBag.CategoryId = id;
                 ViewBag.Msg = null;
@@ -115,7 +116,7 @@ namespace GroceryAppMvcCore.Controllers
                 {
                     ViewBag.Msg = "Failed to Add Cart";
                 }
-                return View(products);
+                return View(ProductList);
             }
             else
             {
@@ -261,6 +262,10 @@ namespace GroceryAppMvcCore.Controllers
                 {
                     ViewBag.Error = "Plz enter correct payment details";
                 }
+                else if(msg == 2)
+                {
+                    ViewBag.Error = "Your cart is empty !!";
+                }
 
                 List<Cart> carts = await GetCarts();
 
@@ -347,6 +352,10 @@ namespace GroceryAppMvcCore.Controllers
             ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                if(Cartlist == null || TV.ToString() == null)
+                {
+                    return RedirectToAction("ViewCart", new { msg = 2});
+                }
                 if (Cartlist != null & TV.ToString() != null & name != null & card != null & exp != null & cvv != null)
                 {
                     //Cart carts = await GetCarts(); 
