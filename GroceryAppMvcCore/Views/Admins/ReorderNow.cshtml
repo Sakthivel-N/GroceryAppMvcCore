@@ -6,7 +6,6 @@
 	string stock = "";
 }
 <style>
-        body{margin-top:20px;}
 
 
 /* USER LIST TABLE */
@@ -36,7 +35,7 @@
 	background-color: #eee;
 }
 .table thead > tr > th {
-	border-bottom: 1px solid #C2C2C2;
+	background: #f5f5f5;
 	padding-bottom: 0;
 }
 .table tbody > tr > td {
@@ -191,7 +190,7 @@
 						
 						<tr>
 							<th><span>Product</span></th>
-							<th><span>Description</span></th>
+							<th><span>Details</span></th>
 							<th class="text-center"><span>Price</span></th>
 							<th><span>Quantity</span></th>
 							<th>&nbsp;</th>
@@ -208,7 +207,7 @@
 								<span class="user-subhead">Employee</span>
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Description)
+								@Html.DisplayFor(modelItem => item.ProductDetails)
 							</td>
 							<td class="text-center">
 								<span class="label label-default">@Html.DisplayFor(modelItem => item.Price)</span>
