@@ -358,14 +358,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 Product received = new Product();
-                //Product ob = new Product();
 
-                //ob.ProductName = "Juice";
-                //ob.Qty = 2;
-                //ob.Price = 40;
-                //ob.CategoryId = 1;
-                //ob.ImageUrl = "juice";
-                //ob.Description = "mkand";
 
                 using (var httpClient = new HttpClient())
                 {
@@ -376,17 +369,18 @@ namespace GroceryAppMvcCore.Controllers
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         received = JsonConvert.DeserializeObject<Product>(apiResponse);
-                        if (received != null)
-                        {
-                            return RedirectToAction("ViewProducts", "Admins");
-                        }
+
+                        return RedirectToAction("ViewProducts", "Admins");
+
                     }
                 }
-                return View();
+
+
             }
             else
             {
                 return RedirectToAction("Index", "Home");
+
             }
         }
 

@@ -215,13 +215,15 @@ namespace GroceryAppMvcCore.Controllers
         [HttpPost]
         public async Task<IActionResult> EmployeeLogin(Employee employee)
         {
+            Employee employees = new Employee();
             if (employee.EmployeeName != null && employee.Password != null)
             {
-                Employee employees = await GetValidEmployee(employee.EmployeeName, employee.Password);
+                employees = await GetValidEmployee(employee.EmployeeName, employee.Password);
                 if (employees != null)
                 {
-                    HttpContext.Session.SetInt32("EmployeeId", employee.EmployeeId);
-                    HttpContext.Session.SetString("EmployeeName", employee.EmployeeName);
+                    
+                    HttpContext.Session.SetString("EmployeeName", employees.EmployeeName);
+                    HttpContext.Session.SetInt32("EmployeeId", employees.EmployeeId);
                     return RedirectToAction("Index", "Employees");
                 }
                 else
@@ -229,8 +231,11 @@ namespace GroceryAppMvcCore.Controllers
                     ViewBag.Message = "Incorrect Employee Credentials";
                     return View();
                 }
+
             }
             return View();
+
+
         }
 
         [HttpGet]
