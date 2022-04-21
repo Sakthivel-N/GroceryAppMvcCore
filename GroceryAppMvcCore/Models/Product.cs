@@ -7,7 +7,7 @@ namespace GroceryAppMvcCore.Models
         [Key]
         public int ProductId { get; set; }
 
-        [Required]
+        [Required, MaxLength(20)]
         public string ProductName { get; set; }
         [Required, MaxLength(20)]
         public string ProductDetails { get; set; }

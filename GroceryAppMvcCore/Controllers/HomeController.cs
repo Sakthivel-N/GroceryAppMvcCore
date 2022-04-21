@@ -45,9 +45,9 @@ namespace GroceryAppMvcCore.Controllers
         [HttpPost]
         public async Task<IActionResult> AdminLogin(Admin admin)
         {
-            if(admin.AdminName != null && admin.Password != null)
+            if(admin.EmailId != null && admin.Password != null)
             {
-                Admin admins = await GetValidAdmin(admin.AdminName, admin.Password);
+                Admin admins = await GetValidAdmin(admin.EmailId, admin.Password);
                 if(admins != null)
                 {
                     HttpContext.Session.SetString("AdminName", admins.AdminName);
@@ -95,7 +95,7 @@ namespace GroceryAppMvcCore.Controllers
 
 
         [HttpGet]
-        public async Task<Admin> GetValidAdmin(string AdminName, string Password)
+        public async Task<Admin> GetValidAdmin(string EmailId, string Password)
         {
 
             List<Admin> admin = new List<Admin>();
@@ -108,7 +108,7 @@ namespace GroceryAppMvcCore.Controllers
                     admin = JsonConvert.DeserializeObject<List<Admin>>(apiResponse);
                 }
             }
-            return (admin.FirstOrDefault(m => m.AdminName == AdminName && m.Password == Password));
+            return (admin.FirstOrDefault(m => m.EmailId == EmailId && m.Password == Password));
 
         }
 
@@ -215,13 +215,15 @@ namespace GroceryAppMvcCore.Controllers
         [HttpPost]
         public async Task<IActionResult> EmployeeLogin(Employee employee)
         {
-            if (employee.EmployeeName != null && employee.Password != null)
+            Employee employees = new Employee();
+            if (employee.EmaiLId != null && employee.Password != null)
             {
-                Employee employees = await GetValidEmployee(employee.EmployeeName, employee.Password);
+                employees = await GetValidEmployee(employee.EmaiLId, employee.Password);
                 if (employees != null)
                 {
-                    HttpContext.Session.SetInt32("EmployeeId", employee.EmployeeId);
-                    HttpContext.Session.SetString("EmployeeName", employee.EmployeeName);
+                    
+                    HttpContext.Session.SetString("EmployeeName", employees.EmployeeName);
+                    HttpContext.Session.SetInt32("EmployeeId", employees.EmployeeId);
                     return RedirectToAction("Index", "Employees");
                 }
                 else
@@ -229,12 +231,15 @@ namespace GroceryAppMvcCore.Controllers
                     ViewBag.Message = "Incorrect Employee Credentials";
                     return View();
                 }
+
             }
             return View();
+
+
         }
 
         [HttpGet]
-        public async Task<Employee> GetValidEmployee(string EmployeeName, string Password)
+        public async Task<Employee> GetValidEmployee(string EmailId, string Password)
         {
 
             List<Employee> employee = new List<Employee>();
@@ -247,7 +252,7 @@ namespace GroceryAppMvcCore.Controllers
                     employee = JsonConvert.DeserializeObject<List<Employee>>(apiResponse);
                 }
             }
-            return (employee.FirstOrDefault(m => m.EmployeeName == EmployeeName && m.Password == Password));
+            return (employee.FirstOrDefault(m => m.EmaiLId   == EmailId && m.Password == Password));
 
         }
     }

@@ -29,7 +29,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
                 ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
-                ViewBag.EmployeeId = HttpContext.Session.GetInt32("EmployeeName");
+                ViewBag.EmployeeId = HttpContext.Session.GetInt32("EmployeeId");
                 return View();
             }
             else
