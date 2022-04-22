@@ -12,7 +12,7 @@
 
 
 <style>
-    
+
 
     /* ===== Career ===== */
     .career-form {
@@ -207,8 +207,11 @@
 
 @if (statuss == 0)
 {
-    <h1 style="text-align:center;">Pending Jobs</h1>
+    
     var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == false);
+    <h1 style="text-align:center;">Pending Jobs</h1>
+    <h3 style="text-align:center;">Total Pending Jobs : @deliv.Count()</h3>
+    
     if (deliv != null)
     {
         <div class="container">
@@ -221,7 +224,7 @@
 
 
                         <div class="filter-result">
-                            <p class="mb-30 ff-montserrat">Total Pending Jobs : @deliv.Count()</p>
+                            
                             @foreach (Delivery item1 in deliv)
                             {
                                 Order order = Model.orders.FirstOrDefault(m => m.OrderId == item1.OrderId);
@@ -238,67 +241,83 @@
 
                                         <div class="job-content">
                                             <h5 class="text-md-left" style="padding-left:50px;">Order #:@order.OrderId</h5>
-                                            <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                <li class="mr-md-4">
-                                                    <div class="flex-shrink-0">
-                                                    </div>
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ProductDetails</th>
+                                                        <th>PurchasedQty</th>
+                                                        <th>SubTotalPrice</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
 
-                                                <li class="mr-md-4">
-                                                    PurchasedQty &emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    SubTotalPrice &emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                            </ul>
 
-                                            @foreach (var cartid in list1)
-                                            {
-                                                Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
-                                                Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
-                                                if (cart != null)
-                                                {
 
-                                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                        <li class="mr-md-4">
-                                                            <div class="flex-shrink-0">
-                                                                <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">
-                                                            </div>&emsp;
 
-                                                        </li>
-                                                        <li class="mr-md-4">
-                                                            @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
 
-                                                        <li class="mr-md-4">
-                                                            @cart.PurchasedQty &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
-                                                        <li class="mr-md-4">
-                                                            @cart.SubTotalPrice &emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
-                                                    </ul>
+                                                    @foreach (var cartid in list1)
+                                                    {
+                                                        Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                                                        Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+                                                        if (cart != null)
+                                                        {
 
-                                                }
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="flex-shrink-0">
+                                                                        <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">&nbsp;@product.ProductName - @product.ProductDetails
+                                                                    </div>
+                                                                </td>
+                                                                <td>@cart.PurchasedQty</td>
+                                                                <td>@cart.SubTotalPrice</td>
+                                                            </tr>
 
-                                            }
+                                                        }
+
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="job-right my-4 flex-shrink-0">
+                                        <div class="modal" id="myModal">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                        <div class="modal-header">
+                                                        <h4 class="modal-title">OrderId#@order.OrderId - Delivery Address</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>@{
+                                                        User user = Model.users.FirstOrDefault(m => m.UserId == order.UserId);
+                                                    }
+
+                                                    <!-- Modal body -->
+                                        <div class="modal-body">
+                                                        <h2>@user.UserName</h2>
+                                                        <h5>@user.Area,@user.City</h5>
+                                                        <h5>@user.State</h5>
+                                                        <h5>@user.Country</h5>
+                                                        <h5>
+                                                            @user.Pincode
+                                                        </h5>
+                                                        <h5>PH-@user.PhoneNumber</h5>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                         <h5>Total Price : @order.TotalValue</h5>
                                         @{
                                             string DeliveryUrl = $"https://localhost:7284/Employees/Delivered?id={@item1.DeliveryId}";
                                         }
                                         <a href="@DeliveryUrl" style="color:white" class="btn d-block w-100 d-sm-inline-block btn-light bg-success">DeliveryNow</a>
+                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#myModal">More Info</button>
                                     </div>
                                 </div>
 
@@ -320,8 +339,11 @@
 }
 else if (statuss == 1)
 {
-    <h1 style="text-align:center;">Job History</h1>
+    
     var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == true);
+    <h1 style="text-align:center;">Job History</h1>
+    <h3 style="text-align:center;">Total Completed Jobs : @deliv.Count()</h3>
+    
     if (deliv != null)
     {
         <div class="container">
@@ -334,7 +356,7 @@ else if (statuss == 1)
 
 
                         <div class="filter-result">
-                            <p class="mb-30 ff-montserrat">Total Completed Jobs : @deliv.Count()</p>
+                            
                             @foreach (Delivery item1 in deliv)
                             {
                                 Order order = Model.orders.FirstOrDefault(m => m.OrderId == item1.OrderId);
@@ -351,64 +373,82 @@ else if (statuss == 1)
 
                                         <div class="job-content">
                                             <h5 class="text-md-left" style="padding-left:50px;">Order #:@order.OrderId</h5>
-                                            <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                <li class="mr-md-4">
-                                                    <div class="flex-shrink-0">
-                                                    </div>
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ProductDetails</th>
+                                                        <th>PurchasedQty</th>
+                                                        <th>SubTotalPrice</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
 
-                                                <li class="mr-md-4">
-                                                    PurchasedQty &emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-4">
-                                                    SubTotalPrice &emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                            </ul>
 
-                                            @foreach (var cartid in list1)
-                                            {
-                                                Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
-                                                Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
-                                                if (cart != null)
-                                                {
 
-                                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                        <li class="mr-md-4">
-                                                            <div class="flex-shrink-0">
-                                                                <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">
-                                                            </div>&emsp;
 
-                                                        </li>
-                                                        <li class="mr-md-4">
-                                                            @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
 
-                                                        <li class="mr-md-4">
-                                                            @cart.PurchasedQty &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
-                                                        <li class="mr-md-4">
-                                                            @cart.SubTotalPrice &emsp;&emsp;
-                                                            <div></div>
-                                                        </li>
-                                                    </ul>
+                                                    @foreach (var cartid in list1)
+                                                    {
+                                                        Cart cart = Model.carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                                                        Product product = Model.products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+                                                        if (cart != null)
+                                                        {
 
-                                                }
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="flex-shrink-0">
+                                                                        <img src="~/css/Images/@product.ImageUrl" alt="" width="35" class="img-fluid">&nbsp;@product.ProductName - @product.ProductDetails
+                                                                    </div>
+                                                                </td>
+                                                                <td>@cart.PurchasedQty</td>
+                                                                <td>@cart.SubTotalPrice</td>
+                                                            </tr>
 
-                                            }
+                                                        }
+
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="job-right my-4 flex-shrink-0">
+
+                                        <div class="modal" id="myModal">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                        <div class="modal-header">
+                                                        <h4 class="modal-title">OrderId#@order.OrderId - Delivery Address</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>@{
+                                                        User user = Model.users.FirstOrDefault(m => m.UserId == order.UserId);
+                                                    }
+
+                                                    <!-- Modal body -->
+                                        <div class="modal-body">
+                                                        <h2>@user.UserName</h2>
+                                                        <h5>@user.Area,@user.City</h5>
+                                                        <h5>@user.State</h5>
+                                                        <h5>@user.Country</h5>
+                                                        <h5>
+                                                            @user.Pincode
+                                                        </h5>
+                                                        <h5>PH-@user.PhoneNumber</h5>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <h5>Total Price : @order.TotalValue</h5>
                                         <h3 style="color:green;">Delivered.!</h3>
+                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#myModal">More Info</button>
                                     </div>
                                 </div>
 

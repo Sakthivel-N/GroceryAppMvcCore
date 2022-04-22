@@ -1,17 +1,20 @@
-
 @using GroceryAppMvcCore;
 @using System;
 @using System.Linq;
 @using System.Collections.Generic;
 @model DeliveryVuew;
+<environment names="Development">
 
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+</environment>
 @{
     ViewBag.Title = "Delivery_Hnadlers";
     Layout = "~/Views/Shared/_AdminsLayout.cshtml";
     int val = Convert.ToInt32(ViewBag.val);
     //int totalOrders = 0;
     List<Order> orderList = new List<Order>();
-    
+
     foreach (Order order in Model.Orders)
     {
         if (Model.Deliveries.FirstOrDefault(m => m.OrderId == order.OrderId) == null)
@@ -21,7 +24,7 @@
     }
 
     List<string> list = new List<string>();
-     var deli= Model.Deliveries.Where(m => m.Status == true);
+    var deli = Model.Deliveries.Where(m => m.Status == true);
 
 
 }
@@ -68,7 +71,7 @@
 
 @if (val == 1)
 {
-    <h1 style="text-align:center;color:White;background-color:black;border-radius:30px;">Order Confirmed</h1>
+    <h1 style="text-align:center;color:black;background-color:white;border-radius:30px;">Order Confirmed</h1>
     List<Order> orders = new List<Order>();
     foreach (Order order in Model.Orders)
     {
@@ -77,267 +80,268 @@
             orders.Add(order);
         }
     }
-  
-   
 
-   <section class="vh-100" >
-     @foreach (Order i in orders)
-    {
 
-        string[] list1 = (i.CartIdList.Split(","));
-                        list1 = list1.Take(list1.Count() - 1).ToArray();
+
+    <section class="vh-100">
+        @foreach (Order i in orders)
+        {
+
+            string[] list1 = (i.CartIdList.Split(","));
+            list1 = list1.Take(list1.Count() - 1).ToArray();
             User user = Model.Users.FirstOrDefault(m => m.UserId == i.UserId);
-               
-                    <div class="col">
-                        <div class="card card-stepper" style="border-radius: 10px;">
-                            <div class="card-body p-4">
 
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h1>Order Id: #@i.OrderId </h1>
-                                    <div>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Track order details</button>
-                                    </div>
-                                                  
-                                </div>
-                                <hr class="my-4">
+            <div class="col">
+                <div class="card card-stepper" style="border-radius: 10px;">
+                    <div class="card-body p-4">
 
-                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                                    <span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
-                                        
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                   
-                                </div>
-
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-column align-items-start"><span>Order_Placed</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Order_Confirmed</span><span>@i.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span></div>
-                                    <div class="d-flex flex-column align-items-e"><span>Order_Delivered</span></div>
-                                </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1>Order Id: #@i.OrderId </h1>
+                            <div>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Track order details</button>
                             </div>
+
                         </div>
-                    </div><br />
-                    <br />
+                        <hr class="my-4">
 
-                      <div class="modal" id="myModal">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
+                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                            <span class="dot"></span>
+                            <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
 
-                                                            <!-- Modal Header -->
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">OrderId#@i.OrderId</h4>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                            </div>
+                            <hr class="flex-fill track-line"><span class="dot"></span>
 
-                                                            <!-- Modal body -->
-                                                            <div class="modal-body">
-                                                                <h2>Welcome @user.UserName</h2>
-                                                                <h5>@user.Area,@user.City</h5>
-                                                                <h5>@user.State</h5>
-                                                                <h5>@user.Country</h5>
-                                                                <h5>
-                                                                   PinCode- @user.Pincode
-                                                                </h5>
-                                                            </div>
-                                                            <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+                            <hr class="flex-fill track-line"><span class="dot"></span>
+
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex flex-column align-items-start"><span>Order_Placed</span></div>
+                            <div class="d-flex flex-column justify-content-center"><span>Order_Confirmed</span><span>@i.OrderDate</span></div>
+                            <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span></div>
+                            <div class="d-flex flex-column align-items-e"><span>Order_Delivered</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <br />
+
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                <div class="modal-header">
+                            <h4 class="modal-title">OrderId#@i.OrderId</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                <div class="modal-body">
+                            <h2>Welcome @user.UserName</h2>
+                            <h5>@user.Area,@user.City</h5>
+                            <h5>@user.State</h5>
+                            <h5>@user.Country</h5>
+                            <h5>
+                                PinCode- @user.Pincode
+                            </h5>
+                        </div>
+                        <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                <td>
+                                    <b>ProductDetails</b>  &emsp;&emsp;&emsp;
+                                    </td>
+
+                                <td>
+                                    <b>PurchasedQty</b>   &emsp;&emsp;&emsp;
+                                    </td>
+                                <td>
+                                    <b>SubTotalPrice</b>  &emsp;&emsp;&emsp;
+                                    </td>
                             
-                                    
-                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                        
-                                        <li class="mr-md-3">
-                                            ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                       
-                                        <li class="mr-md-3">
-                                            PurchasedQty &emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                        <li class="mr-md-3">
-                                            SubTotalPrice &emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                    </ul>
+                            </tr>
+                            </thead>
 
-                                    @foreach (var cartid in list1)
-                                    {
-                                        Cart cart = Model.Carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                            @foreach (var cartid in list1)
+                            {
+                                Cart cart = Model.Carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
 
-                                        if (cart != null)
-                                        {
-                                            Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+                                if (cart != null)
+                                {
+                                    Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
 
-                                            <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                <li class="mr-md-3">
-                                                    @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                
-                                                <li class="mr-md-3">
-                                                    @cart.PurchasedQty &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-3">
-                                                    @cart.SubTotalPrice &emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                            </ul>
+                                     <tr>
+                                          <td style="text-align:center">
+                                            @product.ProductName - @product.ProductDetails  &emsp;&emsp;&emsp;
 
-                                        }
+                                        <td style="text-align:center">
+                                            @cart.PurchasedQty  &emsp;&emsp;&emsp;
+                                            </td>
+                                       <td style="text-align:center">
+                                            @cart.SubTotalPrice  &emsp;&emsp;&emsp;
+                                           </td>
+                                   </tr>
 
-                                    }
-                                </div>
-                                
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                            </div>
+                                }
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                
+                            }
+                            </table>
+                        </div>
+
+                        <!-- Modal footer -->
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         }
-        </section>
-    
+    </section>
+
 }
 else if (val == 2)
 {
 
-    <h1 style="text-align:center;color:White;background-color:black;border-radius:30px;">Pickup for Delivery</h1>
+    <h1 style="text-align:center;color:black;background-color:white;border-radius:30px;">Pickup for Delivery</h1>
 
 
 
     List<Delivery> del = Model.Deliveries.Where(m => m.Status == false).ToList();
-        <section class="vh-100" >
-            
+    <section class="vh-100">
 
-    @foreach (Delivery delivery in del)
-    {
-        Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
-        User user = Model.Users.FirstOrDefault(m => m.UserId == order.UserId);
-            
-        string[] list1 = (order.CartIdList.Split(","));
-                        list1 = list1.Take(list1.Count() - 1).ToArray();
-                    <div class="col">
-                        <div class="card card-stepper" style="border-radius: 10px;">
-                            <div class="card-body p-4">
 
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="lead fw-normal">Your Order Has Been Confirmed</span>
-                                         <span class="text-muted small">@order.OrderId</span>
+        @foreach (Delivery delivery in del)
+        {
+            Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
+            User user = Model.Users.FirstOrDefault(m => m.UserId == order.UserId);
 
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
-                                    </div>
-                                </div>
-                                <hr class="my-4">
+            string[] list1 = (order.CartIdList.Split(","));
+            list1 = list1.Take(list1.Count() - 1).ToArray();
+            <div class="col">
+                <div class="card card-stepper" style="border-radius: 10px;">
+                    <div class="card-body p-4">
 
-                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                                    <span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                     <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
-                                        <i class="fa fa-check text-white"></i></span>
-                                    
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                   
-                                   
-                                    
-                                </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column">
+                                <span class="lead fw-normal">Your Order Has Been Confirmed</span>
+                                <span class="text-muted small">@order.OrderId</span>
 
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                     <div class="d-flex flex-column align-items-start"><span>Order_Placed</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Order_Confirmed</span><span>@order.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span><span>@delivery.PickupDate</span></div>
-                                    <div class="d-flex flex-column align-items-e"><span>Order_Delivered</span></div>
-                                </div>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Track order details</button>
                             </div>
                         </div>
-                    </div><br /><br />
+                        <hr class="my-4">
+
+                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                            <span class="dot"></span>
+                            <hr class="flex-fill track-line"><span class="dot"></span>
+                            <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                <i class="fa fa-check text-white"></i>
+                            </span>
+
+                            <hr class="flex-fill track-line"><span class="dot"></span>
 
 
-                    <div class="modal" id="myModal">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
 
-                                                            <!-- Modal Header -->
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">OrderId#@order.OrderId</h4>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                            </div>
+                        </div>
 
-                                                            <!-- Modal body -->
-                                                            <div class="modal-body">
-                                                                @user.UserName
-                                                            </div>
-                                                            <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex flex-column align-items-start"><span>Order_Placed</span></div>
+                            <div class="d-flex flex-column justify-content-center"><span>Order_Confirmed</span><span>@order.OrderDate</span></div>
+                            <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span><span>@delivery.PickupDate</span></div>
+                            <div class="d-flex flex-column align-items-e"><span>Order_Delivered</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <br />
+
+
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                <div class="modal-header">
+                            <h4 class="modal-title">OrderId#@order.OrderId</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                <div class="modal-body">
+                            @user.UserName
+                        </div>
+                        <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+
+
+                            <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                <td>
+                                    <b>ProductDetails</b>  &emsp;&emsp;&emsp;
+                                    </td>
+
+                                <td>
+                                    <b>PurchasedQty</b>   &emsp;&emsp;&emsp;
+                                    </td>
+                                <td>
+                                    <b>SubTotalPrice</b>  &emsp;&emsp;&emsp;
+                                    </td>
                             
+                            </tr>
+                            </thead>
+
+                            @foreach (var cartid in list1)
+                            {
+                                Cart cart = Model.Carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+
+                                if (cart != null)
+                                {
+                                    Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+
                                     
-                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                        
-                                        <li class="mr-md-3">
-                                            ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                       
-                                        <li class="mr-md-3">
-                                            PurchasedQty &emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                        <li class="mr-md-3">
-                                            SubTotalPrice &emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                    </ul>
+                                     <tr>
+                                          <td style="text-align:center">
+                                            @product.ProductName - @product.ProductDetails  &emsp;&emsp;&emsp;
 
-                                    @foreach (var cartid in list1)
-                                    {
-                                        Cart cart = Model.Carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                                        <td style="text-align:center">
+                                            @cart.PurchasedQty  &emsp;&emsp;&emsp;
+                                            </td>
+                                       <td style="text-align:center">
+                                            @cart.SubTotalPrice  &emsp;&emsp;&emsp;
+                                           </td>
+                                   </tr>
+                                  
 
-                                        if (cart != null)
-                                        {
-                                            Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+                                }
 
-                                            <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                <li class="mr-md-3">
-                                                    @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                
-                                                <li class="mr-md-3">
-                                                    @cart.PurchasedQty &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-3">
-                                                    @cart.SubTotalPrice &emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                            </ul>
+                            }
+                             </table>
+                        </div>
 
-                                        }
+                        <!-- Modal footer -->
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
 
-                                    }
-                                </div>
-                                
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                            </div>
+                    </div>
+                </div>
+            </div>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                
-            }
-        </section>
+        }
+    </section>
 
 
-    
+
 
 }
 
@@ -348,135 +352,136 @@ else if (val == 2)
 
 else if (val == 3)
 {
-    <h1 style="text-align:center;color:White;background-color:black;border-radius:30px;">Delivered</h1>
+    <h1 style="text-align:center;color:black;background-color:white;border-radius:30px;">Delivered</h1>
 
-    
-    
-         <section class="vh-100" >
 
-       
 
-   
+    <section class="vh-100">
+
+
+
+
         @foreach (Delivery delivery in deli)
         {
-         Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
-          User user = Model.Users.FirstOrDefault(m => m.UserId == order.UserId);
-            
-        string[] list1 = (order.CartIdList.Split(","));
-                        list1 = list1.Take(list1.Count() - 1).ToArray();
+            Order order = Model.Orders.FirstOrDefault(m => m.OrderId == delivery.OrderId);
+            User user = Model.Users.FirstOrDefault(m => m.UserId == order.UserId);
 
-            
-                    <div class="col">
-                        <div class="card card-stepper" style="border-radius: 10px;">
-                            <div class="card-body p-4">
+            string[] list1 = (order.CartIdList.Split(","));
+            list1 = list1.Take(list1.Count() - 1).ToArray();
 
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="lead fw-normal">Your Order Has Been Confirmed</span>
-                                         <span class="text-muted small">@order.OrderId</span>
 
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-outline-primary" type="button">Track order details</button>
-                                    </div>
-                                </div>
-                                <hr class="my-4">
+            <div class="col">
+                <div class="card card-stepper" style="border-radius: 10px;">
+                    <div class="card-body p-4">
 
-                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                                    <span class="dot"></span>
-                                     <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="dot"></span>
-                                    <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
-                                        <i class="fa fa-check text-white"></i>
-                                    </span>
-                                </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column">
+                                <span class="lead fw-normal">Your Order Has Been Confirmed</span>
+                                <span class="text-muted small">@order.OrderId</span>
 
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                   <div class="d-flex flex-column align-items-start"><span>Order_Placed</span></div>
-                                    <div class="d-flex flex-column justify-content-center"><span>Order_Confirmed</span><span>@order.OrderDate</span></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span><span>@delivery.PickupDate</span></div>
-                                    <div class="d-flex flex-column align-items-e"><span>Order_Delivered</span><span>@delivery.DeliveryDate</span></div>
-                                 </div>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Track order details</button>
                             </div>
                         </div>
-                    </div><br /><br />
+                        <hr class="my-4">
 
-                    <div class="modal" id="myModal">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
+                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                            <span class="dot"></span>
+                            <hr class="flex-fill track-line"><span class="dot"></span>
+                            <hr class="flex-fill track-line"><span class="dot"></span>
+                            <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                <i class="fa fa-check text-white"></i>
+                            </span>
+                        </div>
 
-                                                            <!-- Modal Header -->
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">OrderId#@order.OrderId</h4>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                            </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex flex-column align-items-start"><span>Order_Placed</span></div>
+                            <div class="d-flex flex-column justify-content-center"><span>Order_Confirmed</span><span>@order.OrderDate</span></div>
+                            <div class="d-flex flex-column justify-content-center align-items-center"><span>Order_PickedUp</span><span>@delivery.PickupDate</span></div>
+                            <div class="d-flex flex-column align-items-e"><span>Order_Delivered</span><span>@delivery.DeliveryDate</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                                            <!-- Modal body -->
-                                                            <div class="modal-body">
-                                                                @user.UserName
-                                                            </div>
-                                                            <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+            <br />
+
+            <br />
+
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                <div class="modal-header">
+                            <h4 class="modal-title">OrderId#@order.OrderId</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                <div class="modal-body">
+                            @user.UserName
+                        </div>
+                        <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+
+
+                            <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                <td>
+                                    <b>ProductDetails</b>  &emsp;&emsp;&emsp;
+                                    </td>
+
+                                <td>
+                                    <b>PurchasedQty</b>   &emsp;&emsp;&emsp;
+                                    </td>
+                                <td>
+                                    <b>SubTotalPrice</b>  &emsp;&emsp;&emsp;
+                                    </td>
                             
-                                    
-                                    <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                        
-                                        <li class="mr-md-3">
-                                            ProductDetails &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                       
-                                        <li class="mr-md-3">
-                                            PurchasedQty &emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                        <li class="mr-md-3">
-                                            SubTotalPrice &emsp;&emsp;
-                                            <div></div>
-                                        </li>
-                                    </ul>
+                            </tr>
+                            </thead>
 
-                                    @foreach (var cartid in list1)
-                                    {
-                                        Cart cart = Model.Carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
+                            @foreach (var cartid in list1)
+                            {
+                                Cart cart = Model.Carts.FirstOrDefault(m => m.CartId == Convert.ToInt32(cartid));
 
-                                        if (cart != null)
-                                        {
-                                            Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
+                                if (cart != null)
+                                {
+                                    Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
 
-                                            <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                <li class="mr-md-3">
-                                                    @product.ProductName - @product.ProductDetails &emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                
-                                                <li class="mr-md-3">
-                                                    @cart.PurchasedQty &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                                <li class="mr-md-3">
-                                                    @cart.SubTotalPrice &emsp;&emsp;
-                                                    <div></div>
-                                                </li>
-                                            </ul>
+                                     <tr>
+                                          <td style="text-align:center">
+                                            @product.ProductName - @product.ProductDetails  &emsp;&emsp;&emsp;
 
-                                        }
+                                        <td style="text-align:center">
+                                            @cart.PurchasedQty  &emsp;&emsp;&emsp;
+                                            </td>
+                                       <td style="text-align:center">
+                                            @cart.SubTotalPrice  &emsp;&emsp;&emsp;
+                                           </td>
+                                   </tr>
 
-                                    }
-                                </div>
-                                
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                            </div>
+                                }
 
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            }
+                            </table>
+                        </div>
+
+                        <!-- Modal footer -->
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
 
-                
-            }
-        </section>
 
         }
+    </section>
+
+}
 
