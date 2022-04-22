@@ -148,7 +148,7 @@
                             </h5>
                         </div>
                         <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
-                        <table>
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                 <td>
@@ -174,13 +174,13 @@
                                     Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
 
                                      <tr>
-                                          <td>
+                                          <td style="text-align:center">
                                             @product.ProductName - @product.ProductDetails  &emsp;&emsp;&emsp;
 
-                                        <td>
+                                        <td style="text-align:center">
                                             @cart.PurchasedQty  &emsp;&emsp;&emsp;
                                             </td>
-                                       <td>
+                                       <td style="text-align:center">
                                             @cart.SubTotalPrice  &emsp;&emsp;&emsp;
                                            </td>
                                    </tr>
@@ -283,7 +283,7 @@ else if (val == 2)
                         <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
 
 
-                            <table>
+                            <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                 <td>
@@ -310,13 +310,13 @@ else if (val == 2)
 
                                     
                                      <tr>
-                                          <td>
+                                          <td style="text-align:center">
                                             @product.ProductName - @product.ProductDetails  &emsp;&emsp;&emsp;
 
-                                        <td>
+                                        <td style="text-align:center">
                                             @cart.PurchasedQty  &emsp;&emsp;&emsp;
                                             </td>
-                                       <td>
+                                       <td style="text-align:center">
                                             @cart.SubTotalPrice  &emsp;&emsp;&emsp;
                                            </td>
                                    </tr>
@@ -426,7 +426,7 @@ else if (val == 3)
                         <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
 
 
-                            <table>
+                            <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                 <td>
@@ -452,13 +452,13 @@ else if (val == 3)
                                     Product product = Model.Products.FirstOrDefault(m => m.ProductId == cart.ProductId);
 
                                      <tr>
-                                          <td>
+                                          <td style="text-align:center">
                                             @product.ProductName - @product.ProductDetails  &emsp;&emsp;&emsp;
 
-                                        <td>
+                                        <td style="text-align:center">
                                             @cart.PurchasedQty  &emsp;&emsp;&emsp;
                                             </td>
-                                       <td>
+                                       <td style="text-align:center">
                                             @cart.SubTotalPrice  &emsp;&emsp;&emsp;
                                            </td>
                                    </tr>
