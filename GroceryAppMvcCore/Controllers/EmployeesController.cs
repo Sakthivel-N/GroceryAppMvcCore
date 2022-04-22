@@ -159,6 +159,7 @@ namespace GroceryAppMvcCore.Controllers
                 obj.orders = await GetOrderView();
                 obj.carts = await GetCarts();
                 obj.products = await GetProducts();
+                obj.users = await GetUsers();   
                 return View(obj);
             }
             else
