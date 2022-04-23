@@ -11,7 +11,7 @@
     <div class="card p-2 ">
         <div class="p-info ">
             <div>
-                <h5 class="mb-0">@products.ProductName</h5> <span>@products.ProductDetails</span>
+                <h5 class="mb-0">@products.ProductName @if(products.Qty < 11){<span style="color:white;border-radius:15px;background-color:red;">  Out of Stock  </span>}</h5> <span>@products.ProductDetails</span> 
             </div>
             <div class="p-price d-flex flex-row">
                 <span>₹</span>
@@ -25,7 +25,11 @@
             <p>@products.Description</p>
         </div>
 
+        @if(products.Qty > 10)
+        {
+            <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
+        }
         
-        <div class="buttons d-flex flex-row gap-3 px-3"> <button onclick="window.location.href='https://localhost:7284/Users/ViewCart';" class="btn btn-danger w-100">View Cart</button> <button onclick="window.location.href='@msgg';" class="btn btn-outline-success w-100">Add T0 Cart</button> </div>
+
     </div>
 </div>

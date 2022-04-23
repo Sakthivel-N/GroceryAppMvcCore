@@ -7,34 +7,35 @@
     int CategoryID = Convert.ToInt32(ViewBag.CategoryId);
 
     List<Product> ProdList = new List<Product>();
-
+    
     ProductView obj = new ProductView();
-
-
-
+    List<string> CatList = new List<string>() { " ","Dairy Products", "Frozen Foods", "Oils & Pulses", "Packed Foods", "Personal Care", "Pet Care", "All Products" };
 
 }
 
 
 <environment names="Development">
-    
-    
+
+
     <link rel="stylesheet" href="~/css/StyleSheet.css" />
 </environment>
 
+@if(CategoryID != 7)
+{
+   <h2 style="border-radius:40px;text-align:center;background-color:#bab8b3;margin-left:100px;margin-right:100px;">@CatList[CategoryID]</h2> 
+}
 
 
-
-@if(ViewBag.Msg == "Product Added to Cart !!")
+@if (ViewBag.Msg == "Product Added to Cart !!")
 {
     <div class="alert alert-success alert-dismissible fade show ">
         <strong>Success!..</strong> @ViewBag.Msg
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
-else if(ViewBag.Msg == "Failed to Add Cart")
+else if (ViewBag.Msg == "Failed to Add Cart")
 {
-     <div class="alert alert-danger alert-dismissible fade show ">
+    <div class="alert alert-danger alert-dismissible fade show ">
         <strong>Error!..</strong> @ViewBag.Msg
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
@@ -110,65 +111,77 @@ else if(ViewBag.Msg == "Failed to Add Cart")
 }
 else
 {
-
-    foreach (var item in Model)
+    int i;
+    for (i = 1; i < 7; i++)
     {
-
-        if (ProdList.Count < 3)
+        List<Product> CatgProduct = Model.Where(m => m.CategoryId == i).ToList();
+        if(CatgProduct.Count != 0)
         {
-            ProdList.Add(item);
-            if (ProdList.Count == 3)
+            <h2 style="border-radius:40px;text-align:center;background-color:#bab8b3;margin-left:100px;margin-right:100px;">@CatList[i]</h2>
+        }
+        @foreach (var item in CatgProduct)
+        {
+            if (ProdList.Count < 3)
             {
-                <div class=" d-flex align-items-stretch" style="border-radius:20px;">
-                    <div class="container d-flex">
-                        <div class="row p-4">
-                            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                ProdList.Add(item);
+                if (ProdList.Count == 3)
+                {
+                    <div class=" d-flex align-items-stretch" style="border-radius:20px;">
+                        <div class="container d-flex">
+                            <div class="row p-4">
+                                &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 
-                            @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                            @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                            @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[2],CatgId=CategoryID})
+                                @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                                @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                                @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[2],CatgId=CategoryID})
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                ProdList.Clear();
+                    ProdList.Clear();
+                }
             }
+
+
+
         }
+        if (ProdList != null & ProdList.Count == 2)
+        {
+            <div class=" d-flex align-items-stretch" style="border-radius:20px;">
+                <div class="container d-flex">
+                    <div class="row p-4">
+                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 
+                        @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 
-
-    }
-    if (ProdList != null & ProdList.Count == 2)
-    {
-        <div class=" d-flex align-items-stretch" style="border-radius:20px;">
-            <div class="container d-flex">
-                <div class="row p-4">
-                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-
-                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[1],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-
+                    </div>
                 </div>
             </div>
-        </div>
 
 
-    }
-    else if (ProdList != null & ProdList.Count == 1)
-    {
-        <div class=" d-flex align-items-stretch" style="border-radius:20px;">
-            <div class="container d-flex">
-                <div class="row p-4">
-                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        }
+        else if (ProdList != null & ProdList.Count == 1)
+        {
+            <div class=" d-flex align-items-stretch" style="border-radius:20px;">
+                <div class="container d-flex">
+                    <div class="row p-4">
+                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 
-                    @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        @await Html.PartialAsync("ProductCard", new ProductView{Products=ProdList[0],CatgId=CategoryID})&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
 
 
+                    </div>
                 </div>
             </div>
-        </div>
 
+        }
+        <br />
+        <br />
+        
     }
+
+
 
 }
 <hr />

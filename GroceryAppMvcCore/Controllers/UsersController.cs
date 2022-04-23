@@ -103,8 +103,8 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
-                var products = await GetProducts();
-                List<Product> ProductList = products.Where(m=>m.Qty > 10).ToList();
+                List<Product> products = await GetProducts();
+                
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 ViewBag.CategoryId = id;
                 ViewBag.Msg = null;
@@ -116,7 +116,7 @@ namespace GroceryAppMvcCore.Controllers
                 {
                     ViewBag.Msg = "Failed to Add Cart";
                 }
-                return View(ProductList);
+                return View(products);
             }
             else
             {
