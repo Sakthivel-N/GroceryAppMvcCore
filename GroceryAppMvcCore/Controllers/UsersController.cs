@@ -488,7 +488,7 @@ namespace GroceryAppMvcCore.Controllers
                 ViewBag.ProductList = await GetProducts();
 
                 List<Order> orders = await GetOrderView();
-                var ordersList = orders.Where(m => m.UserId == UserId).ToList();
+                var ordersList = orders.OrderByDescending(m => m.OrderId).Where(m => m.UserId == UserId).ToList();
                 orderView.Orders = ordersList;
                 orderView.Carts = await GetCartView();
                 orderView.Deliverys = await GetDelivery();
