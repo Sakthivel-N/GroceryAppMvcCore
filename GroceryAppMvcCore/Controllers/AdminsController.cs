@@ -1,4 +1,5 @@
-﻿using GroceryAppMvcCore.Models;
+﻿using GroceryAppMvcCore.LogData;
+using GroceryAppMvcCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -22,10 +23,13 @@ namespace GroceryAppMvcCore.Controllers
         //API URL ADDED
         public static string baseURL;
         private readonly IConfiguration _configuration;
-        public AdminsController(IConfiguration configuration)
+        private readonly ILoggerManager _loggerManager;
+        public AdminsController(IConfiguration configuration, ILoggerManager loggerManager)
         {
             _configuration = configuration;
             baseURL = _configuration.GetValue<string>("BaseURL");
+            _loggerManager = loggerManager;
+            
 
         }
 
@@ -79,6 +83,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Delivered a Job");
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
             }
             else
@@ -92,6 +97,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("AdminName") != null)
             {
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Logout Successfully");
                 HttpContext.Session.Remove("AdminName");
             }
             return RedirectToAction("Index", "Home");
@@ -157,6 +163,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " viewing all products");
                 List<Product> products = await GetProducts();
                 return View(products);
             }
@@ -171,6 +178,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Product deleted");
                 try
                 {
 
@@ -227,6 +235,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Edited the product details");
                 Product product = await GetProductss(UpdatedProduct.ProductId);
                 UpdatedProduct.Qty = product.Qty;
                 HttpClientHandler clientHandler = new HttpClientHandler();
@@ -291,6 +300,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Viewing Customers");
                 List<User> users = await GetUsers();
                 return View(users);
             }
@@ -309,6 +319,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " One User Deleted ");
                 try
                 {
 
@@ -343,6 +354,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             FeedbackView obj = new FeedbackView();
             ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+            _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Viewing Feedbacks");
             obj.Feedbacks = await GetFeedBack();
             obj.Users = await GetUsers();
             return View(obj);
@@ -371,6 +383,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Product Added");
                 Product received = new Product();
 
 
@@ -426,6 +439,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                
                 Product product = await GetProductss(id);
                 return View(product);
             }
@@ -440,6 +454,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " product Qty Added");
                 Product product = await GetProductss(products.ProductId);
                 product.Qty = products.Qty;
                 HttpClientHandler clientHandler = new HttpClientHandler();
@@ -519,6 +534,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Viewing Employees");
                 List<Employee> employees = await GetEmployees();
                 return View(employees);
             }
@@ -559,6 +575,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Employee added");
                 Employee received = new Employee();
 
                 using (var httpClient = new HttpClient())
@@ -687,6 +704,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("AdminName") != null)
             {
                 ViewBag.AdminName = HttpContext.Session.GetString("AdminName");
+                _loggerManager.LoginInfo("The Admin ," + ViewBag.AdminName + " Viewing order details");
                 DeliveryVuew deliveryView = new DeliveryVuew();
                 ViewBag.val = val;
 
