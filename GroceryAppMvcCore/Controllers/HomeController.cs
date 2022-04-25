@@ -1,4 +1,5 @@
-﻿using GroceryAppMvcCore.Models;
+﻿using GroceryAppMvcCore.LogData;
+using GroceryAppMvcCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -18,12 +19,15 @@ namespace GroceryAppMvcCore.Controllers
         //API URL ADDED
         public static string baseURL;
         private readonly IConfiguration _configuration;
+        private readonly ILoggerManager _loggerManager;
         private readonly ILogger<HomeController> _logger;
-        public HomeController(IConfiguration configuration, ILogger<HomeController> logger)
+        public HomeController(IConfiguration configuration, ILogger<HomeController> logger, ILoggerManager loggerManager)
         {
             _configuration = configuration;
             baseURL = _configuration.GetValue<string>("BaseURL");
             _logger = logger;
+            _loggerManager = loggerManager;
+            _loggerManager.LoginInfo("Entering Home dashboard");
         }
 
         //---------------

@@ -209,8 +209,8 @@
 {
     
     var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == false);
-    <h1 style="text-align:center;">Pending Jobs</h1>
-    <h3 style="text-align:center;">Total Pending Jobs : @deliv.Count()</h3>
+    
+    <h3 style="text-align:center;border-radius:30px;background-color:white;">Total Pending Jobs : @deliv.Count()</h3>
     
     if (deliv != null)
     {
@@ -341,8 +341,8 @@ else if (statuss == 1)
 {
     
     var deliv = Model.deliveries.Where(m => m.EmployeeId == EmployeeId & m.Status == true);
-    <h1 style="text-align:center;">Job History</h1>
-    <h3 style="text-align:center;">Total Completed Jobs : @deliv.Count()</h3>
+    
+    <h3 style="text-align:center;border-radius:30px;background-color:white;">Total Completed Jobs : @deliv.Count()</h3>
     
     if (deliv != null)
     {

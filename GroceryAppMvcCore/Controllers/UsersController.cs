@@ -1,4 +1,5 @@
-﻿using GroceryAppMvcCore.Models;
+﻿using GroceryAppMvcCore.LogData;
+using GroceryAppMvcCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -19,12 +20,15 @@ namespace GroceryAppMvcCore.Controllers
         //API URL ADDED
         public static string baseURL;
         private readonly IConfiguration _configuration;
+        private readonly ILoggerManager _loggerManager;
         public List<Product> productsss;
 
-        public UsersController(IConfiguration configuration)
+        public UsersController(IConfiguration configuration, ILoggerManager loggerManager)
         {
             _configuration = configuration;
             baseURL = _configuration.GetValue<string>("BaseURL");
+            _loggerManager = loggerManager;
+            
 
         }
 
@@ -89,8 +93,10 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("UserName") != null)
             {
+
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
+                _loggerManager.LoginInfo("The User "+ViewBag.UserName+" entering user dashboard");
                 return View();
             }
             return RedirectToAction("Index", "Home");
@@ -103,6 +109,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
+                _loggerManager.LoginInfo("The User " + ViewBag.UserName + " Viewing our products");
                 List<Product> products = await GetProducts();
                 
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
@@ -132,12 +139,14 @@ namespace GroceryAppMvcCore.Controllers
                 int Msg = 0;
                 int UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
                 Product product = await GetProducts(ProdId);
+                
                 List<Cart> CartData = await GetCarts();
                 var cartPresent = CartData.FirstOrDefault(m => m.ProductId == ProdId & m.IsOrdered == false & m.UserId == UserId);
                 if (cartPresent != null)
                 {
                     Cart cart = cartPresent;
                     cart.PurchasedQty += 1;
+                    _loggerManager.LoginInfo("The User " + ViewBag.UserName + ", adding " +cart.PurchasedQty+" "+ product.ProductName + "to cart");
                     cart.SubTotalPrice = cart.PurchasedQty * product.Price;
                     using (var httpClient = new HttpClient())
                     {
@@ -164,7 +173,7 @@ namespace GroceryAppMvcCore.Controllers
                     cart.ProductId = product.ProductId;
                     cart.SubTotalPrice = product.Price;
                     cart.IsOrdered = false;
-
+                    _loggerManager.LoginInfo("The User " + ViewBag.UserName + ", adding 1" + product.ProductName + "to cart");
 
 
                     Cart received = new Cart();
@@ -255,6 +264,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
+                _loggerManager.LoginInfo("The User " + ViewBag.UserName + " View our cart items"); 
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 ViewBag.Error = null;
 
@@ -286,6 +296,7 @@ namespace GroceryAppMvcCore.Controllers
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 try
                 {
+                    _loggerManager.LoginInfo("The User " + ViewBag.UserName + " delete one items from cart");
                     //var accessEmail = HttpContext.Session.GetString("Email");
                     HttpClientHandler clientHandler = new HttpClientHandler();
                     var httpClient = new HttpClient(clientHandler);
@@ -309,9 +320,10 @@ namespace GroceryAppMvcCore.Controllers
             ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
+
                 Cart cart = await GetCarts(CartId);
                 Product product = await GetProducts(cart.ProductId);
-
+                _loggerManager.LoginInfo("The User " + ViewBag.UserName + " altering count of products added in cart");
 
                 cart.PurchasedQty = Qty;
                 cart.SubTotalPrice = cart.PurchasedQty * product.Price;
@@ -352,12 +364,14 @@ namespace GroceryAppMvcCore.Controllers
             ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
-                if(Cartlist == null || TV.ToString() == null)
+                
+                if (Cartlist == null || TV.ToString() == null)
                 {
                     return RedirectToAction("ViewCart", new { msg = 2});
                 }
                 if (Cartlist != null & TV.ToString() != null & name != null & card != null & exp != null & cvv != null)
                 {
+                    _loggerManager.LoginInfo("The User " + ViewBag.UserName + " ordered with the total Rs." + TV.ToString() + "by online payment");
                     //Cart carts = await GetCarts(); 
                     Order orders = new Order();
                     orders.UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
@@ -432,6 +446,7 @@ namespace GroceryAppMvcCore.Controllers
 
             if (HttpContext.Session.GetString("UserId") != null)
             {
+                _loggerManager.LoginInfo("The User " + HttpContext.Session.GetString("UserName").ToString() + " Logout successfully");
                 if (HttpContext.Session.GetString("UserName") != null)
                 {
                     HttpContext.Session.Remove("UserName");
@@ -482,6 +497,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("UserName") != null)
             {
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
+                _loggerManager.LoginInfo("The User " + HttpContext.Session.GetString("UserName").ToString() + " entering Order View");
                 OrderView orderView = new OrderView();
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 int UserId = Convert.ToInt32(ViewBag.UserId);
@@ -535,6 +551,7 @@ namespace GroceryAppMvcCore.Controllers
             ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                _loggerManager.LoginInfo("The User " + ViewBag.UserName + " entering feedback page");
                 return View();
             }
             else
@@ -550,6 +567,7 @@ namespace GroceryAppMvcCore.Controllers
             ViewBag.UserName = HttpContext.Session.GetString("UserName");
             if (HttpContext.Session.GetString("UserName") != null)
             {
+                _loggerManager.LoginInfo("The User " + ViewBag.UserName + " feedback posted ");
                 feedback.UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
                 feedback.FeedbackTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 

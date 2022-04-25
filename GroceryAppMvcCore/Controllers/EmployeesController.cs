@@ -1,4 +1,5 @@
-﻿using GroceryAppMvcCore.Models;
+﻿using GroceryAppMvcCore.LogData;
+using GroceryAppMvcCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -14,11 +15,13 @@ namespace GroceryAppMvcCore.Controllers
 
         public static string baseURL;
         private readonly IConfiguration _configuration;
-
-        public EmployeesController(IConfiguration configuration)
+        private readonly ILoggerManager _loggerManager;
+        public EmployeesController(IConfiguration configuration, ILoggerManager loggerManager)
         {
             _configuration = configuration;
             baseURL = _configuration.GetValue<string>("BaseURL");
+            _loggerManager = loggerManager;
+           
 
         }
 
@@ -29,6 +32,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
                 ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
+                _loggerManager.LoginInfo("The Employee"+ViewBag.EMployeeName+"Entering Employee dashboard");
                 ViewBag.EmployeeId = HttpContext.Session.GetInt32("EmployeeId");
                 return View();
             }
@@ -152,6 +156,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
                 ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
+                _loggerManager.LoginInfo("The Employee" + ViewBag.EmployeeName + "Entering Pending Jobs");
                 ViewBag.Empid = HttpContext.Session.GetInt32("EmployeeId");
                 ViewBag.Status = id;
                 JobView obj = new JobView();
@@ -174,6 +179,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
                 ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
+                _loggerManager.LoginInfo("The Employee" + ViewBag.EmployeeName + " Delivered a Job");
                 Delivery delivery = await GetDelivery(id);
                 delivery.DeliveryDate = DateTime.Now.ToString("dd/MM/yyyy");
                 delivery.Status = true;
@@ -201,6 +207,7 @@ namespace GroceryAppMvcCore.Controllers
         {
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
+                _loggerManager.LoginInfo("The Employee" + HttpContext.Session.GetString("EmployeeName").ToString() + " Logout successfully");
                 HttpContext.Session.Remove("EmployeeName");
             }
             return RedirectToAction("Index", "Home");
@@ -213,6 +220,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
                 ViewBag.EmployeeName = HttpContext.Session.GetString("EmployeeName").ToString();
+                _loggerManager.LoginInfo("The Employee" + ViewBag.EmployeeName + " viewing available jobs");
                 ViewBag.EmployeeId = HttpContext.Session.GetInt32("EmployeeId");
                 JobView obj = new JobView();
                 obj.deliveries = await GetDelivery();
@@ -235,8 +243,7 @@ namespace GroceryAppMvcCore.Controllers
             if (HttpContext.Session.GetString("EmployeeName") != null)
             {
                 Delivery delivery = new Delivery();
-
-
+                _loggerManager.LoginInfo("The Employee" + ViewBag.EmployeeName + " Accept a Job");
                 delivery.OrderId = id;
                 delivery.PickupDate = DateTime.Now.ToString("dd/MM/yyyy");
                 delivery.Status = false;

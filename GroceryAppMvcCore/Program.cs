@@ -1,8 +1,11 @@
 
 
+using GroceryAppMvcCore.LogData;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 
 builder.Services.AddControllersWithViews();
 
