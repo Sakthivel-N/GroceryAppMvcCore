@@ -72,6 +72,13 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                     </div>
                                 }
+                                else if(ViewBag.Success != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show ">
+                                        <strong>Success! </strong> @ViewBag.Success
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                }
                                 <div class="col-lg-6">
                                     <div class="p-5">
                                         <h3 class="fw-normal mb-5">General Details</h3>

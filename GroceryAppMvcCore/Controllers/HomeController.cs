@@ -203,8 +203,8 @@ namespace GroceryAppMvcCore.Controllers
                     received = JsonConvert.DeserializeObject<User>(apiResponse);
                     if (received != null)
                     {
-
-                        return RedirectToAction("Index", "Users");
+                        ViewBag.Success = "Registration Successsfully";
+                        return View();
                     }
                     else
                     {
